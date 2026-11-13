@@ -11,7 +11,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.compose.LifecycleResumeEffect
+import android.os.SystemClock
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +43,13 @@ import app.sphera.social.Alerts
 import app.sphera.social.DailySummary
 import app.sphera.social.Store
 import app.sphera.social.UniverseScreen
+
+private const val RETURN_POINT_AWAY_MS = 60_000L
+
+// Pantallas que el Punto de Retorno no interrumpe nunca.
+private val RETURN_POINT_SKIP = setOf(
+    Routes.SANCTUARY, Routes.LANDING, Routes.COMM_CARD, Routes.RETURN_CARD, Routes.RETURN_FORM,
+)
 
 object Routes {
     const val HOME = "home"
@@ -112,6 +126,23 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
     val goHome = { nav.navigate(Routes.HOME) { popUpTo(nav.graph.id) { inclusive = true } } }
     val back = { if (nav.previousBackStackEntry != null) nav.popBackStack() else goHome() }
     val closeApp = { ctx.findActivity()?.finish() }
+
+    // Al volver a la app tras un rato fuera, el Punto de Retorno "secuestra" la pantalla aunque Android
+    // no haya reiniciado la app. Un minuto de margen para no saltar al volver de elegir un contacto o enviar un WhatsApp.
+    val scope = rememberCoroutineScope()
+    var pausedAt by remember { mutableLongStateOf(0L) }
+    LifecycleResumeEffect(Unit) {
+        val away = pausedAt > 0 && SystemClock.elapsedRealtime() - pausedAt > RETURN_POINT_AWAY_MS
+        val route = nav.currentDestination?.route
+        if (away && route !in RETURN_POINT_SKIP) {
+            scope.launch {
+                if (SpheraDb.get(ctx).returnPoints().get() != null) {
+                    nav.navigate(Routes.RETURN_CARD) { popUpTo(nav.graph.id) { inclusive = true } }
+                }
+            }
+        }
+        onPauseOrDispose { pausedAt = SystemClock.elapsedRealtime() }
+    }
 
     NavHost(nav, startDestination = startRoute) {
         composable(Routes.HOME) { HomeScreen(onOpen = { nav.navigate(it) }) }
