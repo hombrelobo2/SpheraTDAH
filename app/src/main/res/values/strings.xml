@@ -114,4 +114,13 @@
         <item quantity="many">Este mes has hablado con %d personas 🌟</item>
         <item quantity="other">Este mes has hablado con %d personas 🌟</item>
     </plurals>
+    <!-- 0.0.8 -->
+    <string name="alerts_title">Avisos</string>
+    <string name="alerts_desc">Notificaciones sueltas, aparte del resumen diario. Solo llegan entre las 9:00 y las 22:00.</string>
+    <string name="alert_drift_setting">Cuando alguien pasa de su frecuencia</string>
+    <string name="alert_birthday_setting">Cumpleaños</string>
+    <string name="alert_snooze_setting">Cuando termina un aplazamiento</string>
+    <string name="alert_drift">%s se está alejando</string>
+    <string name="alert_snooze_end">Ha terminado el aplazamiento de %s</string>
+    <string name="alert_tap_to_write">Toca para escribirle</string>
 </resources>

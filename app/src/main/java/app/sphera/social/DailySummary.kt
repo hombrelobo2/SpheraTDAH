@@ -1,17 +1,10 @@
 package app.sphera.social
 
-import android.Manifest
 import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import app.sphera.MainActivity
 import app.sphera.R
 import java.util.Calendar
 
@@ -49,9 +42,7 @@ object DailySummary {
     }
 
     fun show(ctx: Context) {
-        if (Build.VERSION.SDK_INT >= 33 &&
-            ctx.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
-        ) return
+        if (!Notifier.canNotify(ctx)) return
         Store.init(ctx)
         Interactions.sync(ctx)
         val now = System.currentTimeMillis()
@@ -66,38 +57,16 @@ object DailySummary {
             ctx.resources.getQuantityString(R.plurals.summary_others, others.size, names)
         }
 
-        val nm = ctx.getSystemService(NotificationManager::class.java) ?: return
-        nm.createNotificationChannel(
-            NotificationChannel(CHANNEL, ctx.getString(R.string.summary_title), NotificationManager.IMPORTANCE_DEFAULT),
+        val title = ctx.getString(
+            if (isBirthday(first, now)) R.string.summary_birthday else R.string.today_write_to, displayName(first),
         )
-        val open = PendingIntent.getActivity(
-            ctx, 0,
-            Intent(ctx, MainActivity::class.java).putExtra(MainActivity.EXTRA_OPEN_SOCIAL, true)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-        )
-        nm.notify(
-            1,
-            Notification.Builder(ctx, CHANNEL)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(
-                    ctx.getString(
-                        if (isBirthday(first, now)) R.string.summary_birthday else R.string.today_write_to,
-                        displayName(first),
-                    ),
-                )
-                .setContentText(text)
-                .setStyle(Notification.BigTextStyle().bigText(text))
-                .setContentIntent(open)
-                .setAutoCancel(true)
-                .build(),
-        )
+        Notifier.post(ctx, 1, CHANNEL, R.string.summary_title, title, text, first.id)
     }
 }
 
 class SummaryReceiver : BroadcastReceiver() {
     override fun onReceive(ctx: Context, intent: Intent) {
-        if (intent.action != Intent.ACTION_BOOT_COMPLETED) DailySummary.show(ctx)
+        if (intent.action == Intent.ACTION_BOOT_COMPLETED) Alerts.schedule(ctx) else DailySummary.show(ctx)
         DailySummary.schedule(ctx)
     }
 }

@@ -55,6 +55,10 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".social.AlertsReceiver"
+            android:exported="false" />
+
         <!-- Guarda el idioma elegido en Android 12 o anterior. -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

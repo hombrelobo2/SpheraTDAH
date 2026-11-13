@@ -47,10 +47,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import app.sphera.social.Alerts
 import app.sphera.social.DailySummary
 import app.sphera.social.Interactions
 import app.sphera.social.Messages
+import app.sphera.social.Notifier
 
+private val ALERTS = listOf(
+    Alerts.DRIFT to R.string.alert_drift_setting,
+    Alerts.BIRTHDAY to R.string.alert_birthday_setting,
+    Alerts.SNOOZE_END to R.string.alert_snooze_setting,
+)
 private val HOURS = (0..23).map { "%02d:00".format(it) }
 private val LANGUAGES = listOf("" to R.string.lang_system, "es" to R.string.lang_es, "en" to R.string.lang_en)
 
@@ -76,9 +83,22 @@ fun SettingsScreen(onBack: () -> Unit) {
     var newMessage by remember { mutableStateOf("") }
     var summaryOn by remember { mutableStateOf(DailySummary.isEnabled(ctx)) }
     var summaryHour by remember { mutableIntStateOf(DailySummary.hour(ctx)) }
+    var alerts by remember(refresh) {
+        mutableStateOf(ALERTS.associate { it.first to Alerts.isEnabled(ctx, it.first) })
+    }
+    // Al activar cualquier aviso se pide antes el permiso de notificaciones; [afterPermission] aplica el cambio.
+    var afterPermission by remember { mutableStateOf<((Boolean) -> Unit)?>(null) }
     val notifPermLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        summaryOn = granted
-        DailySummary.configure(ctx, granted, summaryHour)
+        afterPermission?.invoke(granted)
+        afterPermission = null
+    }
+    fun withNotifications(on: Boolean, apply: (Boolean) -> Unit) {
+        if (on && !Notifier.canNotify(ctx)) {
+            afterPermission = apply
+            notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            apply(on)
+        }
     }
 
     Scaffold(topBar = { BackBar(R.string.settings, onBack) }) { padding ->
@@ -106,13 +126,9 @@ fun SettingsScreen(onBack: () -> Unit) {
                     Text(stringResource(R.string.summary_desc), style = MaterialTheme.typography.bodySmall)
                 }
                 Switch(checked = summaryOn, onCheckedChange = { on ->
-                    val needsPermission = on && Build.VERSION.SDK_INT >= 33 &&
-                        ctx.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
-                    if (needsPermission) {
-                        notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                    } else {
-                        summaryOn = on
-                        DailySummary.configure(ctx, on, summaryHour)
+                    withNotifications(on) {
+                        summaryOn = it
+                        DailySummary.configure(ctx, it, summaryHour)
                     }
                 })
             }
@@ -121,6 +137,21 @@ fun SettingsScreen(onBack: () -> Unit) {
                 Picker(HOURS, summaryHour) {
                     summaryHour = it
                     DailySummary.configure(ctx, true, it)
+                }
+            }
+
+            HorizontalDivider()
+            Text(stringResource(R.string.alerts_title), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.alerts_desc), style = MaterialTheme.typography.bodySmall)
+            ALERTS.forEach { (key, label) ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(label), Modifier.weight(1f))
+                    Switch(checked = alerts[key] == true, onCheckedChange = { on ->
+                        withNotifications(on) {
+                            Alerts.set(ctx, key, it)
+                            alerts = alerts + (key to it)
+                        }
+                    })
                 }
             }
 

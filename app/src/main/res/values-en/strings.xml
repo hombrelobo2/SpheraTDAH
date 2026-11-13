@@ -104,4 +104,12 @@
         <item quantity="one">This month you talked to %d person 🌟</item>
         <item quantity="other">This month you talked to %d people 🌟</item>
     </plurals>
+    <string name="alerts_title">Alerts</string>
+    <string name="alerts_desc">Individual notifications, apart from the daily summary. Only sent between 9:00 and 22:00.</string>
+    <string name="alert_drift_setting">When someone goes past their frequency</string>
+    <string name="alert_birthday_setting">Birthdays</string>
+    <string name="alert_snooze_setting">When a snooze ends</string>
+    <string name="alert_drift">%s is drifting away</string>
+    <string name="alert_snooze_end">Snooze for %s has ended</string>
+    <string name="alert_tap_to_write">Tap to message them</string>
 </resources>

@@ -107,10 +107,10 @@ private val FAR = Color(0xFFE53935)
 private fun planetColor(d: Float) = if (d < 0.5f) lerp(NEAR, MID, d * 2) else lerp(MID, FAR, (d - 0.5f) * 2)
 
 @Composable
-fun UniverseScreen(onBack: () -> Unit) {
+fun UniverseScreen(onBack: () -> Unit, openContact: Long? = null) {
     val ctx = LocalContext.current
     var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
-    var selectedId by remember { mutableStateOf<Long?>(null) }
+    var selectedId by rememberSaveable { mutableStateOf(openContact) }
     var picked by remember { mutableStateOf<Picked?>(null) }
     var group by rememberSaveable { mutableStateOf<String?>(null) } // filtro; null = todos
     val visible = Store.contacts.filter { group == null || it.group == group }
