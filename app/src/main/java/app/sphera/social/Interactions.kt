@@ -27,7 +27,7 @@ object Interactions {
 
     // Apps cuyas notificaciones cuentan como "esta persona me ha escrito".
     val MESSAGING_PACKAGES = setOf(
-        "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "org.telegram.messenger.web", "org.thunderdog.challegram", "org.telegram.plus",
+        "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "org.telegram.messenger.web", "org.thunderdog.challegram", "org.telegram.plus", "com.instagram.android",
         "org.thoughtcrime.securesms", "com.viber.voip",
         "com.google.android.apps.messaging", "com.samsung.android.messaging",
     )
@@ -100,7 +100,8 @@ object Interactions {
 
     /** Formas de contactar: apps de mensajería instaladas, más SMS y llamada. */
     /** [text]: mensaje para empezar; WhatsApp y SMS lo traen ya escrito, en el resto se pega desde el portapapeles. */
-    fun channels(ctx: Context, phone: String, text: String? = null): List<Channel> {
+    fun channels(ctx: Context, c: Contact, text: String? = null): List<Channel> {
+        val phone = c.phone
         val intl = intlDigits(ctx, phone)
         val waText = text?.let { "?text=" + Uri.encode(it) } ?: ""
         val apps = listOf(
@@ -110,10 +111,18 @@ object Interactions {
             Triple(R.string.ch_viber, "com.viber.voip", "viber://chat?number=%2B$intl"),
         ).filter { installed(ctx, it.second) }
             .map { (label, pkg, url) -> Channel(label, Intent(Intent.ACTION_VIEW, Uri.parse(url)).setPackage(pkg)) }
-        // Telegram sin paquete fijo: vale cualquier versión (Play, telegram.org, F-Droid, Telegram X).
-        val telegram = Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?phone=$intl"))
+        // Telegram sin paquete fijo: vale cualquier versión (Play, telegram.org, F-Droid, Telegram X, Plus).
+        // Con usuario se abre por usuario, que funciona aunque la persona oculte su número.
+        val tgUri = c.telegram?.let { "tg://resolve?domain=$it" } ?: "tg://resolve?phone=$intl"
+        val telegram = Intent(Intent.ACTION_VIEW, Uri.parse(tgUri))
         val tg = if (telegram.resolveActivity(ctx.packageManager) != null) listOf(Channel(R.string.ch_telegram, telegram)) else emptyList()
-        return apps + tg +
+        // Instagram solo por usuario: abre directamente los mensajes privados (en la app si está, si no en el navegador).
+        val ig = c.instagram?.let { user ->
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://ig.me/m/$user"))
+            if (installed(ctx, "com.instagram.android")) intent.setPackage("com.instagram.android")
+            listOf(Channel(R.string.ch_instagram, intent))
+        } ?: emptyList()
+        return apps + tg + ig +
             Channel(R.string.ch_sms, Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", phone, null)).putExtra("sms_body", text)) +
             Channel(R.string.ch_call, Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null)))
     }

@@ -296,12 +296,18 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
         remember(c.alias) { Messages.list(ctx).map { Messages.fill(it, c.alias) } }
     var message by remember { mutableIntStateOf(0) }
     val text = messages[message].takeIf { message > 0 }
-    val channels = remember(c.phone, text) { Interactions.channels(ctx, c.phone, text) }
+    val channels = remember(c, text) { Interactions.channels(ctx, c, text) }
     var alias by remember { mutableStateOf(c.alias ?: "") }
-    // Todas las salidas de la ficha guardan el alias, que se edita sin botón de guardar.
+    var telegram by remember { mutableStateOf(c.telegram ?: "") }
+    var instagram by remember { mutableStateOf(c.instagram ?: "") }
+    // Todas las salidas de la ficha guardan estos campos, que se editan sin botón de guardar.
     val close = {
         val newAlias = alias.trim().ifEmpty { null }
-        if (newAlias != c.alias) Store.update(c.id) { it.copy(alias = newAlias) }
+        val newTg = cleanHandle(telegram)
+        val newIg = cleanHandle(instagram)
+        if (newAlias != c.alias || newTg != c.telegram || newIg != c.instagram) {
+            Store.update(c.id) { it.copy(alias = newAlias, telegram = newTg, instagram = newIg) }
+        }
         onDismiss()
     }
     var confirmDelete by remember { mutableStateOf(false) }
@@ -353,6 +359,14 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
                 OutlinedTextField(
                     value = alias, onValueChange = { alias = it }, singleLine = true,
                     label = { Text(stringResource(R.string.alias)) }, modifier = Modifier.fillMaxWidth(),
+                )
+                OutlinedTextField(
+                    value = telegram, onValueChange = { telegram = it }, singleLine = true,
+                    label = { Text(stringResource(R.string.telegram_user)) }, modifier = Modifier.fillMaxWidth(),
+                )
+                OutlinedTextField(
+                    value = instagram, onValueChange = { instagram = it }, singleLine = true,
+                    label = { Text(stringResource(R.string.instagram_user)) }, modifier = Modifier.fillMaxWidth(),
                 )
             }
         },

@@ -78,4 +78,7 @@
     <string name="messages_desc">Write {alias} where the contact nickname should go. If there is no nickname, it is removed.</string>
     <string name="messages_new">New message</string>
     <string name="messages_reset">Restore defaults</string>
+    <string name="ch_instagram">Instagram</string>
+    <string name="telegram_user">Telegram username (optional)</string>
+    <string name="instagram_user">Instagram username (optional)</string>
 </resources>

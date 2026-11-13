@@ -45,6 +45,14 @@ class UniverseTest {
     }
 
     @Test
+    fun handlesAreCleaned() {
+        assertEquals("ana_g", cleanHandle(" @ana_g "))
+        assertEquals("ana_g", cleanHandle("https://t.me/ana_g"))
+        assertEquals("ana.g", cleanHandle("https://www.instagram.com/ana.g/"))
+        assertEquals(null, cleanHandle("  "))
+    }
+
+    @Test
     fun distanceGrowsUntilTwiceTheFrequency() {
         val now = 1_000 * day
         assertEquals(0f, distance(contact(0, 7), now), 0.001f)

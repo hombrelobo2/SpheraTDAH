@@ -13,7 +13,9 @@ class NotifListener : NotificationListenerService() {
         val title = n.extras.getCharSequence(Notification.EXTRA_TITLE)?.toString() ?: return
         Store.init(this)
         // shortcut: se compara por nombre (es lo que muestran las notificaciones); "Ana" también casa con "Anabel".
-        Store.contacts.filter { title.contains(it.name, ignoreCase = true) }
+        Store.contacts.filter { c ->
+            listOfNotNull(c.name, c.telegram, c.instagram).any { title.contains(it, ignoreCase = true) }
+        }
             .forEach { Store.touch(it.id, sbn.postTime) }
     }
 }

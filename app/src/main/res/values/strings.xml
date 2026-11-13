@@ -86,4 +86,7 @@
     <string name="messages_desc">Escribe {alias} donde quieras que vaya el alias del contacto. Si no tiene alias, se quita.</string>
     <string name="messages_new">Nuevo mensaje</string>
     <string name="messages_reset">Restaurar los predefinidos</string>
+    <string name="ch_instagram">Instagram</string>
+    <string name="telegram_user">Usuario de Telegram (opcional)</string>
+    <string name="instagram_user">Usuario de Instagram (opcional)</string>
 </resources>

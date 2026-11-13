@@ -14,7 +14,13 @@ data class Contact(
     val frequencyDays: Int,
     val lastContact: Long,
     val alias: String? = null, // nombre propio para el planeta; `name` sigue siendo el de la agenda
+    val telegram: String? = null, // usuario sin @
+    val instagram: String? = null, // usuario sin @
 )
+
+/** Usuario de red social limpio: sin @, sin espacios y sin la parte de URL ("https://t.me/ana" → "ana"). */
+fun cleanHandle(raw: String): String? =
+    raw.trim().trimEnd('/').substringAfterLast('/').removePrefix("@").trim().ifEmpty { null }
 
 /** Nombre del planeta: el alias o, si no hay, nombre + inicial del apellido ("Unai B."). */
 fun displayName(c: Contact): String {
@@ -41,6 +47,8 @@ object Store {
                     o.getLong("id"), o.getString("name"), o.getString("phone"),
                     o.optString("photo").ifEmpty { null }, o.getInt("frequencyDays"), o.getLong("lastContact"),
                     o.optString("alias").ifEmpty { null },
+                    o.optString("telegram").ifEmpty { null },
+                    o.optString("instagram").ifEmpty { null },
                 )
             }
         } catch (e: Exception) {
@@ -87,7 +95,7 @@ object Store {
             arr.put(
                 JSONObject().put("id", it.id).put("name", it.name).put("phone", it.phone)
                     .put("photo", it.photo ?: "").put("frequencyDays", it.frequencyDays).put("lastContact", it.lastContact)
-                    .put("alias", it.alias ?: ""),
+                    .put("alias", it.alias ?: "").put("telegram", it.telegram ?: "").put("instagram", it.instagram ?: ""),
             )
         }
         val tmp = File(f.parentFile, "contacts.json.tmp")
