@@ -1,5 +1,10 @@
 # Hoja de ruta
 
+## Próximas mejoras
+
+- Madriguera (No sigas al conejo): letra más pequeña en la pregunta para que las frases largas se lean bien.
+- Dictado por voz en la captura del conejo (y quizá en notas y Punto de Retorno) con el reconocedor de voz del propio Android.
+
 ## Para la beta
 
 - Actualizador en Ajustes: comprobar si hay versión nueva en GitHub Releases y actualizar desde la app (descargar APK e instalar).
