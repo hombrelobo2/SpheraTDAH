@@ -3,12 +3,14 @@ package app.sphera.social
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.ClipData
+import android.content.ContentUris
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.CallLog
+import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.telephony.PhoneNumberUtils
 import android.telephony.TelephonyManager
@@ -112,16 +114,50 @@ object Interactions {
         ).filter { installed(ctx, it.second) }
             .map { (label, pkg, url) -> Channel(label, Intent(Intent.ACTION_VIEW, Uri.parse(url)).setPackage(pkg)) }
         // Telegram sin paquete fijo: vale cualquier versión (Play, telegram.org, F-Droid, Telegram X, Plus).
-        // Con usuario se abre por usuario, que funciona aunque la persona oculte su número.
-        val tgUri = c.telegram?.let { "tg://resolve?domain=$it" } ?: "tg://resolve?phone=$intl"
-        val telegram = Intent(Intent.ACTION_VIEW, Uri.parse(tgUri))
-        val tg = if (telegram.resolveActivity(ctx.packageManager) != null) listOf(Channel(R.string.ch_telegram, telegram)) else emptyList()
+        val tgInstalled = Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve")).resolveActivity(ctx.packageManager) != null
+        val tg = if (tgInstalled) listOf(Channel(R.string.ch_telegram, telegramIntent(ctx, c, intl))) else emptyList()
         // Instagram solo por usuario: ig.me/m/ abre los mensajes privados; Android decide si en la app o el navegador.
         val ig = c.instagram?.let { listOf(Channel(R.string.ch_instagram, Intent(Intent.ACTION_VIEW, Uri.parse("https://ig.me/m/$it")))) }
             ?: emptyList()
         return apps + tg + ig +
             Channel(R.string.ch_sms, Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", phone, null)).putExtra("sms_body", text)) +
             Channel(R.string.ch_call, Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null)))
+    }
+
+    /**
+     * Orden: ID numérico → usuario → el acceso a Telegram que la propia app guarda en la agenda
+     * (el mismo que usa la ficha del contacto) → por número, que no todas las versiones aceptan.
+     */
+    private fun telegramIntent(ctx: Context, c: Contact, intl: String): Intent {
+        c.telegram?.let { handle ->
+            val uri = if (handle.all(Char::isDigit)) "tg://user?id=$handle" else "tg://resolve?domain=$handle"
+            return Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        }
+        agendaChat(ctx, c.phone, "telegram")?.let { return it }
+        return Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?phone=$intl"))
+    }
+
+    /** Busca en la agenda la entrada que crea una app de mensajería (p. ej. "Mensaje a +34…" de Telegram) para ese número. */
+    private fun agendaChat(ctx: Context, phone: String, app: String): Intent? = try {
+        val contactId = ctx.contentResolver.query(
+            Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone)),
+            arrayOf(ContactsContract.PhoneLookup._ID), null, null, null,
+        )?.use { if (it.moveToFirst()) it.getLong(0) else null }
+        contactId?.let { id ->
+            ctx.contentResolver.query(
+                ContactsContract.Data.CONTENT_URI,
+                arrayOf(ContactsContract.Data._ID, ContactsContract.Data.MIMETYPE),
+                "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} LIKE ?",
+                arrayOf(id.toString(), "%$app%profile%"), null,
+            )?.use {
+                if (!it.moveToFirst()) null
+                else Intent(Intent.ACTION_VIEW).setDataAndType(
+                    ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, it.getLong(0)), it.getString(1),
+                )
+            }
+        }
+    } catch (e: SecurityException) {
+        null // sin permiso de contactos
     }
 
     fun copy(ctx: Context, text: String) {

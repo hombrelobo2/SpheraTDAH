@@ -1,6 +1,6 @@
 # Hoja de ruta
 
-## Próxima versión (0.0.5-alpha)
+## Próximas mejoras de Universo social
 
 - Notas por contacto (qué hablasteis, qué preguntar la próxima vez).
 - Cumpleaños leídos de la agenda: el planeta brilla ese día y entra en el resumen diario.

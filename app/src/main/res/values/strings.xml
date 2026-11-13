@@ -87,7 +87,7 @@
     <string name="messages_new">Nuevo mensaje</string>
     <string name="messages_reset">Restaurar los predefinidos</string>
     <string name="ch_instagram">Instagram</string>
-    <string name="telegram_user">Usuario de Telegram (opcional)</string>
+    <string name="telegram_user">Usuario o ID de Telegram (opcional)</string>
     <string name="instagram_user">Usuario de Instagram (opcional)</string>
     <string name="perm_battery">Sin restricciones de batería</string>
     <string name="perm_battery_desc">Evita que el móvil cierre Sphera en segundo plano y se pierdan el resumen diario o la detección de mensajes. En Oppo, OnePlus, Realme o Xiaomi revisa también Ajustes → Batería → Sphera.</string>
