@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -38,6 +39,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.Picker
@@ -113,6 +115,8 @@ private fun Question(label: Int, example: Int, value: String, onChange: (String)
         placeholder = { Text(stringResource(example), color = Color(0xFF5A5A5A), fontSize = 18.sp) },
         textStyle = TextStyle(fontSize = 20.sp, lineHeight = 26.sp, color = Color.White),
         maxLines = 3,
+        // Sin mayúscula automática: las respuestas van en mitad de una frase.
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.None),
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = Color.White, unfocusedTextColor = Color.White,
             focusedLabelColor = Color.White, unfocusedLabelColor = GREY,
