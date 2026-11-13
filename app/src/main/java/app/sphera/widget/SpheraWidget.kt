@@ -11,12 +11,13 @@ import app.sphera.MainActivity
 import app.sphera.R
 import app.sphera.Routes
 
-/** Widget de escritorio con dos accesos: Santuario y apuntar un Punto de Retorno. */
+/** Widget de escritorio con tres accesos: Santuario, apuntar un Punto de Retorno y aparcar una curiosidad. */
 class SpheraWidget : AppWidgetProvider() {
     override fun onUpdate(ctx: Context, manager: AppWidgetManager, ids: IntArray) {
         val views = RemoteViews(ctx.packageName, R.layout.widget_sphera).apply {
             setOnClickPendingIntent(R.id.widget_sanctuary, link(ctx, Routes.LINK_SANCTUARY, 10))
             setOnClickPendingIntent(R.id.widget_return, link(ctx, Routes.LINK_RETURN_NEW, 11))
+            setOnClickPendingIntent(R.id.widget_rabbit, link(ctx, Routes.LINK_RABBIT, 12))
         }
         ids.forEach { manager.updateAppWidget(it, views) }
     }

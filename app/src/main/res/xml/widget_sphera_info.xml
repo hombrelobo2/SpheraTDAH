@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/widget_description"
     android:initialLayout="@layout/widget_sphera"
-    android:minWidth="180dp"
+    android:minWidth="250dp"
     android:minHeight="56dp"
     android:previewLayout="@layout/widget_sphera"
     android:resizeMode="horizontal|vertical"

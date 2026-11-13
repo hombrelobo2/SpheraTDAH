@@ -143,8 +143,9 @@
     <string name="sound_preview">▶ Try</string>
     <string name="sound_stop">■ Stop</string>
     <string name="widget_sanctuary">🌑 Sanctuary</string>
-    <string name="widget_return">📍 Return point</string>
-    <string name="widget_description">Shortcut to the Sanctuary and the Return point</string>
+    <string name="widget_return">📍 Return</string>
+    <string name="widget_rabbit">🐇 Rabbit</string>
+    <string name="widget_description">Shortcut to the Sanctuary, the Return point and Do not follow the rabbit</string>
     <string name="settings_general">General</string>
     <string name="skill_rabbit">Do not follow the rabbit</string>
     <string name="rabbit_title">Do not follow the rabbit</string>

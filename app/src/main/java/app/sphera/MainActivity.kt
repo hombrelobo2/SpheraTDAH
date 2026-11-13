@@ -46,6 +46,7 @@ object Routes {
     // Enlaces que usa el widget (y que cualquiera puede abrir con sphera://…).
     const val LINK_SANCTUARY = "sphera://sanctuary"
     const val LINK_RETURN_NEW = "sphera://return/new"
+    const val LINK_RABBIT = "sphera://rabbit"
 }
 
 // AppCompatActivity para poder cambiar el idioma desde Ajustes en cualquier versión de Android.
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     private fun explicitTarget(intent: Intent): String? = when {
         intent.dataString == Routes.LINK_SANCTUARY -> Routes.SANCTUARY
         intent.dataString == Routes.LINK_RETURN_NEW -> Routes.RETURN_FORM
+        intent.dataString == Routes.LINK_RABBIT -> Routes.RABBIT
         intent.getBooleanExtra(EXTRA_OPEN_SOCIAL, false) -> Routes.SOCIAL
         else -> null
     }
@@ -79,8 +81,8 @@ class MainActivity : AppCompatActivity() {
 private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
     val ctx = LocalContext.current
     // Si hay un Punto de Retorno guardado, es lo único que se ve al entrar, venga de donde venga.
-    // Excepciones: el Santuario (es un botón de pánico) y el formulario del widget (sirve para sobrescribirlo).
-    val bypass = target == Routes.SANCTUARY || target == Routes.RETURN_FORM
+    // Excepciones: el Santuario (es un botón de pánico) y las capturas rápidas del widget (Punto de Retorno, conejo).
+    val bypass = target == Routes.SANCTUARY || target == Routes.RETURN_FORM || (fromLink && target == Routes.RABBIT)
     val start by produceState(initialValue = if (bypass) target else null) {
         if (value == null) {
             value = if (SpheraDb.get(ctx).returnPoints().get() != null) Routes.RETURN_CARD else target ?: Routes.HOME
@@ -117,7 +119,7 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
         composable(Routes.COMM_CARD) { CommunicationCardScreen() }
 
         composable(Routes.RABBIT) {
-            RabbitCaptureScreen(onSaved = { back() }, onExplore = { nav.navigate(Routes.RABBIT_EXPLORE) })
+            RabbitCaptureScreen(onSaved = { if (fromLink) closeApp() else back() }, onExplore = { nav.navigate(Routes.RABBIT_EXPLORE) })
         }
         composable(Routes.RABBIT_EXPLORE) { RabbitExploreScreen() }
 

@@ -155,8 +155,9 @@
     <string name="sound_preview">▶ Probar</string>
     <string name="sound_stop">■ Parar</string>
     <string name="widget_sanctuary">🌑 Santuario</string>
-    <string name="widget_return">📍 Punto de retorno</string>
-    <string name="widget_description">Acceso directo al Santuario y al Punto de retorno</string>
+    <string name="widget_return">📍 Retorno</string>
+    <string name="widget_rabbit">🐇 Conejo</string>
+    <string name="widget_description">Acceso directo al Santuario, al Punto de retorno y a No sigas al conejo</string>
     <string name="settings_general">General</string>
     <!-- 0.0.13: No sigas al conejo -->
     <string name="skill_rabbit">No sigas al conejo</string>

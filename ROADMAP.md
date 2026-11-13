@@ -12,6 +12,5 @@
 - Instagram, Messenger, etc.: solo con usuario guardado a mano por contacto.
 - Actualizar las acciones de GitHub (setup-java v5, etc.) por los avisos de deprecación.
 - Las 2 habilidades restantes de la pantalla principal.
-- Widget: ¿acceso directo a "No sigas al conejo"?
 - Tarjeta de comunicación: texto editable desde Ajustes.
 - iOS: de momento no (publicar exige pagar a Apple y Sphera es libre y gratuita). Si algún día se hace, valorar Compose Multiplatform para reutilizar el código Kotlin/Compose. En iOS no se pueden leer llamadas ni notificaciones de otras apps: el universo iría solo con el botón manual y los mensajes enviados desde Sphera.

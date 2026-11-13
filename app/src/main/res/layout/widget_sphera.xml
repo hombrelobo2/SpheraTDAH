@@ -16,7 +16,8 @@
         android:gravity="center"
         android:text="@string/widget_sanctuary"
         android:textColor="#E0E0E0"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:maxLines="2"
         android:textStyle="bold" />
 
     <TextView
@@ -25,10 +26,28 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/widget_button"
         android:gravity="center"
+        android:maxLines="2"
         android:text="@string/widget_return"
         android:textColor="#E0E0E0"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widget_rabbit"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="0dp"
+        android:background="@drawable/widget_button"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/widget_rabbit"
+        android:textColor="#E0E0E0"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
 </LinearLayout>
