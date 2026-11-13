@@ -3,6 +3,17 @@ package app.sphera.sanctuary
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.BlurMaskFilter
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
@@ -118,9 +129,26 @@ fun SanctuaryScreen(onExit: () -> Unit) {
             Modifier.align(Alignment.Center).padding(32.dp),
             color = Color(0xFF8A8A8A), fontSize = 40.sp, lineHeight = 50.sp, textAlign = TextAlign.Center,
         )
+        // Halo luminoso que respira muy despacio alrededor del botón: se encuentra sin deslumbrar.
+        val glow = rememberInfiniteTransition(label = "glow").animateFloat(
+            0.25f, 0.7f, infiniteRepeatable(tween(4_000, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "alpha",
+        )
         OutlinedButton(
             onClick = onExit,
-            modifier = Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp).fillMaxWidth().height(72.dp),
+            modifier = Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp).fillMaxWidth().height(72.dp)
+                .drawBehind {
+                    drawIntoCanvas { canvas ->
+                        val paint = Paint().asFrameworkPaint().apply {
+                            isAntiAlias = true
+                            style = android.graphics.Paint.Style.STROKE
+                            strokeWidth = 6.dp.toPx()
+                            color = android.graphics.Color.argb((glow.value * 255).toInt(), 190, 205, 255)
+                            maskFilter = BlurMaskFilter(14.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                        }
+                        val r = size.height / 2
+                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, paint)
+                    }
+                },
             // Bien visible aunque discreto: mismo gris que el texto central, con borde marcado.
             border = BorderStroke(2.dp, Color(0xFF6A6A6A)),
             colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFF141414), contentColor = Color(0xFFB0B0B0)),
