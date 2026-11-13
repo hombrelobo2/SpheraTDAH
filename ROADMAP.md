@@ -2,8 +2,7 @@
 
 ## Próximas mejoras
 
-- Madriguera (No sigas al conejo): letra más pequeña en la pregunta para que las frases largas se lean bien.
-- Dictado por voz en la captura del conejo (y quizá en notas y Punto de Retorno) con el reconocedor de voz del propio Android.
+- Dictado por voz también en el Punto de Retorno.
 
 ## Para la beta
 

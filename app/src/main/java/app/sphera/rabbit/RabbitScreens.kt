@@ -1,6 +1,10 @@
 package app.sphera.rabbit
 
+import android.content.Intent
+import android.speech.RecognizerIntent
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,8 +51,34 @@ import app.sphera.R
 import app.sphera.returnpoint.SpheraDb
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 private val GREY = Color(0xFF9E9E9E)
+private const val MAX_QUESTION = 1000 // la captura es una idea, no un diario
+
+/**
+ * Botón de dictado con el reconocedor de voz del propio Android (sin IA en Sphera).
+ * Si el móvil no tiene reconocedor, no se muestra.
+ */
+@Composable
+private fun DictateButton(modifier: Modifier, onText: (String) -> Unit) {
+    val ctx = LocalContext.current
+    val intent = remember {
+        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            .putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toLanguageTag())
+    }
+    if (remember { intent.resolveActivity(ctx.packageManager) == null }) return
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.let(onText)
+    }
+    OutlinedButton(onClick = { launcher.launch(intent) }, modifier = modifier) {
+        Text("🎤", fontSize = 30.sp, lineHeight = 36.sp)
+    }
+}
+
+/** Añade texto dictado a lo ya escrito, con un espacio en medio. */
+private fun append(current: String, dictated: String) = listOf(current.trim(), dictated.trim()).filter { it.isNotEmpty() }.joinToString(" ")
 
 /** Captura en 5 segundos: el teclado sale solo, se escribe, se guarda y se vuelve a lo que se estaba haciendo. */
 @Composable
@@ -79,7 +109,7 @@ fun RabbitCaptureScreen(onSaved: () -> Unit, onExplore: () -> Unit) {
         Text(stringResource(R.string.rabbit_title), color = Color.White, fontSize = 30.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.rabbit_capture_hint), color = GREY, fontSize = 20.sp, lineHeight = 26.sp)
         OutlinedTextField(
-            value = text, onValueChange = { text = it },
+            value = text, onValueChange = { text = it.take(MAX_QUESTION) },
             modifier = Modifier.fillMaxWidth().focusRequester(focus),
             textStyle = TextStyle(fontSize = 24.sp, lineHeight = 30.sp, color = Color.White),
             maxLines = 4,
@@ -87,10 +117,13 @@ fun RabbitCaptureScreen(onSaved: () -> Unit, onExplore: () -> Unit) {
             keyboardActions = KeyboardActions(onDone = { save() }),
             colors = darkFieldColors(),
         )
-        Button(
-            onClick = { save() }, enabled = text.isNotBlank(),
-            modifier = Modifier.fillMaxWidth().height(96.dp),
-        ) { Text(stringResource(R.string.rabbit_save), fontSize = 26.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold) }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            DictateButton(Modifier.weight(1f).height(96.dp)) { text = append(text, it).take(MAX_QUESTION) }
+            Button(
+                onClick = { save() }, enabled = text.isNotBlank(),
+                modifier = Modifier.weight(2f).height(96.dp),
+            ) { Text(stringResource(R.string.rabbit_save), fontSize = 26.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold) }
+        }
         Spacer(Modifier.weight(1f))
         if (hasAny) {
             OutlinedButton(onClick = onExplore, modifier = Modifier.fillMaxWidth().height(80.dp)) {
@@ -131,7 +164,7 @@ fun RabbitExploreScreen() {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(20.dp)) {
             Text(
                 hole?.question ?: stringResource(R.string.rabbit_empty),
-                color = Color.White, fontSize = 34.sp, lineHeight = 42.sp, fontWeight = FontWeight.Bold,
+                color = Color.White, fontSize = 26.sp, lineHeight = 33.sp, fontWeight = FontWeight.Bold,
             )
             if (hole != null) {
                 OutlinedTextField(
@@ -142,6 +175,7 @@ fun RabbitExploreScreen() {
                     minLines = 4,
                     colors = darkFieldColors(),
                 )
+                DictateButton(Modifier.fillMaxWidth().height(72.dp)) { notes = append(notes, it) }
             }
         }
         if (hole != null) {
