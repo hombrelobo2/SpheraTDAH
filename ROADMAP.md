@@ -4,6 +4,9 @@
 
 - Universo social: mostrar nombre + inicial del apellido en el planeta ("Unai B.") para distinguir contactos con el mismo nombre.
 - Telegram Plus (`org.telegram.plus`): comprobar que aparece en "Escribir por" y añadirlo a las apps cuyas notificaciones cuentan como contacto.
+- "¿Cada cuánto quieres hablar?" como desplegable en vez de botones (al añadir y en la ficha del planeta).
+- Alias por contacto: nombre editable que se muestra en el planeta y en la ficha, sin tocar la agenda. Si hay alias, sustituye a "nombre + inicial".
+  - Ojo: la detección por notificaciones compara con el nombre de la agenda, no con el alias; hay que guardar los dos.
 
 ## Para la beta
 
