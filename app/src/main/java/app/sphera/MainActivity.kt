@@ -17,6 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import app.sphera.rabbit.RabbitCaptureScreen
+import app.sphera.rabbit.RabbitExploreScreen
 import app.sphera.returnpoint.ReturnCardScreen
 import app.sphera.returnpoint.ReturnFormScreen
 import app.sphera.returnpoint.SpheraDb
@@ -38,6 +40,8 @@ object Routes {
     const val COMM_CARD = "comm_card"
     const val RETURN_CARD = "return_card"
     const val RETURN_FORM = "return_form"
+    const val RABBIT = "rabbit"
+    const val RABBIT_EXPLORE = "rabbit_explore"
 
     // Enlaces que usa el widget (y que cualquiera puede abrir con sphera://…).
     const val LINK_SANCTUARY = "sphera://sanctuary"
@@ -111,6 +115,11 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
             )
         }
         composable(Routes.COMM_CARD) { CommunicationCardScreen() }
+
+        composable(Routes.RABBIT) {
+            RabbitCaptureScreen(onSaved = { back() }, onExplore = { nav.navigate(Routes.RABBIT_EXPLORE) })
+        }
+        composable(Routes.RABBIT_EXPLORE) { RabbitExploreScreen() }
 
         composable(Routes.RETURN_CARD) { ReturnCardScreen(onDone = { goHome() }) }
         // Desde el widget se apunta y se vuelve a lo que se estaba haciendo: la app se cierra al guardar.

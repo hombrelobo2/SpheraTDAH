@@ -146,4 +146,14 @@
     <string name="widget_return">📍 Return point</string>
     <string name="widget_description">Shortcut to the Sanctuary and the Return point</string>
     <string name="settings_general">General</string>
+    <string name="skill_rabbit">Do not follow the rabbit</string>
+    <string name="rabbit_title">Do not follow the rabbit</string>
+    <string name="rabbit_capture_hint">What made you curious? Write it down and get back to what you were doing.</string>
+    <string name="rabbit_save">Park it</string>
+    <string name="rabbit_saved">Parked 🐇</string>
+    <string name="rabbit_explore">Go down the rabbit hole</string>
+    <string name="rabbit_next">Next</string>
+    <string name="rabbit_notes">Notes</string>
+    <string name="rabbit_empty">Nothing parked yet.</string>
+    <string name="rabbit_delete_title">Delete this curiosity?</string>
 </resources>

@@ -10,7 +10,21 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import app.sphera.rabbit.RabbitHole
+import app.sphera.rabbit.RabbitHoleDao
 import kotlinx.coroutines.flow.Flow
+
+/** v2 añade "No sigas al conejo" sin tocar el Punto de Retorno ya guardado. */
+private val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `rabbit_hole` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "`question` TEXT NOT NULL, `notes` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        )
+    }
+}
 
 /** Dónde lo dejaste. Solo existe uno: id fijo a 1, cada guardado sobrescribe el anterior. */
 @Entity(tableName = "return_point")
@@ -36,15 +50,17 @@ interface ReturnPointDao {
     suspend fun clear()
 }
 
-@Database(entities = [ReturnPoint::class], version = 1, exportSchema = false)
+@Database(entities = [ReturnPoint::class, RabbitHole::class], version = 2, exportSchema = false)
 abstract class SpheraDb : RoomDatabase() {
     abstract fun returnPoints(): ReturnPointDao
+    abstract fun rabbitHoles(): RabbitHoleDao
 
     companion object {
         @Volatile private var instance: SpheraDb? = null
 
         fun get(ctx: Context): SpheraDb = instance ?: synchronized(this) {
-            instance ?: Room.databaseBuilder(ctx.applicationContext, SpheraDb::class.java, "sphera.db").build()
+            instance ?: Room.databaseBuilder(ctx.applicationContext, SpheraDb::class.java, "sphera.db")
+                .addMigrations(MIGRATION_1_2).build()
                 .also { instance = it }
         }
     }
