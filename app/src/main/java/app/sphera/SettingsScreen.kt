@@ -3,7 +3,9 @@ package app.sphera
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -64,6 +66,9 @@ fun SettingsScreen(onBack: () -> Unit) {
     val callsGranted = remember(refresh) { Interactions.hasPermissions(ctx) }
     val notifGranted = remember(refresh) {
         NotificationManagerCompat.getEnabledListenerPackages(ctx).contains(ctx.packageName)
+    }
+    val batteryFree = remember(refresh) {
+        ctx.getSystemService(PowerManager::class.java)?.isIgnoringBatteryOptimizations(ctx.packageName) == true
     }
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { refresh++ }
     val currentLang = AppCompatDelegate.getApplicationLocales().toLanguageTags()
@@ -155,6 +160,11 @@ fun SettingsScreen(onBack: () -> Unit) {
             }
             PermissionRow(R.string.perm_notifications, R.string.perm_notifications_desc, notifGranted) {
                 ctx.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+            }
+            PermissionRow(R.string.perm_battery, R.string.perm_battery_desc, batteryFree) {
+                ctx.startActivity(
+                    Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + ctx.packageName)),
+                )
             }
 
             HorizontalDivider()

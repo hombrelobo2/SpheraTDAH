@@ -81,4 +81,6 @@
     <string name="ch_instagram">Instagram</string>
     <string name="telegram_user">Telegram username (optional)</string>
     <string name="instagram_user">Instagram username (optional)</string>
+    <string name="perm_battery">No battery restrictions</string>
+    <string name="perm_battery_desc">Stops the phone from closing Sphera in the background, so the daily summary and message detection keep working. On Oppo, OnePlus, Realme or Xiaomi also check Settings → Battery → Sphera.</string>
 </resources>
