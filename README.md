@@ -1,47 +1,43 @@
 # Sphera
 
-App de Android para centralizar soluciones a problemas relacionados con el TDAH.
+App de Android, libre y gratuita, que reúne herramientas para el día a día con TDAH (y que también ayudan con el autismo). **Cero fricción, cero gamificación**: sin puntos, rachas ni medallas. Sin cuentas ni anuncios: tus datos se quedan en tu móvil.
 
-La pantalla principal tiene 8 habilidades:
+📄 **[Guía de instalación y uso (PDF)](docs/Sphera-Guia-de-uso.pdf)**: explicada paso a paso, con la instalación, cada módulo, los widgets y qué hacer si algo no va.
 
-- **Universo social**: tus contactos son planetas que se alejan cuanto más tiempo pasa sin hablar.
-- **Santuario**: pantalla negra o mezclador ambiental, No molestar, frases de calma y respiración guiada.
-- **Punto de Retorno**: apunta qué estabas haciendo y la app te lo recuerda al volver.
-- **No sigas al conejo**: aparca una idea sin perder el hilo y explórala después.
-- **Paso a paso**: rutinas visuales y el primer paso de una tarea.
-- **Chequeo corporal**: hambre, sed, sueño, dolor… antes de seguir.
-- **Tarjetas**: mensajes a pantalla completa para cuando no puedes hablar.
-- **Puerta lenta**: accesos a las apps que enganchan con una pausa de respiración y una pregunta para pensar antes de abrirlas.
+⬇️ **[Descargar la última versión](https://github.com/hombrelobo2/SpheraTDAH/releases/download/ultima/Sphera.apk)** · [todas las versiones](https://github.com/hombrelobo2/SpheraTDAH/releases)
 
-En Ajustes → Pantalla de inicio puedes ordenar las casillas y ocultar las que no uses.
+## Qué hace
 
-**Widgets**: Accesos (hasta 4, a elegir), Punto de Retorno (muestra lo que apuntaste) y Santuario (botón de pánico 1×1).
+- 🪐 **Universo social**: tus contactos son planetas que se alejan cuanto más tiempo pasa sin hablar. Resumen diario, avisos, cumpleaños y mensajes para empezar.
+- 🌑 **Santuario**: pantalla negra con No molestar, ruido de fondo o mezclador ambiental de 24 sonidos, frases tranquilas y respiración guiada.
+- 📍 **Punto de Retorno**: apunta dónde lo dejas y qué toca después; al volver, es lo primero que ves.
+- 🐇 **No sigas al conejo**: aparca una curiosidad sin perder el hilo y explórala luego.
+- 👣 **Paso a paso**: rutinas en pasos pequeños y «primer paso» para tareas que bloquean.
+- 🫀 **Chequeo del cuerpo**: hambre, sed, baño, sueño, estímulos o bajón de dopamina, con ideas sencillas.
+- 🗣️ **Tarjetas**: mensajes a pantalla completa para cuando no puedes hablar.
+- 🚪 **Puerta lenta**: una pausa con respiración y una pregunta antes de abrir las apps que enganchan.
 
-## Instalar
+En Ajustes puedes ordenar y ocultar las casillas del inicio. Widgets: Accesos (hasta 4, a elegir), Punto de Retorno y Santuario (1×1).
 
-Cada cambio en `main` compila automáticamente un APK y lo publica en **Releases** (`sphera_<versión>.apk`). Descárgalo en el móvil e instálalo.
+## Instalar y actualizar
 
-## Versiones
+Descarga `sphera_X.Y.Z.apk` desde [Releases](https://github.com/hombrelobo2/SpheraTDAH/releases) e instálalo (la guía explica cómo, incluido el aviso de Play Protect). Las versiones nuevas se instalan encima sin perder nada.
 
-Están en `app/build.gradle.kts`:
+Una vez por semana, con internet, la app consulta `version.json` en la publicación [`ultima`](https://github.com/hombrelobo2/SpheraTDAH/releases/tag/ultima) y avisa si hay versión nueva (se puede desactivar en Ajustes → Acerca de). Es la única conexión a internet de la app y no envía ningún dato.
 
-- `versionCode`: súbelo **siempre** en 1. Si no lo subes, Android no deja actualizar encima.
-- `versionName`: `0.0.x-alpha` para los cambios pequeños. Pasaremos a `0.1.0` cuando Universo Social esté completo.
+Requiere Android 8.0 o superior. No hay versión para iOS.
 
-Si subes un cambio sin cambiar `versionName`, se sustituye el APK de esa misma release.
+## Privacidad
 
-## Idiomas
+Todo se guarda en el móvil. De las notificaciones de WhatsApp, Telegram, Signal, Viber y SMS solo se usa quién escribe, para acercar su planeta; el contenido no se guarda.
 
-Los textos están en `app/src/main/res/values/strings.xml` (español) y `values-en/strings.xml` (inglés). Para añadir un idioma, copia la carpeta a `values-XX/`, traduce el archivo y añade el código en `res/xml/locales_config.xml` y en `SettingsScreen.kt`.
+## Para desarrollar
 
-## Cómo detecta el contacto
-
-- Llamadas en las que se habló (registro de llamadas).
-- Mensajes que llegan por WhatsApp, Telegram o SMS (acceso a notificaciones).
-- Mensajes que envías desde Sphera, y el botón "Ya he hablado con esta persona".
-
-Todos los datos se guardan solo en el móvil.
+- Kotlin + Jetpack Compose. Cada cambio en `main` compila el APK firmado y lo publica en Releases (`.github/workflows/build.yml`).
+- Versión en `app/build.gradle.kts`: sube `versionCode` siempre en 1 y `versionName` según el cambio.
+- Textos en `app/src/main/res/values/strings.xml` (español) y `values-en/` (inglés). Para otro idioma, copia la carpeta a `values-XX/`, tradúcela y añade el código en `res/xml/locales_config.xml` y en Ajustes.
+- La guía está en `docs/guia/` (`portada.html` y `guia.html`). Para regenerar el PDF: `python3 docs/guia/generar_pdf.py` (necesita Chrome o Chromium y `pypdf`).
 
 ## Licencia
 
-Sphera es software libre bajo la [GPL-3.0](LICENSE). El mezclador ambiental del Santuario usa código e iconos de [Blankee](https://github.com/itsPronay/blankee) (GPL-3.0); los sonidos tienen sus propias licencias, detalladas en [SOUNDS_LICENSING.md](SOUNDS_LICENSING.md).
+Sphera es software libre bajo la [GPL-3.0](LICENSE). Usa código adaptado de [Blankee](https://github.com/itsPronay/blankee) (mezclador), [Visual Routines](https://github.com/oikumene-works/visual-routines) (Paso a paso), [Aucards](https://github.com/vadimerenkov/Aucards) (Tarjetas) y [Brethap](https://github.com/jithware/brethap) (respiración), todos GPL-3.0. Los sonidos tienen sus propias licencias, detalladas en [SOUNDS_LICENSING.md](SOUNDS_LICENSING.md). Tipografía Atkinson Hyperlegible (SIL OFL 1.1).

@@ -528,4 +528,21 @@
     <string name="home_sum_all">All %d tiles visible</string>
     <string name="home_sum_some">%1$d of %2$d tiles visible</string>
     <string name="home_sanctuary_hidden">The Sanctuary is hidden. Consider the Sanctuary widget to keep it one tap away when you need it.</string>
+    <string name="about_title">About Sphera</string>
+    <string name="about_manual">📖 User guide (PDF, Spanish)</string>
+    <string name="about_free">Free software under the GNU GPL v3. No ads, no accounts: your data stays on your phone. The only internet connection is the version check, and it sends no data.</string>
+    <string name="about_code">Code on GitHub</string>
+    <string name="about_issue">Report a problem</string>
+    <string name="update_auto">Check for new versions every week</string>
+    <string name="update_auto_desc">With internet, once a week. If there is a new one, you get a notification.</string>
+    <string name="update_check">Check for updates now</string>
+    <string name="update_checking">Checking…</string>
+    <string name="update_ok">✓ You have the latest version (%s).</string>
+    <string name="update_available">A new version is out: %s</string>
+    <string name="update_how">Download it and install it over the one you have: nothing is lost.</string>
+    <string name="update_download">Download %s</string>
+    <string name="update_failed">Could not check. Check your internet connection.</string>
+    <string name="update_channel">New versions</string>
+    <string name="update_notif_title">A new version of Sphera is out: %s</string>
+    <string name="update_notif_text">Tap to download it and install it over the current one: nothing is lost.</string>
 </resources>

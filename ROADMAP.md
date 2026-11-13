@@ -4,11 +4,9 @@
 
 - Nada decidido de momento.
 
-## Para la beta
+## Más adelante
 
-- Actualizador en Ajustes: comprobar si hay versión nueva en GitHub Releases y actualizar desde la app (descargar APK e instalar).
-  - Pendiente decidir: el repo es privado y la app no puede leer sus releases sin token. Opciones: hacer público el repo, o publicar los APK en un repo público aparte.
-  - Necesita permisos de Internet e "instalar apps desconocidas"; Play Protect puede seguir pidiendo desactivarse al instalar.
+- Publicar en F-Droid.
 
 ## Pendiente / ideas
 

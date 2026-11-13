@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
         HomeLayout.init(this)
         DailySummary.schedule(this)
         Alerts.schedule(this)
+        app.sphera.update.AutoUpdate.schedule(this)
         val target = explicitTarget(intent)
         val contactId = intent.getLongExtra(EXTRA_CONTACT_ID, -1).takeIf { it >= 0 }
         setContent { SpheraTheme { App(target, fromLink = intent.data != null, contactId) } }

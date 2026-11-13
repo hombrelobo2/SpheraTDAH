@@ -43,6 +43,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -57,6 +58,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -79,6 +81,13 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import app.sphera.gate.SlowGate
+import app.sphera.update.AutoUpdate
+import app.sphera.update.ISSUES_URL
+import app.sphera.update.MANUAL_URL
+import app.sphera.update.REPO_URL
+import app.sphera.update.UpdateCheck
+import app.sphera.update.openUrl
+import kotlinx.coroutines.launch
 import app.sphera.sanctuary.Breathing
 import app.sphera.sanctuary.CalmPhrases
 import app.sphera.sanctuary.SanctuarySound
@@ -162,10 +171,7 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit, onMessages: () -> 
             SanctuarySection(open == "sanctuary") { toggle("sanctuary") }
             GateSection(open == "gate") { toggle("gate") }
 
-            Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                TextButton(onClick = onCredits) { Text(stringResource(R.string.credits_title), color = Palette.textSoft) }
-                Text(stringResource(R.string.version, BuildConfig.VERSION_NAME), color = Palette.textFaint, fontSize = 13.sp)
-            }
+            AboutSection(open == "about", onCredits) { toggle("about") }
         }
     }
 }
@@ -499,6 +505,51 @@ private fun GateSection(expanded: Boolean, onToggle: () -> Unit) {
         SettingRow(stringResource(R.string.gate_breaths)) {
             CompactPicker(options, selected) { SlowGate.setBreaths(ctx, it + 1) }
         }
+    }
+}
+
+/** Versión, avisos de versión nueva, manual de uso, código y créditos. */
+@Composable
+private fun AboutSection(expanded: Boolean, onCredits: () -> Unit, onToggle: () -> Unit) {
+    val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var auto by remember { mutableStateOf(AutoUpdate.enabled(ctx)) }
+    var checking by remember { mutableStateOf(false) }
+    var result by remember { mutableStateOf<UpdateCheck.Result?>(null) }
+    ModuleSection("ℹ️", stringResource(R.string.about_title), stringResource(R.string.version, BuildConfig.VERSION_NAME), Palette.accent, expanded, onToggle) {
+        Button(onClick = { openUrl(ctx, MANUAL_URL) }, modifier = Modifier.fillMaxWidth().height(52.dp)) {
+            Text(stringResource(R.string.about_manual))
+        }
+        HorizontalDivider(color = Palette.line)
+        SwitchRow(stringResource(R.string.update_auto), stringResource(R.string.update_auto_desc), auto) {
+            auto = it
+            AutoUpdate.setEnabled(ctx, it)
+        }
+        OutlinedButton(enabled = !checking, modifier = Modifier.fillMaxWidth(), onClick = {
+            checking = true
+            result = null
+            scope.launch {
+                result = UpdateCheck.check()
+                checking = false
+            }
+        }) { Text(stringResource(if (checking) R.string.update_checking else R.string.update_check)) }
+        when (val r = result) {
+            is UpdateCheck.UpToDate -> Text(stringResource(R.string.update_ok, r.name), color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+            is UpdateCheck.Available -> {
+                Text(stringResource(R.string.update_available, r.name), color = Palette.text, fontSize = 17.sp, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.update_how), color = Palette.textFaint, fontSize = 13.sp, lineHeight = 18.sp)
+                Button(onClick = { openUrl(ctx, r.url) }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.update_download, r.name)) }
+            }
+            is UpdateCheck.Failed -> Text(stringResource(R.string.update_failed), color = MaterialTheme.colorScheme.error, fontSize = 13.sp)
+            null -> Unit
+        }
+        HorizontalDivider(color = Palette.line)
+        Text(stringResource(R.string.about_free), color = Palette.textFaint, fontSize = 13.sp, lineHeight = 18.sp)
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            TextButton(onClick = { openUrl(ctx, REPO_URL) }) { Text(stringResource(R.string.about_code)) }
+            TextButton(onClick = { openUrl(ctx, ISSUES_URL) }) { Text(stringResource(R.string.about_issue)) }
+        }
+        TextButton(onClick = onCredits) { Text(stringResource(R.string.credits_title)) }
     }
 }
 

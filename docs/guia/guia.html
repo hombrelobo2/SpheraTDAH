@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Sphera · Guía de instalación y uso</title>
+<style>
+  @font-face{font-family:"Atkinson";src:url("../../app/src/main/res/font/atkinson_regular.ttf");font-weight:400}
+  @font-face{font-family:"Atkinson";src:url("../../app/src/main/res/font/atkinson_bold.ttf");font-weight:700}
+  @page { size: A4; margin: 0; }
+  :root{
+    --night:#0F1218; --card:#181D26; --ink:#1c2230; --muted:#5a6375; --line:#dde2ea; --accent:#3B4A6B; --accentbg:#EEF2F9;
+    --amber:#FFF4D6; --amberline:#D9A400;
+    --social:#8FB8A8; --sanctuary:#A9A1D6; --ret:#D9B98C; --rabbit:#C99A8E; --steps:#8EB6D9; --body:#D99AAE; --cards:#7CC6C0; --gate:#B9C47E;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Atkinson",sans-serif;font-size:10.5pt;line-height:1.5;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;height:297mm;padding:16mm 17mm 16mm;position:relative;page-break-after:always;overflow:hidden}
+  .page:last-child{page-break-after:auto}
+  .foot{position:absolute;left:17mm;right:17mm;bottom:8mm;display:flex;justify-content:space-between;font-size:8pt;color:var(--muted);border-top:1px solid var(--line);padding-top:2mm}
+  h1{font-size:26pt;line-height:1.1;margin:0 0 3mm;letter-spacing:-.3px}
+  h2{font-size:16pt;margin:0 0 3mm;display:flex;align-items:center;gap:3mm;color:var(--ink)}
+  h2 .e{display:inline-flex;align-items:center;justify-content:center;width:10mm;height:10mm;border-radius:50%;background:var(--c,var(--accentbg));font-size:13pt;flex:none}
+  h2 .bar{flex:1;height:.8mm;border-radius:1mm;background:var(--c,var(--line));opacity:.6}
+  h3{font-size:11.5pt;margin:4mm 0 1.5mm}
+  p{margin:0 0 2.2mm}
+  .lead{font-size:11.5pt;color:var(--muted)}
+  b,strong{font-weight:700}
+  .ui{display:inline-block;padding:0 1.6mm;border:1px solid #b8c2d4;border-radius:1.5mm;background:#f4f6fa;font-weight:700;font-size:9.5pt;white-space:nowrap}
+  .steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .steps li{position:relative;padding:0 0 2.5mm 10mm;counter-increment:s}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:.2mm;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--accentbg);color:var(--accent);font-weight:700;font-size:9.5pt;display:flex;align-items:center;justify-content:center}
+  .box{border-radius:3mm;padding:3mm 4.5mm;margin:2.5mm 0}
+  .box p:last-child{margin:0}
+  .tip{background:var(--accentbg)}
+  .warn{background:var(--amber);border-left:1.5mm solid var(--amberline)}
+  .box .t{font-weight:700;margin-bottom:.8mm;display:block}
+  .cols{display:grid;grid-template-columns:1fr 60mm;gap:8mm;align-items:start}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:7mm}
+  ul.dots{padding-left:5mm;margin:0 0 2mm} ul.dots li{margin-bottom:1mm}
+  table{border-collapse:collapse;width:100%;font-size:9.8pt}
+  td,th{border-bottom:1px solid var(--line);padding:2mm 2mm;text-align:left;vertical-align:top}
+  th{color:var(--accent);font-size:9pt;text-transform:uppercase;letter-spacing:.4px}
+  .module{margin-bottom:5mm}
+
+  /* Móvil de ejemplo, con los colores de la app */
+  .phone{width:60mm;border:2.4mm solid #222;border-radius:7mm;background:var(--night);overflow:hidden;box-shadow:0 1.5mm 4mm rgba(0,0,0,.18);font-size:7.5pt;line-height:1.3;color:#E7E9EE}
+  .phone .scr{padding:4mm 3mm 4mm;min-height:100mm}
+  .phone .date{color:#A9B0BF;font-size:6.5pt}
+  .phone .ttl{font-size:14pt;font-weight:700;margin:0 0 3mm;display:flex;justify-content:space-between;align-items:center}
+  .phone .ttl span{font-size:9pt;color:#A9B0BF}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:2mm}
+  .tile{background:#181D26;border:1px solid #2A3140;border-radius:3mm;height:19mm;padding:2mm;display:flex;flex-direction:column;justify-content:space-between}
+  .tile i{font-style:normal;width:6mm;height:6mm;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8pt}
+  .tile b{font-size:6.8pt;display:block;border-top:.6mm solid var(--c);padding-top:.8mm;width:fit-content}
+  .black{background:#000;min-height:100mm;padding:6mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;color:#9a9a9a}
+  .breath{width:26mm;height:26mm;border-radius:50%;background:radial-gradient(circle,#7FC8D9 0%,rgba(127,200,217,.15) 70%);margin-top:10mm}
+  .pbtn{width:100%;border:1px solid #3A3A3A;border-radius:3mm;text-align:center;padding:1.8mm 0;font-size:7pt;margin-top:1.5mm}
+  .gatebtn{width:100%;border-radius:3mm;text-align:center;padding:1.8mm 0;font-size:7pt;margin-top:1.5mm;background:var(--gate);color:var(--night);font-weight:700}
+  .small{font-size:9pt;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- 1 · Antes de empezar -->
+<section class="page">
+  <h1>Guía de instalación y uso</h1>
+  <p class="lead">Sphera reúne en una sola app herramientas pensadas para el TDAH (y que también ayudan con el autismo): mantener el contacto con la gente, calmarte cuando todo satura, no perder el hilo, arrancar tareas y frenar el piloto automático del móvil.</p>
+  <div class="box tip"><span class="t">Cómo está pensada</span>
+    <p><b>Cero fricción</b>: lo importante, a uno o dos toques. <b>Cero gamificación</b>: sin puntos, rachas ni medallas que te hagan sentir mal si un día no la usas. <b>Tus datos se quedan en tu móvil</b>: no hay cuentas ni servidores.</p>
+  </div>
+
+  <h2 style="margin-top:6mm"><span class="e">⬇️</span>Instalar Sphera<span class="bar"></span></h2>
+  <p>Sphera no está en Google Play: se instala con un archivo APK desde su página de GitHub. Es gratis y lo hace cualquiera en un par de minutos.</p>
+  <ol class="steps">
+    <li>Apunta con la cámara al código de la portada, o entra en <b>github.com/hombrelobo2/SpheraTDAH/releases</b> y toca <b>sphera_X.Y.Z.apk</b> (el número es la versión).</li>
+    <li>Cuando termine la descarga, toca el archivo. Si Android pregunta, permite <span class="ui">Instalar apps desconocidas</span> para tu navegador o tu gestor de archivos.</li>
+    <li>Toca <span class="ui">Instalar</span>. Si aparece Google Play Protect, elige <span class="ui">Más detalles</span> → <span class="ui">Instalar de todas formas</span>.</li>
+    <li>Abre Sphera desde el cajón de apps.</li>
+  </ol>
+  <div class="box warn"><span class="t">Si Play Protect no te deja instalar</span>
+    <p>Sphera pide leer notificaciones para saber cuándo te escribe alguien, y Play Protect desconfía de las apps que lo piden y no vienen de Google Play. Abre <b>Play Store → tu foto → Play Protect → ⚙️</b>, desactiva un momento <b>Analizar apps con Play Protect</b>, instala Sphera y vuelve a activarlo.</p>
+  </div>
+
+  <h2 style="margin-top:6mm"><span class="e">⚙️</span>Ajustes<span class="bar"></span></h2>
+  <p>Cada parte de la app es una fila plegada que ya te dice cómo está (por ejemplo, <i>Resumen a las 21:00 · 2 avisos</i>). Tócala para abrirla; solo hay una abierta a la vez.</p>
+  <ul class="dots">
+    <li><b>General</b>: idioma (español o inglés) y tamaño de letra. Las cuatro «A» cambian el tamaño al momento en toda la app.</li>
+    <li><b>Pantalla de inicio</b>: orden y casillas visibles.</li>
+    <li><b>Universo social</b>, <b>Santuario</b> y <b>Puerta lenta</b>: sus opciones, explicadas en cada módulo.</li>
+    <li><b>Acerca de Sphera</b>: versión, este manual, actualizaciones, código y créditos.</li>
+  </ul>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>1</span></div>
+</section>
+
+<!-- 2 · Inicio y Ajustes -->
+<section class="page">
+  <div class="cols">
+    <div>
+      <h2><span class="e">🏠</span>La pantalla de inicio<span class="bar"></span></h2>
+      <p>Al abrir Sphera ves la fecha de hoy y ocho casillas, una por módulo, cada una con su color. Toca una para entrar. Para volver, usa el gesto o el botón de atrás del móvil.</p>
+      <p><b>A tu medida:</b> en <span class="ui">Ajustes → 🏠 Pantalla de inicio</span> ordenas las casillas con las flechas <b>↑ ↓</b> y apagas con el interruptor las que no uses. Con tres o menos, se hacen más grandes. Ocultar una casilla no apaga el módulo: sus avisos y widgets siguen funcionando.</p>
+      <div class="box tip"><span class="t">El Punto de Retorno manda</span>
+        <p>Si tienes un Punto de Retorno guardado, al abrir Sphera (o al volver tras más de un minuto fuera) lo primero que ves es eso: dónde lo dejaste. Lo explicamos en la página 5.</p>
+      </div>
+
+    </div>
+    <div class="phone"><div class="scr">
+      <div class="date">viernes, 13 de noviembre de 2026</div>
+      <div class="ttl">Sphera <span>⚙️</span></div>
+      <div class="grid">
+        <div class="tile" style="--c:var(--social)"><i style="background:rgba(143,184,168,.2)">🪐</i><b>Universo social</b></div>
+        <div class="tile" style="--c:var(--sanctuary)"><i style="background:rgba(169,161,214,.2)">🌑</i><b>Santuario</b></div>
+        <div class="tile" style="--c:var(--ret)"><i style="background:rgba(217,185,140,.2)">📍</i><b>Punto de retorno</b></div>
+        <div class="tile" style="--c:var(--rabbit)"><i style="background:rgba(201,154,142,.2)">🐇</i><b>No sigas al conejo</b></div>
+        <div class="tile" style="--c:var(--steps)"><i style="background:rgba(142,182,217,.2)">👣</i><b>Paso a paso</b></div>
+        <div class="tile" style="--c:var(--body)"><i style="background:rgba(217,154,174,.2)">🫀</i><b>Chequeo</b></div>
+        <div class="tile" style="--c:var(--cards)"><i style="background:rgba(124,198,192,.2)">🗣️</i><b>Tarjetas</b></div>
+        <div class="tile" style="--c:var(--gate)"><i style="background:rgba(185,196,126,.2)">🚪</i><b>Puerta lenta</b></div>
+      </div>
+    </div></div>
+  </div>
+  <h2 style="margin-top:7mm"><span class="e">🔑</span>Primeros pasos: los permisos<span class="bar"></span></h2>
+  <p>En <span class="ui">⚙️ Ajustes</span> (arriba a la derecha del inicio), la primera caja, <b>Te falta por activar</b>, enseña solo los permisos que faltan. Cuando estén todos, desaparece. Ninguno es obligatorio: sin ellos, cada módulo funciona con lo que puede.</p>
+  <table>
+    <tr><th>Permiso</th><th>Para qué sirve</th></tr>
+    <tr><td><b>Contactos y llamadas</b></td><td>Foto de tus contactos y saber cuándo hablasteis por teléfono (Universo social).</td></tr>
+    <tr><td><b>Acceso a notificaciones</b></td><td>Saber cuándo te escribe alguien por WhatsApp, Telegram, Signal, Viber o SMS. Sphera no guarda ni lee el contenido de los mensajes. Si Android lo bloquea: <b>Ajustes del móvil → Apps → Sphera → ⋮ → Permitir ajustes restringidos</b>.</td></tr>
+    <tr><td><b>Sin restricciones de batería</b></td><td>Que el móvil no cierre Sphera y lleguen el resumen diario y los avisos. En Xiaomi, Oppo, OnePlus o Realme revisa también <b>Batería → Sphera</b>.</td></tr>
+    <tr><td><b>No molestar</b></td><td>Silenciar las notificaciones mientras estás en el Santuario. Se restaura al salir.</td></tr>
+  </table>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>2</span></div>
+</section>
+
+<!-- 3 · Universo social -->
+<section class="page">
+  <div class="module" style="--c:var(--social)">
+    <h2><span class="e">🪐</span>Universo social<span class="bar"></span></h2>
+    <p class="lead">Tú eres el sol y tus contactos, planetas. Cuanto más tiempo pasa sin hablar con alguien, más se aleja su planeta. Así ves de un vistazo a quién hace tiempo que no escribes, sin listas ni culpa.</p>
+    <h3>Añadir a alguien</h3>
+    <ol class="steps">
+      <li>Toca <span class="ui">+</span> y elige el contacto de tu agenda.</li>
+      <li>Elige <b>¿Cada cuánto quieres hablar?</b>: cada semana, 2 semanas, mes o 3 meses. La distancia del planeta se mide con esa frecuencia.</li>
+      <li>Si quieres, añade un <b>alias</b> (cómo le llamas tú), su <b>grupo</b> (familia, amigos, trabajo), su usuario de <b>Telegram</b> o de <b>Instagram</b> y <b>notas</b> (de qué hablasteis, qué preguntarle).</li>
+    </ol>
+    <h3>Tocar un planeta</h3>
+    <p>Ves los días desde el último contacto y botones para escribirle por las apps que tengas instaladas (WhatsApp, Telegram, Signal, Viber, SMS, Instagram) o llamar. Puedes elegir un <b>mensaje para empezar</b>: Sphera lo deja escrito en el chat (si no aparece, pégalo: ya está copiado).</p>
+    <ul class="dots">
+      <li><b>Ya he hablado con esta persona</b>: si hablasteis en persona o por otra vía, devuelve el planeta a tu lado.</li>
+      <li><b>Posponer</b>: 3 días, 1 semana, 2 semanas o 1 mes en los que el planeta no se aleja (por ejemplo, si está de viaje).</li>
+      <li>El día de su <b>cumpleaños</b> (si está en tu agenda) lo verás marcado con 🎂.</li>
+      <li>Para <b>eliminar</b> un planeta, mantenlo pulsado. El contacto de tu agenda no se toca.</li>
+    </ul>
+    <h3>Cómo sabe Sphera que habéis hablado</h3>
+    <p>Por las <b>llamadas</b> en las que se habló, los <b>mensajes que te llegan</b> por WhatsApp, Telegram, Signal, Viber o SMS (con el acceso a notificaciones), los mensajes que envías <b>desde Sphera</b> y el botón <b>Ya he hablado</b>.</p>
+    <h3>En Ajustes → Universo social</h3>
+    <ul class="dots">
+      <li><b>Resumen diario</b>: una notificación al día, a la hora que elijas, con quién se está alejando. Solo llega si hay alguien.</li>
+      <li><b>Avisos</b> sueltos, entre las 9:00 y las 22:00: cuando alguien pasa de su frecuencia, cumpleaños y fin de un aplazamiento.</li>
+      <li><b>Mensajes para empezar</b>: añade los tuyos. Escribe <b>{alias}</b> donde quieras que vaya el alias del contacto.</li>
+    </ul>
+    <div class="box tip"><span class="t">Telegram</span><p>Si tu contacto no aparece al escribirle por Telegram, guarda su usuario (sin @) o su ID numérico en su ficha. Funciona también con Telegram Plus.</p></div>
+  </div>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>3</span></div>
+</section>
+
+<!-- 4 · Santuario -->
+<section class="page">
+  <div class="cols" style="--c:var(--sanctuary)">
+    <div>
+      <h2><span class="e">🌑</span>Santuario<span class="bar"></span></h2>
+      <p class="lead">Tu botón de pánico para cuando todo satura: pantalla negra, sonido de fondo y nada que hacer. Sin temporizadores ni cuentas atrás.</p>
+      <p>Al entrar, Sphera activa <b>No molestar</b> (si le diste permiso) y muestra frases tranquilas cada 30 segundos, con un fundido lento. Para salir hay un único botón, <span class="ui">Salir</span>, abajo, con un brillo suave para que lo encuentres.</p>
+      <h3>Respirar</h3>
+      <p>El botón tenue <span class="ui">Respirar</span> muestra un círculo que se hincha y se deshincha. Síguelo: <b>azul</b> al tomar aire, <b>lavanda</b> al soltarlo. Se queda como lo dejes para la próxima vez. El ritmo se elige en Ajustes: suave (4-4), exhalación larga (4-6), caja (4-4-4-4), 4-7-8 o suspiro fisiológico.</p>
+      <h3>Sonido</h3>
+      <p>En <span class="ui">Ajustes → Santuario → Sonido</span> eliges ruido marrón, rosa o blanco, olas, un audio tuyo, una carpeta de tu móvil (con orden aleatorio si quieres) o el <b>mezclador ambiental</b>: 24 sonidos (lluvia, tormenta, bosque, cafetería, tren, lo-fi…) que combinas y ajustas uno a uno dentro del Santuario. Tu mezcla se guarda. Pulsa <span class="ui">▶ Probar</span> para oírlo sin entrar.</p>
+      <h3>Al salir: el aterrizaje</h3>
+      <p>Después de <span class="ui">Salir</span>, una pantalla te deja elegir cómo seguir:</p>
+      <ul class="dots">
+        <li><b>Seguir en calma</b>: vuelves al Santuario.</li>
+        <li><b>No puedo hablar</b>: abre tus Tarjetas, para enseñarle a alguien un mensaje.</li>
+        <li><b>Volver</b>: al inicio, con No molestar ya restaurado.</li>
+      </ul>
+      <div class="box tip"><span class="t">Tenlo siempre a mano</span><p>Pon el widget <b>Sphera · Santuario</b> (un círculo 🌑 de 1×1) en tu pantalla de inicio: un toque y estás dentro, aunque tengas un Punto de Retorno pendiente.</p></div>
+    </div>
+    <div class="phone"><div class="black">
+      <div class="breath"></div>
+      <div style="color:#7FC8D9;font-size:12pt">Inhala</div>
+      <div style="width:100%"><div class="pbtn">Dejar de respirar guiado</div><div class="pbtn" style="border-color:#A9A1D6;color:#ddd;box-shadow:0 0 3mm rgba(169,161,214,.4)">Salir</div></div>
+    </div></div>
+  </div>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>4</span></div>
+</section>
+
+<!-- 5 · Punto de retorno y conejo -->
+<section class="page">
+  <div class="module" style="--c:var(--ret)">
+    <h2><span class="e">📍</span>Punto de retorno<span class="bar"></span></h2>
+    <p class="lead">Para cuando te interrumpen o te vas a cambiar de tarea: apunta dónde lo dejas y qué toca después. Cuando vuelvas, Sphera te lo enseña antes que nada.</p>
+    <ol class="steps">
+      <li>Toca <b>Punto de retorno</b> (o el acceso <b>Apuntar retorno</b> del widget) y escribe o dicta con <span class="ui">🎤 Dictar</span> en una sola caja, por ejemplo: <i>«Rellenando el seguro. Siguiente: buscar el PDF de la póliza»</i>.</li>
+      <li>Pulsa <span class="ui">Guardar</span>. Desde el widget, Sphera se cierra sola y vuelves a lo que estabas haciendo.</li>
+      <li>La próxima vez que abras Sphera, o si vuelves tras más de un minuto fuera, verás <b>Lo dejaste aquí</b> con tu nota en grande.</li>
+      <li>Pulsa <span class="ui">Retomar y limpiar</span> cuando lo hayas retomado.</li>
+    </ol>
+    <div class="box tip"><span class="t">A la vista sin abrir la app</span><p>El widget <b>Sphera · Punto de retorno</b> muestra en la pantalla de inicio lo que apuntaste y se actualiza solo. Si no hay nada, al tocarlo se abre para apuntar.</p></div>
+  </div>
+
+  <div class="module" style="--c:var(--rabbit);margin-top:8mm">
+    <h2><span class="e">🐇</span>No sigas al conejo<span class="bar"></span></h2>
+    <p class="lead">¿Te ha picado la curiosidad en mitad de algo? Apúntalo y vuelve a lo tuyo: la idea no se pierde y tú no te pierdes en ella.</p>
+    <ol class="steps">
+      <li>Escribe o dicta la curiosidad y pulsa <span class="ui">Aparcar</span>. Verás <b>Aparcado 🐇</b> y vuelves a lo que hacías.</li>
+      <li>Cuando tengas tiempo, toca <span class="ui">Bajar a la madriguera</span>: ahí están todas tus curiosidades, de una en una, con espacio para notas.</li>
+      <li>Borra las que ya no te interesen. Nada caduca ni te recuerda que tienes «pendientes».</li>
+    </ol>
+    <p class="small">Atajo: el acceso <b>Aparcar idea</b> del widget abre directamente la caja y, al guardar, Sphera se cierra.</p>
+  </div>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>5</span></div>
+</section>
+
+<!-- 6 · Paso a paso y chequeo -->
+<section class="page">
+  <div class="module" style="--c:var(--steps)">
+    <h2><span class="e">👣</span>Paso a paso<span class="bar"></span></h2>
+    <p class="lead">Rutinas divididas en pasos pequeños, uno por pantalla, para cuando cuesta arrancar o te pierdes a mitad.</p>
+    <ul class="dots">
+      <li><b>Primer paso</b>: para una tarea que te bloquea. Sphera te pregunta qué tarea es y cuál es el gesto más pequeño para empezar (por ejemplo, <i>abrir el portátil</i>). Al hacerlo, te pregunta el siguiente. Puedes parar cuando quieras con <b>Ya he arrancado, con esto basta</b> y guardar esos pasos como rutina.</li>
+      <li><b>Mis rutinas</b> y <b>Ejemplos</b> (salir de casa, rutina de mañana, empezar a trabajar, ducharse, antes de dormir). Copia un ejemplo para adaptarlo, o crea una con <span class="ui">+ Nueva rutina</span>.</li>
+      <li>Dentro de una rutina: <span class="ui">Hecho</span>, <span class="ui">Saltar</span>, <span class="ui">Atrás</span> o <span class="ui">Seguir luego</span>. Si la dejas a medias, aparece arriba en <b>A medias</b>. Lo que te saltes no importa: llegar al final es suficiente.</li>
+    </ul>
+  </div>
+
+  <div class="module" style="--c:var(--body);margin-top:7mm">
+    <h2><span class="e">🫀</span>Chequeo del cuerpo<span class="bar"></span></h2>
+    <p class="lead">A veces el malestar, la irritabilidad o el bloqueo vienen del cuerpo y no lo notamos. Seis preguntas de sí o no te ayudan a encontrarlo.</p>
+    <p>¿Has comido en las últimas 3 o 4 horas? ¿Has bebido agua? ¿Tienes ganas de ir al baño? ¿Has dormido bien? ¿Hay mucho ruido, luz o gente? ¿Acabas de dejar algo muy estimulante (redes, videojuegos, un hiperfoco, un plan social)?</p>
+    <p>Al final ves qué puede estar influyendo, con tres ideas sencillas para cada cosa. Si es un <b>bajón de dopamina</b>, te lo explica: después de mucha estimulación, lo normal se siente aburrido. Es pasajero y no es culpa tuya. Desde aquí puedes ir al Santuario o a Paso a paso.</p>
+    <div class="box warn"><span class="t">Importante</span><p>Sphera no es una herramienta médica. Si los bajones coinciden con el final del efecto de la medicación, coméntalo con tu médico.</p></div>
+  </div>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>6</span></div>
+</section>
+
+<!-- 7 · Tarjetas y Puerta lenta -->
+<section class="page">
+  <div class="module" style="--c:var(--cards)">
+    <h2><span class="e">🗣️</span>Tarjetas<span class="bar"></span></h2>
+    <p class="lead">Para cuando no puedes o no quieres hablar: mensajes a pantalla completa, con el brillo al máximo, para enseñárselos a otra persona.</p>
+    <ul class="dots">
+      <li><b>Toca</b> una tarjeta para mostrarla en grande. <b>Mantenla pulsada</b> para editarla: mensaje, detalle opcional, color y posición.</li>
+      <li><span class="ui">🔔 Avisar</span> hace sonar un aviso para llamar la atención de quien tengas cerca.</li>
+      <li>Crea las tuyas con <span class="ui">+ Nueva tarjeta</span>. Vienen algunas de ejemplo («Ahora mismo no puedo hablar», «Necesito un momento a solas»…).</li>
+    </ul>
+    <p class="small">Desde el widget, Tarjetas se abre directamente, sin pasar por el Punto de Retorno.</p>
+  </div>
+
+  <div class="cols" style="--c:var(--gate);margin-top:7mm">
+    <div>
+      <h2><span class="e">🚪</span>Puerta lenta<span class="bar"></span></h2>
+      <p class="lead">Una pausa antes de abrir las apps que te enganchan. No las bloquea: solo te da unos segundos para decidir.</p>
+      <ol class="steps">
+        <li>Entra en Puerta lenta y toca <span class="ui">Añadir app</span>. Elige la app (por ejemplo, Instagram).</li>
+        <li>Sphera pide a tu pantalla de inicio que añada un acceso con su icono y su nombre. Acepta.</li>
+        <li>Quita el icono original de la pantalla de inicio (mantenlo pulsado → <b>Quitar</b>). La app sigue instalada: solo cambia por dónde entras.</li>
+      </ol>
+      <p>Al tocar el nuevo acceso verás el círculo de respiración y una pregunta para pensar, como <i>«¿Lo abres por aburrimiento?»</i> o <i>«¿Cuánto tiempo estuviste aquí la última vez?»</i>. No hay que contestar nada. Tras 1, 2 o 3 respiraciones (lo eliges en el módulo o en Ajustes) aparece <span class="ui">Abrir</span>. <span class="ui">Mejor no</span> está siempre ahí.</p>
+      <p class="small">Si quitas una app de la lista, su acceso queda en gris y ya no abre nada. Algunos móviles ponen un pequeño distintivo de Sphera en el acceso: así lo distingues del original.</p>
+    </div>
+    <div class="phone"><div class="scr" style="display:flex;flex-direction:column;align-items:center">
+      <div style="color:#A9B0BF;font-size:7.5pt;margin-top:2mm">Vas a abrir Instagram</div>
+      <div class="breath" style="width:22mm;height:22mm;margin-top:6mm"></div>
+      <div style="color:#7FC8D9;font-size:9pt;margin-top:2mm">Inhala</div>
+      <div style="font-size:10.5pt;font-weight:700;text-align:center;margin:6mm 1mm 8mm">¿Lo abres por aburrimiento?</div>
+      <div class="gatebtn">Abrir Instagram</div>
+      <div class="pbtn" style="color:#E7E9EE;border-color:#2A3140">Mejor no</div>
+    </div></div>
+  </div>
+  <div class="foot"><span>Sphera · Guía de instalación y uso</span><span>7</span></div>
+</section>
+
+<!-- 8 · Widgets, actualizaciones, privacidad -->
+<section class="page">
+  <h2><span class="e">🧩</span>Widgets<span class="bar"></span></h2>
+  <p>Mantén pulsado un hueco libre de la pantalla de inicio → <b>Widgets</b> → <b>Sphera</b>. Hay tres:</p>
+  <table>
+    <tr><th>Widget</th><th>Qué hace</th></tr>
+    <tr><td><b>Sphera · Accesos</b> (4×1)</td><td>Al ponerlo eliges de 1 a 4 accesos de cualquier módulo, en el orden en que los tocas. En Android 12 o posterior se cambian manteniéndolo pulsado.</td></tr>
+    <tr><td><b>Sphera · Punto de retorno</b> (4×1)</td><td>Muestra lo que apuntaste. Tócalo para retomarlo, o para apuntar si no hay nada.</td></tr>
+    <tr><td><b>Sphera · Santuario</b> (1×1)</td><td>Un círculo que entra directo al Santuario.</td></tr>
+  </table>
+
+  <h2 style="margin-top:5mm"><span class="e">🔄</span>Actualizaciones<span class="bar"></span></h2>
+  <p>Una vez por semana, si hay internet, Sphera mira en GitHub si hay una versión nueva y, si la hay, te avisa con una notificación. También puedes comprobarlo cuando quieras en <span class="ui">Ajustes → Acerca de Sphera → Buscar actualizaciones ahora</span>.</p>
+  <ol class="steps">
+    <li>Toca el aviso o <span class="ui">Descargar</span>: se descarga el APK nuevo.</li>
+    <li>Ábrelo e instálalo <b>encima</b> de la versión que tienes. No se pierde nada: tus contactos, notas, rutinas y ajustes se quedan.</li>
+  </ol>
+  <p class="small">La comprobación semanal se puede apagar en el mismo sitio.</p>
+
+  <h2 style="margin-top:5mm"><span class="e">🔒</span>Privacidad<span class="bar"></span></h2>
+  <p>Sin cuentas, anuncios ni servidores: todo se guarda solo en tu móvil. De las notificaciones solo mira quién te escribe, no guarda el contenido. La única conexión a internet es la comprobación de versiones, que no envía ningún dato. Es software libre (GPL v3).</p>
+
+  <h2 style="margin-top:5mm"><span class="e">🛟</span>Si algo no va<span class="bar"></span></h2>
+  <table>
+    <tr><th>Problema</th><th>Prueba esto</th></tr>
+    <tr><td>No llegan el resumen diario ni los avisos</td><td>Concede el permiso de batería en Ajustes y revisa el ahorro de batería del fabricante.</td></tr>
+    <tr><td>Los planetas no se acercan cuando me escriben</td><td>Concede el acceso a notificaciones (y, si Android lo bloquea, «Permitir ajustes restringidos»).</td></tr>
+    <tr><td>El Santuario no silencia el móvil</td><td>Concede el permiso de No molestar en Ajustes.</td></tr>
+    <tr><td>La letra se ve muy grande o se pisa</td><td>Ajustes → General → Tamaño de letra.</td></tr>
+    <tr><td>Otra cosa</td><td>Cuéntalo en <b>Ajustes → Acerca de → Informar de un problema</b>.</td></tr>
+  </table>
+  <div class="foot"><span>Sphera · github.com/hombrelobo2/SpheraTDAH</span><span>8</span></div>
+</section>
+
+</body>
+</html>

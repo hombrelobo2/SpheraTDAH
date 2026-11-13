@@ -16,8 +16,8 @@ android {
         minSdk = 26
         targetSdk = 36
         // Versión: subir versionCode SIEMPRE (+1) y versionName según el cambio.
-        versionCode = 34
-        versionName = "0.0.34-alpha"
+        versionCode = 35
+        versionName = "1.0.0"
     }
 
     // La clave de firma no está en el repo: GitHub Actions la saca de los Secrets.
@@ -74,6 +74,7 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.6.1")
     implementation("androidx.room:room-runtime:2.7.2")
     implementation("androidx.room:room-ktx:2.7.2")
+    implementation("androidx.work:work-runtime-ktx:2.10.1")
     ksp("androidx.room:room-compiler:2.7.2")
     testImplementation("junit:junit:4.13.2")
 }

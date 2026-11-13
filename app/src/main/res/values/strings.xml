@@ -547,4 +547,21 @@
     <string name="home_sum_all">Las %d casillas a la vista</string>
     <string name="home_sum_some">%1$d de %2$d casillas a la vista</string>
     <string name="home_sanctuary_hidden">El Santuario está oculto. Te recomiendo el widget de Santuario para tenerlo a un toque cuando lo necesites.</string>
+    <string name="about_title">Acerca de Sphera</string>
+    <string name="about_manual">📖 Manual de uso (PDF)</string>
+    <string name="about_free">Software libre bajo licencia GNU GPL v3. Sin anuncios ni cuentas: tus datos se quedan en tu móvil. La única conexión a internet es la comprobación de versiones, y no envía ningún dato.</string>
+    <string name="about_code">Código en GitHub</string>
+    <string name="about_issue">Informar de un problema</string>
+    <string name="update_auto">Buscar versiones nuevas cada semana</string>
+    <string name="update_auto_desc">Con internet, una vez a la semana. Si hay una nueva, te llega un aviso.</string>
+    <string name="update_check">Buscar actualizaciones ahora</string>
+    <string name="update_checking">Comprobando…</string>
+    <string name="update_ok">✓ Tienes la última versión (%s).</string>
+    <string name="update_available">Hay una versión nueva: %s</string>
+    <string name="update_how">Descárgala e instálala encima de la que tienes: no se pierde nada.</string>
+    <string name="update_download">Descargar %s</string>
+    <string name="update_failed">No se pudo comprobar. Revisa la conexión a internet.</string>
+    <string name="update_channel">Versiones nuevas</string>
+    <string name="update_notif_title">Hay una versión nueva de Sphera: %s</string>
+    <string name="update_notif_text">Toca para descargarla e instálala encima: no se pierde nada.</string>
 </resources>

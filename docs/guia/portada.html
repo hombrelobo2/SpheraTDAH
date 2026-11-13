@@ -1,0 +1,61 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Sphera · Portada</title>
+<style>
+@font-face{font-family:"Atkinson";src:url("../../app/src/main/res/font/atkinson_regular.ttf");font-weight:400}
+@font-face{font-family:"Atkinson";src:url("../../app/src/main/res/font/atkinson_bold.ttf");font-weight:700}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Atkinson",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;color:#E7E9EE;
+  background:radial-gradient(90% 60% at 80% 12%,rgba(169,161,214,.28) 0%,rgba(169,161,214,0) 60%),radial-gradient(70% 50% at 10% 85%,rgba(143,184,168,.18) 0%,rgba(143,184,168,0) 60%),#0F1218}
+.star{position:absolute;width:1.2mm;height:1.2mm;border-radius:50%;background:#E7E9EE;opacity:.5}
+.orbit{position:absolute;border-radius:50%;border:1.5px solid rgba(157,183,224,.22)}
+.top{position:absolute;top:22mm;left:20mm;right:20mm;display:flex;justify-content:space-between;font-size:10pt;letter-spacing:2px;text-transform:uppercase;color:#A9B0BF}
+.center{position:absolute;top:40mm;left:0;right:0;text-align:center}
+.logo{width:56mm;height:56mm;margin:0 auto}
+h1{font-size:64pt;line-height:1;margin:10mm 0 4mm;letter-spacing:-1px;font-weight:700}
+.sub{font-size:21pt;font-weight:700;color:#9DB7E0;margin-bottom:6mm}
+.tag{font-size:13pt;line-height:1.5;color:#A9B0BF;max-width:150mm;margin:0 auto}
+.mods{position:absolute;top:163mm;left:20mm;right:20mm;display:grid;grid-template-columns:repeat(4,1fr);gap:4mm}
+.mods div{background:#181D26;border:1px solid #2A3140;border-radius:5mm;padding:4mm 2mm 3.5mm;text-align:center;font-size:9.5pt;font-weight:700;color:#E7E9EE;position:relative}
+.mods div::after{content:"";position:absolute;left:50%;bottom:2mm;width:7mm;height:.8mm;margin-left:-3.5mm;border-radius:1mm;background:var(--c)}
+.mods span{display:block;font-size:18pt;margin-bottom:1.5mm}
+.dl{position:absolute;left:20mm;right:20mm;bottom:27mm;background:#fff;color:#1d2421;border-radius:6mm;padding:6mm 7mm;display:flex;gap:7mm;align-items:center}
+.qr{width:30mm;height:30mm;flex:none}
+.qr svg{width:100%;height:100%}
+.dl b{font-size:13pt;display:block;margin-bottom:1.5mm;color:#3B4A6B}
+.dl p{margin:0;font-size:9.5pt;line-height:1.45;color:#3d4643}
+.url{font-family:"DejaVu Sans Mono",monospace;font-size:8.5pt;color:#3B4A6B;margin-top:1.5mm}
+.ver{margin-left:auto;text-align:right;font-size:9pt;color:#5b6662;white-space:nowrap}
+.ver strong{display:block;font-size:15pt;color:#1d2421}
+.foot{position:absolute;bottom:12mm;left:20mm;right:20mm;display:flex;justify-content:space-between;font-size:8.5pt;color:#A9B0BF}
+</style></head><body><section class="page">
+<div class="orbit" style="width:190mm;height:190mm;right:-80mm;top:-70mm"></div>
+<div class="orbit" style="width:130mm;height:130mm;right:-50mm;top:-40mm"></div>
+<div class="orbit" style="width:160mm;height:160mm;left:-95mm;bottom:30mm"></div>
+<div class="star" style="left:30mm;top:40mm"></div><div class="star" style="left:170mm;top:150mm"></div>
+<div class="star" style="left:60mm;top:160mm;opacity:.3"></div><div class="star" style="left:150mm;top:35mm;opacity:.35"></div>
+<div class="star" style="left:18mm;top:120mm;opacity:.25"></div><div class="star" style="left:190mm;top:95mm;opacity:.3"></div>
+<div class="top"><span>Guía de usuario</span><span>Android · TDAH y autismo</span></div>
+<div class="center">
+  <svg class="logo" viewBox="0 0 108 108"><circle cx="54" cy="54" r="26" fill="none" stroke="#8FA3D9" stroke-width="2"/><circle cx="54" cy="54" r="13" fill="#FFB300"/><circle cx="72.4" cy="35.6" r="6" fill="#66BB6A"/></svg>
+  <h1>Sphera</h1>
+  <div class="sub">Guía de instalación y uso</div>
+  <div class="tag">Herramientas para el día a día con TDAH:<br>cero fricción, cero gamificación, todo en tu móvil.</div>
+</div>
+<div class="mods">
+  <div style="--c:#8FB8A8"><span>🪐</span>Universo social</div>
+  <div style="--c:#A9A1D6"><span>🌑</span>Santuario</div>
+  <div style="--c:#D9B98C"><span>📍</span>Punto de retorno</div>
+  <div style="--c:#C99A8E"><span>🐇</span>No sigas al conejo</div>
+  <div style="--c:#8EB6D9"><span>👣</span>Paso a paso</div>
+  <div style="--c:#D99AAE"><span>🫀</span>Chequeo</div>
+  <div style="--c:#7CC6C0"><span>🗣️</span>Tarjetas</div>
+  <div style="--c:#B9C47E"><span>🚪</span>Puerta lenta</div>
+</div>
+<div class="dl">
+  <div class="qr">{{QR}}</div>
+  <div><b>Descarga la app</b><p>Apunta con la cámara del móvil a este código<br>y toca el enlace: se descarga la última versión.</p><div class="url">github.com/hombrelobo2/SpheraTDAH/releases</div></div>
+  <div class="ver">Versión<strong>{{VERSION}}</strong>{{FECHA}}</div>
+</div>
+<div class="foot"><span>App gratuita, sin anuncios y de software libre (GPL v3)</span><span>Tus datos se quedan en tu móvil</span></div>
+</section></body></html>
