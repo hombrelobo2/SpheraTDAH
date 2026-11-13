@@ -166,10 +166,11 @@ fun RabbitExploreScreen() {
             dismissButton = {
                 TextButton(onClick = {
                     askDelete = false
-                    val id = hole?.id ?: return@TextButton
-                    scope.launch {
-                        dao.delete(id)
-                        show(dao.random())
+                    hole?.id?.let { id ->
+                        scope.launch {
+                            dao.delete(id)
+                            show(dao.random())
+                        }
                     }
                 }) { Text(stringResource(R.string.delete)) }
             },
