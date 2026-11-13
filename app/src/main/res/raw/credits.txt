@@ -43,6 +43,9 @@ Paso a paso
 Adaptado de Visual Routines, de oikumene-works (GPL-3.0):
 https://github.com/oikumene-works/visual-routines
 
+Tarjetas
+Adaptado de Aucards, de Vadim Erenkov (GPL-3.0): https://github.com/vadimerenkov/Aucards
+
 Estilo del Punto de Retorno
 Inspirado en Olauncher, de tanujnotes (GPL-3.0): https://github.com/tanujnotes/Olauncher
 

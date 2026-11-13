@@ -60,6 +60,8 @@ object Palette {
     val rabbit = Color(0xFFC99A8E)
     val steps = Color(0xFF8EB6D9)
     val body = Color(0xFFD99AAE)
+    val cards = Color(0xFF7CC6C0)
+    val soon = Color(0xFF6E7687)
 }
 
 private val Atkinson = FontFamily(

@@ -14,6 +14,5 @@
 - Botón de correo electrónico si el contacto tiene email en la agenda.
 - Instagram, Messenger, etc.: solo con usuario guardado a mano por contacto.
 - Actualizar las acciones de GitHub (setup-java v5, etc.) por los avisos de deprecación.
-- Más habilidades: rediseñar el inicio (p. ej. dos páginas) porque las 6 casillas están llenas. Ideas: Transiciones, Acompañante, Plan de salida, Chuleta de llamada, Dónde lo dejé.
-- Tarjeta de comunicación: texto editable desde Ajustes.
+- Más habilidades: queda 1 casilla libre de 8; para más, rediseñar el inicio (p. ej. dos páginas). Ideas: Transiciones, Acompañante, Plan de salida, Chuleta de llamada, Dónde lo dejé.
 - iOS: de momento no (publicar exige pagar a Apple y Sphera es libre y gratuita). Si algún día se hace, valorar Compose Multiplatform para reutilizar el código Kotlin/Compose. En iOS no se pueden leer llamadas ni notificaciones de otras apps: el universo iría solo con el botón manual y los mensajes enviados desde Sphera.

@@ -311,14 +311,3 @@ private fun BigButton(label: Int, color: Color, modifier: Modifier, onClick: () 
     ) { Text(stringResource(label), fontSize = 32.sp, lineHeight = 40.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center) }
 }
 
-/** Tarjeta para enseñar a otra persona cuando no se puede hablar. */
-@Composable
-fun CommunicationCardScreen() {
-    Column(
-        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(32.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
-    ) {
-        Text(stringResource(R.string.comm_title), color = Color.White, fontSize = 44.sp, lineHeight = 55.sp, fontWeight = FontWeight.Bold)
-        Text(stringResource(R.string.comm_text), color = Color(0xFFCCCCCC), fontSize = 30.sp, lineHeight = 38.sp)
-    }
-}

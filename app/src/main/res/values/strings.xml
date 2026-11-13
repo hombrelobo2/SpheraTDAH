@@ -404,4 +404,23 @@
         <item>Bajar las luces.</item>
         <item>Meterte en la cama.</item>
     </string-array>
+    <!-- 0.0.28: Tarjetas (adaptado de Aucards). Formato de las tarjetas de ejemplo: Mensaje|detalle opcional -->
+    <string name="skill_cards">Tarjetas</string>
+    <string name="cards_hint">Toca para mostrarla. Mantén pulsado para editarla.</string>
+    <string name="cards_new">+ Nueva tarjeta</string>
+    <string name="cards_ring">🔔 Avisar</string>
+    <string name="cards_text">Mensaje</string>
+    <string name="cards_desc">Detalle (opcional)</string>
+    <string name="cards_color">Color</string>
+    <string name="cards_move_up">↑ Subir</string>
+    <string name="cards_move_down">↓ Bajar</string>
+    <string name="cards_delete_title">¿Borrar esta tarjeta?</string>
+    <string-array name="cards_defaults">
+        <item>Ahora mismo no puedo hablar.|No es por ti. Necesito un momento de calma. Puedo comunicarme por escrito o con gestos.</item>
+        <item>Necesito un momento a solas.|Vuelvo enseguida.</item>
+        <item>¿Me lo puedes escribir?|Ahora me cuesta procesar lo que oigo.</item>
+        <item>Hay demasiado ruido para mí.|¿Podemos ir a un sitio más tranquilo?</item>
+        <item>Estoy bien, solo necesito calma.|</item>
+        <item>Agua, por favor.|</item>
+    </string-array>
 </resources>

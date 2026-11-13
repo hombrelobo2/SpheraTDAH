@@ -35,9 +35,9 @@ import androidx.compose.ui.unit.sp
 import java.text.DateFormat
 import java.util.Date
 
-private class Skill(val emoji: String, @StringRes val label: Int, val target: String, val color: Color)
+private class Skill(val emoji: String, @StringRes val label: Int, val target: String?, val color: Color)
 
-// Las 6 habilidades, cada una con su color de módulo.
+// Las habilidades, cada una con su color de módulo. Las casillas sin destino son "Próximamente".
 private val SKILLS = listOf(
     Skill("🪐", R.string.skill_social, Routes.SOCIAL, Palette.social),
     Skill("🌑", R.string.skill_sanctuary, Routes.SANCTUARY, Palette.sanctuary),
@@ -45,6 +45,8 @@ private val SKILLS = listOf(
     Skill("🐇", R.string.skill_rabbit, Routes.RABBIT, Palette.rabbit),
     Skill("👣", R.string.skill_steps, Routes.STEPS, Palette.steps),
     Skill("🫀", R.string.skill_body, Routes.BODY, Palette.body),
+    Skill("🗣️", R.string.skill_cards, Routes.CARDS, Palette.cards),
+    Skill("✨", R.string.coming_soon, null, Palette.soon),
 )
 
 @Composable
@@ -65,7 +67,7 @@ fun HomeScreen(onOpen: (String) -> Unit) {
         }
         SKILLS.chunked(2).forEach { row ->
             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                row.forEach { s -> SkillTile(s, Modifier.weight(1f).fillMaxHeight()) { onOpen(s.target) } }
+                row.forEach { s -> SkillTile(s, Modifier.weight(1f).fillMaxHeight()) { s.target?.let(onOpen) } }
             }
         }
     }
@@ -76,17 +78,17 @@ private fun SkillTile(s: Skill, modifier: Modifier, onClick: () -> Unit) {
     Column(
         modifier.clip(RoundedCornerShape(24.dp)).background(Palette.card)
             .border(1.dp, Palette.line, RoundedCornerShape(24.dp))
-            .clickable(onClick = onClick).padding(18.dp),
+            .clickable(enabled = s.target != null, onClick = onClick).padding(14.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         // El emoji sobre un círculo suave del color del módulo.
-        Box(Modifier.size(56.dp).clip(CircleShape).background(s.color.copy(alpha = 0.18f)), contentAlignment = Alignment.Center) {
-            Text(s.emoji, fontSize = 28.sp)
+        Box(Modifier.size(48.dp).clip(CircleShape).background(s.color.copy(alpha = 0.18f)), contentAlignment = Alignment.Center) {
+            Text(s.emoji, fontSize = 24.sp)
         }
         Column(Modifier.fillMaxWidth()) {
             Box(Modifier.size(width = 24.dp, height = 3.dp).clip(CircleShape).background(s.color))
             Text(
-                stringResource(s.label), color = Palette.text, fontSize = 19.sp, lineHeight = 24.sp,
+                stringResource(s.label), color = if (s.target != null) Palette.text else Palette.textFaint, fontSize = 18.sp, lineHeight = 22.sp,
                 fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 8.dp),
             )
         }

@@ -38,7 +38,9 @@ import app.sphera.steps.RoutineRunnerScreen
 import app.sphera.steps.StepsHomeScreen
 import app.sphera.returnpoint.ReturnFormScreen
 import app.sphera.returnpoint.SpheraDb
-import app.sphera.sanctuary.CommunicationCardScreen
+import app.sphera.cards.CardEditScreen
+import app.sphera.cards.CardShowScreen
+import app.sphera.cards.CardsListScreen
 import app.sphera.sanctuary.LandingScreen
 import app.sphera.sanctuary.SanctuaryScreen
 import app.sphera.sanctuary.findActivity
@@ -51,7 +53,7 @@ private const val RETURN_POINT_AWAY_MS = 60_000L
 
 // Pantallas que el Punto de Retorno no interrumpe nunca.
 private val RETURN_POINT_SKIP = setOf(
-    Routes.SANCTUARY, Routes.LANDING, Routes.COMM_CARD, Routes.RETURN_CARD, Routes.RETURN_FORM,
+    Routes.SANCTUARY, Routes.LANDING, Routes.CARDS, Routes.CARDS_SHOW, Routes.RETURN_CARD, Routes.RETURN_FORM,
 )
 
 object Routes {
@@ -61,7 +63,9 @@ object Routes {
     const val CREDITS = "credits"
     const val SANCTUARY = "sanctuary"
     const val LANDING = "landing"
-    const val COMM_CARD = "comm_card"
+    const val CARDS = "cards"
+    const val CARDS_SHOW = "cards/show/{id}"
+    const val CARDS_EDIT = "cards/edit/{id}"
     const val RETURN_CARD = "return_card"
     const val RETURN_FORM = "return_form"
     const val RABBIT = "rabbit"
@@ -169,12 +173,20 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
             ModuleTheme(Palette.sanctuary) {
                 LandingScreen(
                     onStayCalm = { nav.navigate(Routes.SANCTUARY) { popUpTo(Routes.LANDING) { inclusive = true } } },
-                    onCannotTalk = { nav.navigate(Routes.COMM_CARD) },
+                    onCannotTalk = { nav.navigate(Routes.CARDS) },
                     onBack = { goHome() },
                 )
             }
         }
-        composable(Routes.COMM_CARD) { CommunicationCardScreen() }
+        composable(Routes.CARDS) {
+            ModuleTheme(Palette.cards) {
+                CardsListScreen(onShow = { nav.navigate("cards/show/$it") }, onEdit = { nav.navigate("cards/edit/$it") })
+            }
+        }
+        composable(Routes.CARDS_SHOW) { entry -> CardShowScreen(entry.arguments?.getString("id").orEmpty(), onBack = { back() }) }
+        composable(Routes.CARDS_EDIT) { entry ->
+            ModuleTheme(Palette.cards) { CardEditScreen(entry.arguments?.getString("id").orEmpty(), onDone = { back() }) }
+        }
 
         composable(Routes.RABBIT) {
             ModuleTheme(Palette.rabbit) {

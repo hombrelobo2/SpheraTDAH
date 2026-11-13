@@ -387,4 +387,22 @@
         <item>Dim the lights.</item>
         <item>Get into bed.</item>
     </string-array>
+    <string name="skill_cards">Cards</string>
+    <string name="cards_hint">Tap to show it. Press and hold to edit.</string>
+    <string name="cards_new">+ New card</string>
+    <string name="cards_ring">🔔 Alert</string>
+    <string name="cards_text">Message</string>
+    <string name="cards_desc">Detail (optional)</string>
+    <string name="cards_color">Colour</string>
+    <string name="cards_move_up">↑ Up</string>
+    <string name="cards_move_down">↓ Down</string>
+    <string name="cards_delete_title">Delete this card?</string>
+    <string-array name="cards_defaults">
+        <item>I cannot talk right now.|It is not about you. I need a calm moment. I can communicate in writing or with gestures.</item>
+        <item>I need a moment alone.|I will be right back.</item>
+        <item>Can you write it down for me?|I am finding it hard to process what I hear.</item>
+        <item>It is too loud for me.|Can we go somewhere quieter?</item>
+        <item>I am fine, I just need calm.|</item>
+        <item>Water, please.|</item>
+    </string-array>
 </resources>
