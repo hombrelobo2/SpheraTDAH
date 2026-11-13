@@ -471,5 +471,22 @@
         <item>How long were you in here last time?</item>
         <item>Last time you went in \"just for a second\", how long was it?</item>
         <item>Do you remember what you got out of your last visit?</item>
+        <item>How many times have you opened it today?</item>
+        <item>Did you come out better or worse last time?</item>
+        <item>Did you find what you were looking for last time?</item>
+        <item>What time is it? Is now a good moment?</item>
+        <item>Do you have something to do in the next few minutes?</item>
+        <item>Is it to unwind, or to avoid thinking?</item>
+        <item>What would you stop doing if you go in now?</item>
+        <item>Opening it to start something, or to avoid starting it?</item>
+        <item>Are you waiting for something, or just waiting?</item>
+        <item>Feeling lonely, or just wanting some noise?</item>
+        <item>Bored, or stuck?</item>
+        <item>What feeling brought you here?</item>
+        <item>What would someone who cares about you say?</item>
+        <item>Did something arrive, or is it just in case?</item>
+        <item>Would a glass of water help more?</item>
+        <item>Would a one-minute stretch suit you better?</item>
+        <item>Can it wait until you finish what you\'re doing?</item>
     </string-array>
 </resources>

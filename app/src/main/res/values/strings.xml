@@ -490,5 +490,22 @@
         <item>¿Cuánto tiempo estuviste aquí la última vez?</item>
         <item>La última vez que entraste «un momento», ¿cuánto duró?</item>
         <item>¿Recuerdas qué sacaste de la última visita?</item>
+        <item>¿Cuántas veces la has abierto hoy?</item>
+        <item>¿Saliste mejor o peor la última vez?</item>
+        <item>¿Encontraste lo que buscabas la última vez?</item>
+        <item>¿Qué hora es? ¿Te viene bien ahora?</item>
+        <item>¿Tienes algo que hacer en los próximos minutos?</item>
+        <item>¿Es para desconectar o para no pensar?</item>
+        <item>¿Qué dejarías de hacer si entras ahora?</item>
+        <item>¿Lo abres para empezar algo o para no empezarlo?</item>
+        <item>¿Estás esperando algo, o solo esperando?</item>
+        <item>¿Te sientes solo o sola, o solo con ganas de ruido?</item>
+        <item>¿Te has aburrido o te has bloqueado?</item>
+        <item>¿Qué emoción te ha traído hasta aquí?</item>
+        <item>¿Qué te diría alguien que te quiere bien?</item>
+        <item>¿Te ha llegado algo o lo abres por si acaso?</item>
+        <item>¿Te serviría más un vaso de agua?</item>
+        <item>¿Te vendría mejor estirarte un minuto?</item>
+        <item>¿Puede esperar a que acabes lo que tienes entre manos?</item>
     </string-array>
 </resources>
