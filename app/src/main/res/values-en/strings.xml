@@ -434,9 +434,39 @@
     <string name="gate_no_pin">Your home screen does not allow adding shortcuts.</string>
     <string name="gate_disabled">No longer behind the Slow door</string>
     <string name="gate_opening">You are about to open %1$s</string>
-    <string name="gate_why">What are you going there for? (optional)</string>
     <string name="gate_open">Open %1$s</string>
     <string name="gate_not_now">Not now</string>
     <string name="gate_missing">I can\'t find this app. It may have been uninstalled.</string>
-    <string name="gate_reminder">What you came for: %1$s</string>
+    <string-array name="gate_questions">
+        <item>Opening it out of boredom?</item>
+        <item>What are you looking for there right now?</item>
+        <item>Is this what you wanted to do a minute ago?</item>
+        <item>Do you really want to, or is it autopilot?</item>
+        <item>Is there something you\'re avoiding?</item>
+        <item>Tired, anxious or curious?</item>
+        <item>Going for something specific, or just to see?</item>
+        <item>How do you want to feel when you close it?</item>
+        <item>Will this rest you or scatter you?</item>
+        <item>What were you doing before you thought of this?</item>
+        <item>Are you hungry, thirsty or sleepy?</item>
+        <item>Sure it has to be now?</item>
+        <item>Opening it because you want to, or out of habit?</item>
+        <item>What would happen if you waited a bit?</item>
+        <item>Do you need a real break?</item>
+        <item>Is opening it a choice or a reflex?</item>
+        <item>Is something unfinished weighing on you?</item>
+        <item>Looking for company, distraction or information?</item>
+        <item>How long do you want to stay in?</item>
+        <item>How do you usually feel afterwards?</item>
+        <item>How about one more breath?</item>
+        <item>Is this the moment?</item>
+        <item>What brought you here?</item>
+        <item>Escaping something boring or hard?</item>
+        <item>Will you thank yourself in an hour?</item>
+        <item>Is there someone you\'d rather talk to?</item>
+        <item>Is it urgent?</item>
+        <item>Is it your body asking, or habit?</item>
+        <item>Do you know what you\'ll do once inside?</item>
+        <item>What do you really need right now?</item>
+    </string-array>
 </resources>

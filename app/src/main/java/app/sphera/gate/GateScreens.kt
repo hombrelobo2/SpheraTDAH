@@ -48,14 +48,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.Palette
 import app.sphera.Picker
 import app.sphera.R
-import app.sphera.appendDictation
-import app.sphera.rememberDictation
 import app.sphera.sanctuary.Breathing
 import app.sphera.sanctuary.BreathingCircle
 import kotlinx.coroutines.Dispatchers
@@ -173,19 +172,18 @@ fun GatePickScreen(onDone: () -> Unit) {
 }
 
 /**
- * La pausa: el círculo de respiración, "¿A qué vas?" y, tras las respiraciones elegidas, el botón de abrir.
+ * La pausa: el círculo de respiración, una pregunta de la lista y, tras las respiraciones elegidas, el botón de abrir.
  * Sin cuenta atrás visible: el botón simplemente aparece.
  */
 @Composable
-fun GatePauseScreen(pkg: String?, onOpen: (String, String) -> Unit, onLeave: () -> Unit) {
+fun GatePauseScreen(pkg: String?, onOpen: (String) -> Unit, onLeave: () -> Unit) {
     val ctx = LocalContext.current
     val app = remember(pkg) { pkg?.let { SlowGate.find(ctx, it) } }
     val icon = remember(app) { app?.icon?.toBitmap(96)?.asImageBitmap() }
     val launchable = remember(pkg) { pkg != null && ctx.packageManager.getLaunchIntentForPackage(pkg) != null }
     val pattern = remember { Breathing.pattern(ctx) }
     var ready by remember { mutableStateOf(false) }
-    var intention by remember { mutableStateOf("") }
-    val dictate = rememberDictation { intention = appendDictation(intention, it).take(200) }
+    val question = remember(pkg) { SlowGate.nextQuestion(ctx) }
     LaunchedEffect(pkg) {
         delay(pattern.phases.sumOf { it.ms }.toLong() * SlowGate.breaths.intValue)
         ready = true
@@ -216,19 +214,14 @@ fun GatePauseScreen(pkg: String?, onOpen: (String, String) -> Unit, onLeave: () 
                 )
             }
             BreathingCircle(pattern, diameter = 190.dp, labelSize = 28.sp)
-            OutlinedTextField(
-                value = intention, onValueChange = { intention = it.take(200) },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.gate_why)) }, textStyle = TextStyle(fontSize = 20.sp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Palette.text, unfocusedTextColor = Palette.text,
-                    unfocusedBorderColor = Palette.line, unfocusedLabelColor = Palette.textSoft,
-                ),
+            // Una pregunta para pensar, no para contestar.
+            Text(
+                question, color = Palette.text, fontSize = 26.sp, lineHeight = 34.sp, fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
             )
-            if (dictate != null) TextButton(onClick = dictate) { Text(stringResource(R.string.rp_dictate), color = Palette.textSoft) }
         }
         Button(
-            onClick = { onOpen(app.pkg, intention) },
+            onClick = { onOpen(app.pkg) },
             enabled = ready,
             modifier = Modifier.fillMaxWidth().height(56.dp).alpha(openAlpha),
         ) { Text(stringResource(R.string.gate_open, app.label), fontSize = 18.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }

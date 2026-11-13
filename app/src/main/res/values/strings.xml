@@ -453,9 +453,39 @@
     <string name="gate_no_pin">Tu pantalla de inicio no deja añadir accesos directos.</string>
     <string name="gate_disabled">Ya no está en la Puerta lenta</string>
     <string name="gate_opening">Vas a abrir %1$s</string>
-    <string name="gate_why">¿A qué vas? (opcional)</string>
     <string name="gate_open">Abrir %1$s</string>
     <string name="gate_not_now">Mejor no</string>
     <string name="gate_missing">No encuentro esta app. Puede que se haya desinstalado.</string>
-    <string name="gate_reminder">A lo que ibas: %1$s</string>
+    <string-array name="gate_questions">
+        <item>¿Lo abres por aburrimiento?</item>
+        <item>¿Qué buscas ahí ahora mismo?</item>
+        <item>¿Es lo que querías hacer hace un minuto?</item>
+        <item>¿Te apetece de verdad o es el piloto automático?</item>
+        <item>¿Hay algo que estás evitando?</item>
+        <item>¿Cansancio, nervios o ganas?</item>
+        <item>¿Vas a algo concreto o a ver qué hay?</item>
+        <item>¿Cómo quieres sentirte al cerrarla?</item>
+        <item>¿Esto te descansa o te dispersa?</item>
+        <item>¿Qué ibas a hacer antes de pensar en esto?</item>
+        <item>¿Tienes hambre, sed o sueño?</item>
+        <item>¿Seguro que es ahora?</item>
+        <item>¿Lo abres porque quieres o por costumbre?</item>
+        <item>¿Qué pasaría si esperas un rato?</item>
+        <item>¿Necesitas una pausa de verdad?</item>
+        <item>¿Abrirla es una decisión o un reflejo?</item>
+        <item>¿Hay algo pendiente que pesa?</item>
+        <item>¿Buscas compañía, distracción o información?</item>
+        <item>¿Cuánto rato quieres estar dentro?</item>
+        <item>¿Cómo te sueles sentir después?</item>
+        <item>¿Y si respiras una vez más?</item>
+        <item>¿Es el momento?</item>
+        <item>¿Qué te ha traído hasta aquí?</item>
+        <item>¿Huyes de algo aburrido o difícil?</item>
+        <item>¿Te lo agradecerás dentro de una hora?</item>
+        <item>¿Hay alguien con quien preferirías hablar?</item>
+        <item>¿Es urgente?</item>
+        <item>¿Te lo pide el cuerpo o la costumbre?</item>
+        <item>¿Sabes qué vas a hacer al entrar?</item>
+        <item>¿Qué necesitas de verdad ahora?</item>
+    </string-array>
 </resources>

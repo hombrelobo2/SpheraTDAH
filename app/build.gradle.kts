@@ -16,8 +16,8 @@ android {
         minSdk = 26
         targetSdk = 36
         // Versión: subir versionCode SIEMPRE (+1) y versionName según el cambio.
-        versionCode = 31
-        versionName = "0.0.31-alpha"
+        versionCode = 32
+        versionName = "0.0.32-alpha"
     }
 
     // La clave de firma no está en el repo: GitHub Actions la saca de los Secrets.

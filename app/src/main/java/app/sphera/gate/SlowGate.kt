@@ -77,6 +77,16 @@ object SlowGate {
         LaunchableApp(pkg, pm.getApplicationLabel(info).toString(), pm.getApplicationIcon(info))
     }.getOrNull()
 
+    /** Una pregunta al azar de la lista, sin repetir la de la última vez. */
+    fun nextQuestion(ctx: Context): String {
+        val all = ctx.resources.getStringArray(app.sphera.R.array.gate_questions)
+        val last = prefs(ctx).getInt("last_question", -1)
+        var i = all.indices.random()
+        if (all.size > 1 && i == last) i = (i + 1) % all.size
+        prefs(ctx).edit().putInt("last_question", i).apply()
+        return all[i]
+    }
+
     private fun shortcutId(pkg: String) = "gate_$pkg"
 
     /** Pide a la pantalla de inicio que añada el acceso con pausa. Devuelve false si no lo permite. */

@@ -2,7 +2,6 @@ package app.sphera.gate
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.mutableStateOf
 import app.sphera.ModuleTheme
 import app.sphera.Palette
-import app.sphera.R
 import app.sphera.SpheraTheme
 import app.sphera.TextScale
 
@@ -49,14 +47,8 @@ class GateActivity : AppCompatActivity() {
         pkg.value = intent.getStringExtra(SlowGate.EXTRA_PKG)
     }
 
-    private fun openTarget(target: String, intention: String) {
-        val launch = packageManager.getLaunchIntentForPackage(target)
-        if (launch != null) {
-            startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            if (intention.isNotBlank()) {
-                Toast.makeText(this, getString(R.string.gate_reminder, intention.trim()), Toast.LENGTH_LONG).show()
-            }
-        }
+    private fun openTarget(target: String) {
+        packageManager.getLaunchIntentForPackage(target)?.let { startActivity(it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
         finish()
     }
 }

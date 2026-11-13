@@ -11,7 +11,7 @@ La pantalla principal tiene 8 habilidades:
 - **Paso a paso**: rutinas visuales y el primer paso de una tarea.
 - **Chequeo corporal**: hambre, sed, sueño, dolor… antes de seguir.
 - **Tarjetas**: mensajes a pantalla completa para cuando no puedes hablar.
-- **Puerta lenta**: accesos a las apps que enganchan con una pausa de respiración y "¿A qué vas?" antes de abrirlas.
+- **Puerta lenta**: accesos a las apps que enganchan con una pausa de respiración y una pregunta para pensar antes de abrirlas.
 
 ## Instalar
 
