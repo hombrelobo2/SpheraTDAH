@@ -25,21 +25,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-private class Skill(val emoji: String, @StringRes val label: Int, val target: Screen?)
+private class Skill(val emoji: String, @StringRes val label: Int, val target: String?)
 
 // Las 6 habilidades. Al desarrollar una nueva, sustituir un "próximamente".
-private val SKILLS = listOf(Skill("🪐", R.string.skill_social, Screen.SOCIAL)) +
-    List(5) { Skill("✨", R.string.coming_soon, null) }
+private val SKILLS = listOf(
+    Skill("🪐", R.string.skill_social, Routes.SOCIAL),
+    Skill("🌑", R.string.skill_sanctuary, Routes.SANCTUARY),
+    Skill("📍", R.string.skill_return, Routes.RETURN_FORM),
+) + List(3) { Skill("✨", R.string.coming_soon, null) }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onOpen: (Screen) -> Unit) {
+fun HomeScreen(onOpen: (String) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
                 actions = {
-                    IconButton(onClick = { onOpen(Screen.SETTINGS) }) {
+                    IconButton(onClick = { onOpen(Routes.SETTINGS) }) {
                         Icon(Icons.Default.Settings, stringResource(R.string.settings))
                     }
                 },

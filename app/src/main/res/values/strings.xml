@@ -123,4 +123,33 @@
     <string name="alert_drift">%s se está alejando</string>
     <string name="alert_snooze_end">Ha terminado el aplazamiento de %s</string>
     <string name="alert_tap_to_write">Toca para escribirle</string>
+    <!-- 0.0.9: Santuario, Aterrizaje, Punto de Retorno, widget -->
+    <string name="skill_sanctuary">Santuario</string>
+    <string name="skill_return">Punto de retorno</string>
+    <string name="sanctuary_text">Es tu momento</string>
+    <string name="sanctuary_hint">Mantén pulsado para salir</string>
+    <string name="landing_stay">Seguir en calma</string>
+    <string name="landing_cannot_talk">No puedo hablar</string>
+    <string name="landing_back">Volver</string>
+    <string name="comm_title">Ahora mismo no puedo hablar.</string>
+    <string name="comm_text">No es por ti. Necesito un momento de calma. Puedo comunicarme por escrito o con gestos.</string>
+    <string name="rp_title">Lo dejaste aquí</string>
+    <string name="rp_where">¿Dónde estabas?</string>
+    <string name="rp_next">Siguiente paso</string>
+    <string name="rp_tools">¿Qué necesitas tener a mano?</string>
+    <string name="rp_resume">Retomar y limpiar</string>
+    <string name="rp_form_title">Punto de retorno</string>
+    <string name="rp_save">Guardar</string>
+    <string name="sanctuary_settings">Santuario</string>
+    <string name="perm_dnd">Modo No molestar</string>
+    <string name="perm_dnd_desc">Para silenciar notificaciones al entrar en el Santuario. Se restaura al pulsar \"Volver\".</string>
+    <string name="perm_brightness">Brillo de pantalla</string>
+    <string name="perm_brightness_desc">Para bajar el brillo de todo el móvil al mínimo, no solo dentro del Santuario. Se restaura al pulsar \"Volver\".</string>
+    <string name="sanctuary_sound">Sonido</string>
+    <string name="sanctuary_sound_default">Incluido: ruido marrón suave</string>
+    <string name="sanctuary_sound_pick">Elegir audio</string>
+    <string name="sanctuary_sound_reset">Usar el incluido</string>
+    <string name="widget_sanctuary">🌑 Santuario</string>
+    <string name="widget_return">📍 Punto de retorno</string>
+    <string name="widget_description">Acceso directo al Santuario y al Punto de retorno</string>
 </resources>

@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import app.sphera.sanctuary.SanctuarySound
+import app.sphera.sanctuary.SensoryMode
 import app.sphera.social.Alerts
 import app.sphera.social.DailySummary
 import app.sphera.social.Interactions
@@ -73,6 +75,17 @@ fun SettingsScreen(onBack: () -> Unit) {
     val callsGranted = remember(refresh) { Interactions.hasPermissions(ctx) }
     val notifGranted = remember(refresh) {
         NotificationManagerCompat.getEnabledListenerPackages(ctx).contains(ctx.packageName)
+    }
+    val dndGranted = remember(refresh) { SensoryMode.canChangeDnd(ctx) }
+    val brightnessGranted = remember(refresh) { SensoryMode.canChangeBrightness(ctx) }
+    var sound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
+    val soundPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            // Permiso permanente para poder leer el archivo también después de reiniciar.
+            runCatching { ctx.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+            SanctuarySound.setCustom(ctx, uri)
+            sound = uri
+        }
     }
     val batteryFree = remember(refresh) {
         ctx.getSystemService(PowerManager::class.java)?.isIgnoringBatteryOptimizations(ctx.packageName) == true
@@ -137,6 +150,28 @@ fun SettingsScreen(onBack: () -> Unit) {
                 Picker(HOURS, summaryHour) {
                     summaryHour = it
                     DailySummary.configure(ctx, true, it)
+                }
+            }
+
+            HorizontalDivider()
+            Text(stringResource(R.string.sanctuary_settings), style = MaterialTheme.typography.titleMedium)
+            PermissionRow(R.string.perm_dnd, R.string.perm_dnd_desc, dndGranted) {
+                ctx.startActivity(SensoryMode.dndSettings())
+            }
+            PermissionRow(R.string.perm_brightness, R.string.perm_brightness_desc, brightnessGranted) {
+                ctx.startActivity(SensoryMode.brightnessSettings(ctx))
+            }
+            Text(stringResource(R.string.sanctuary_sound), style = MaterialTheme.typography.bodyLarge)
+            Text(
+                sound?.lastPathSegment?.substringAfterLast('/') ?: stringResource(R.string.sanctuary_sound_default),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Row {
+                Button(onClick = { soundPicker.launch(arrayOf("audio/*")) }) { Text(stringResource(R.string.sanctuary_sound_pick)) }
+                if (sound != null) {
+                    TextButton(onClick = { SanctuarySound.setCustom(ctx, null); sound = null }) {
+                        Text(stringResource(R.string.sanctuary_sound_reset))
+                    }
                 }
             }
 
