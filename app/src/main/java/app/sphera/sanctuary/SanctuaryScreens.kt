@@ -6,33 +6,34 @@ import android.content.ContextWrapper
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.SystemClock
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.R
 
-private const val EXIT_HOLD_MS = 3_000L
+private const val TRIPLE_TAP_WINDOW_MS = 1_500L // los tres toques deben caber en este tiempo
 private val LANDING_BG = Color(0xFF121212)
 
 fun Context.findActivity(): Activity? = when (this) {
@@ -73,11 +74,10 @@ object SanctuarySound {
     }
 }
 
-/** Botón de pánico: pantalla negra, brillo mínimo, No molestar y sonido en bucle. Se sale manteniendo pulsado 3 s. */
+/** Botón de pánico: pantalla negra, brillo mínimo, No molestar y sonido en bucle. */
 @Composable
 fun SanctuaryScreen(onExit: () -> Unit) {
     val ctx = LocalContext.current
-    val haptics = LocalHapticFeedback.current
     BackHandler { } // el botón atrás no saca del Santuario: evita salidas accidentales
 
     LaunchedEffect(Unit) { SensoryMode.enter(ctx) }
@@ -98,20 +98,19 @@ fun SanctuaryScreen(onExit: () -> Unit) {
         }
     }
 
+    // Salida: tres toques seguidos en cualquier sitio, o el botón "Salir" (visible pero muy tenue).
+    val taps = remember { ArrayDeque<Long>() }
     Box(
         Modifier.fillMaxSize().background(Color.Black).pointerInput(Unit) {
-            awaitEachGesture {
-                awaitFirstDown(requireUnconsumed = false)
-                // Si se suelta antes de 3 s no pasa nada. Al cumplirse, una vibración avisa; al soltar, se sale.
-                val releasedEarly = withTimeoutOrNull(EXIT_HOLD_MS) { waitForUpOrCancellation(); true }
-                if (releasedEarly == null) {
-                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    do {
-                        val event = awaitPointerEvent()
-                    } while (event.changes.any { it.pressed })
+            detectTapGestures(onTap = {
+                val now = SystemClock.uptimeMillis()
+                taps.addLast(now)
+                while (taps.isNotEmpty() && now - taps.first() > TRIPLE_TAP_WINDOW_MS) taps.removeFirst()
+                if (taps.size >= 3) {
+                    taps.clear()
                     onExit()
                 }
-            }
+            })
         },
     ) {
         Text(
@@ -119,11 +118,12 @@ fun SanctuaryScreen(onExit: () -> Unit) {
             Modifier.align(Alignment.Center).padding(32.dp),
             color = Color(0xFF8A8A8A), fontSize = 40.sp, lineHeight = 50.sp, textAlign = TextAlign.Center,
         )
-        Text(
-            stringResource(R.string.sanctuary_hint),
-            Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp),
-            color = Color(0xFF3A3A3A), fontSize = 18.sp, lineHeight = 22.sp, textAlign = TextAlign.Center,
-        )
+        OutlinedButton(
+            onClick = onExit,
+            modifier = Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp).fillMaxWidth().height(72.dp),
+            border = BorderStroke(1.dp, Color(0xFF2A2A2A)),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF4A4A4A)),
+        ) { Text(stringResource(R.string.sanctuary_exit), fontSize = 22.sp, lineHeight = 28.sp) }
     }
 }
 

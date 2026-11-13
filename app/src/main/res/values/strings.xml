@@ -127,7 +127,7 @@
     <string name="skill_sanctuary">Santuario</string>
     <string name="skill_return">Punto de retorno</string>
     <string name="sanctuary_text">Es tu momento</string>
-    <string name="sanctuary_hint">Mantén pulsado para salir</string>
+    <string name="sanctuary_exit">Salir</string>
     <string name="landing_stay">Seguir en calma</string>
     <string name="landing_cannot_talk">No puedo hablar</string>
     <string name="landing_back">Volver</string>

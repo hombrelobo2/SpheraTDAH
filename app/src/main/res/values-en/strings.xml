@@ -115,7 +115,7 @@
     <string name="skill_sanctuary">Sanctuary</string>
     <string name="skill_return">Return point</string>
     <string name="sanctuary_text">This is your moment</string>
-    <string name="sanctuary_hint">Press and hold to leave</string>
+    <string name="sanctuary_exit">Leave</string>
     <string name="landing_stay">Stay calm</string>
     <string name="landing_cannot_talk">I cannot talk</string>
     <string name="landing_back">Go back</string>

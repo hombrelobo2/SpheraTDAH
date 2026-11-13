@@ -105,7 +105,7 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
         }
         composable(Routes.LANDING) {
             LandingScreen(
-                onStayCalm = { closeApp() },
+                onStayCalm = { nav.navigate(Routes.SANCTUARY) { popUpTo(Routes.LANDING) { inclusive = true } } },
                 onCannotTalk = { nav.navigate(Routes.COMM_CARD) },
                 onBack = { goHome() },
             )
