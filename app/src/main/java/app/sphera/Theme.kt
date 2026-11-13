@@ -61,6 +61,7 @@ object Palette {
     val steps = Color(0xFF8EB6D9)
     val body = Color(0xFFD99AAE)
     val cards = Color(0xFF7CC6C0)
+    val gate = Color(0xFFB9C47E)
     val soon = Color(0xFF6E7687)
 }
 

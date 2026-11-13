@@ -39,6 +39,8 @@ import app.sphera.steps.StepsHomeScreen
 import app.sphera.returnpoint.ReturnFormScreen
 import app.sphera.returnpoint.SpheraDb
 import app.sphera.cards.CardEditScreen
+import app.sphera.gate.GateHomeScreen
+import app.sphera.gate.GatePickScreen
 import app.sphera.cards.CardShowScreen
 import app.sphera.cards.CardsListScreen
 import app.sphera.sanctuary.LandingScreen
@@ -76,6 +78,8 @@ object Routes {
     const val STEPS_EDIT = "steps/edit/{id}"
     const val STEPS_FIRST = "steps/first"
     const val BODY = "body"
+    const val GATE = "gate"
+    const val GATE_PICK = "gate/pick"
 
     // Enlaces que usa el widget (y que cualquiera puede abrir con sphera://…).
     const val LINK_SANCTUARY = "sphera://sanctuary"
@@ -220,6 +224,9 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
                 BodyCheckScreen(onSanctuary = { nav.navigate(Routes.SANCTUARY) }, onSteps = { nav.navigate(Routes.STEPS) })
             }
         }
+
+        composable(Routes.GATE) { ModuleTheme(Palette.gate) { GateHomeScreen(onAdd = { nav.navigate(Routes.GATE_PICK) }) } }
+        composable(Routes.GATE_PICK) { ModuleTheme(Palette.gate) { GatePickScreen(onDone = { back() }) } }
 
         composable(Routes.RETURN_CARD) { ModuleTheme(Palette.returnPoint) { ReturnCardScreen(onDone = { goHome() }) } }
         // Desde el widget se apunta y se vuelve a lo que se estaba haciendo: la app se cierra al guardar.

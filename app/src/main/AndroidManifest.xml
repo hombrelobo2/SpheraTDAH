@@ -21,6 +21,11 @@
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="tg" />
         </intent>
+        <!-- Puerta lenta: elegir entre las apps instaladas -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
         <!-- Dictado por voz -->
         <intent>
             <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
@@ -50,6 +55,14 @@
                 <data android:scheme="sphera" />
             </intent-filter>
         </activity>
+
+        <!-- Puerta lenta: la pausa va en su propia tarea y no aparece en recientes. -->
+        <activity
+            android:name=".gate.GateActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="app.sphera.gate" />
 
         <receiver
             android:name=".widget.SpheraWidget"

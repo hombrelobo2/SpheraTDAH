@@ -49,6 +49,9 @@ Modelo de fases y patrones adaptado de Brethap, de jithware (GPL-3.0): https://g
 Tarjetas
 Adaptado de Aucards, de Vadim Erenkov (GPL-3.0): https://github.com/vadimerenkov/Aucards
 
+Puerta lenta
+Idea inspirada en Defang (GPL-3.0); sin código copiado.
+
 Estilo del Punto de Retorno
 Inspirado en Olauncher, de tanujnotes (GPL-3.0): https://github.com/tanujnotes/Olauncher
 

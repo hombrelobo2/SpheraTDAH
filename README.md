@@ -2,9 +2,16 @@
 
 App de Android para centralizar soluciones a problemas relacionados con el TDAH.
 
-La pantalla principal tiene 6 habilidades. De momento solo está activa una:
+La pantalla principal tiene 8 habilidades:
 
-- **Universo social**: tus contactos son planetas que orbitan alrededor de ti (el sol). Cuanto más tiempo pasa sin hablar, más se alejan. Al tocar un planeta ves los días desde el último contacto y puedes escribirle.
+- **Universo social**: tus contactos son planetas que se alejan cuanto más tiempo pasa sin hablar.
+- **Santuario**: pantalla negra o mezclador ambiental, No molestar, frases de calma y respiración guiada.
+- **Punto de Retorno**: apunta qué estabas haciendo y la app te lo recuerda al volver.
+- **No sigas al conejo**: aparca una idea sin perder el hilo y explórala después.
+- **Paso a paso**: rutinas visuales y el primer paso de una tarea.
+- **Chequeo corporal**: hambre, sed, sueño, dolor… antes de seguir.
+- **Tarjetas**: mensajes a pantalla completa para cuando no puedes hablar.
+- **Puerta lenta**: accesos a las apps que enganchan con una pausa de respiración y "¿A qué vas?" antes de abrirlas.
 
 ## Instalar
 

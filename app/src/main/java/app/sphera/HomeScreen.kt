@@ -46,7 +46,7 @@ private val SKILLS = listOf(
     Skill("👣", R.string.skill_steps, Routes.STEPS, Palette.steps),
     Skill("🫀", R.string.skill_body, Routes.BODY, Palette.body),
     Skill("🗣️", R.string.skill_cards, Routes.CARDS, Palette.cards),
-    Skill("✨", R.string.coming_soon, null, Palette.soon),
+    Skill("🚪", R.string.skill_gate, Routes.GATE, Palette.gate),
 )
 
 @Composable

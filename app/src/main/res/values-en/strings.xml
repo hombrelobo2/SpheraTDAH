@@ -418,4 +418,25 @@
     <string name="breath_sigh">Physiological sigh</string>
     <string name="breath_start">Breathe</string>
     <string name="breath_stop">Stop guided breathing</string>
+    <string name="skill_gate">Slow door</string>
+    <string name="gate_hint">The apps that hook you, with a pause before they open: breathe and ask yourself what you are going there for.</string>
+    <string name="gate_empty">None yet. Add an app and Sphera will put a shortcut on your home screen that goes through the pause.</string>
+    <string name="gate_tip">Then remove the original icon from your home screen (press and hold, then Remove). The app stays installed; only the way in changes.</string>
+    <string name="gate_add">Add app</string>
+    <string name="gate_pin">To home</string>
+    <string name="gate_remove">Remove</string>
+    <string name="gate_breaths">Pause before opening</string>
+    <string name="gate_breaths_1">1 breath</string>
+    <string name="gate_breaths_2">2 breaths</string>
+    <string name="gate_breaths_3">3 breaths</string>
+    <string name="gate_pick_title">Choose an app</string>
+    <string name="gate_search">Search</string>
+    <string name="gate_no_pin">Your home screen does not allow adding shortcuts.</string>
+    <string name="gate_disabled">No longer behind the Slow door</string>
+    <string name="gate_opening">You are about to open %1$s</string>
+    <string name="gate_why">What are you going there for? (optional)</string>
+    <string name="gate_open">Open %1$s</string>
+    <string name="gate_not_now">Not now</string>
+    <string name="gate_missing">I can\'t find this app. It may have been uninstalled.</string>
+    <string name="gate_reminder">What you came for: %1$s</string>
 </resources>

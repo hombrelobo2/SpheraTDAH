@@ -437,4 +437,25 @@
     <string name="breath_sigh">Suspiro fisiológico</string>
     <string name="breath_start">Respirar</string>
     <string name="breath_stop">Dejar de respirar guiado</string>
+    <string name="skill_gate">Puerta lenta</string>
+    <string name="gate_hint">Las apps que te enganchan, con una pausa antes de abrirlas: respiras y te preguntas a qué vas.</string>
+    <string name="gate_empty">Aún no hay ninguna. Añade una app y Sphera pondrá en tu pantalla de inicio un acceso que pasa por la pausa.</string>
+    <string name="gate_tip">Luego quita el icono original de la pantalla de inicio (mantenlo pulsado y elige Quitar). La app sigue instalada; solo cambia por dónde entras.</string>
+    <string name="gate_add">Añadir app</string>
+    <string name="gate_pin">Al inicio</string>
+    <string name="gate_remove">Quitar</string>
+    <string name="gate_breaths">Pausa antes de abrir</string>
+    <string name="gate_breaths_1">1 respiración</string>
+    <string name="gate_breaths_2">2 respiraciones</string>
+    <string name="gate_breaths_3">3 respiraciones</string>
+    <string name="gate_pick_title">Elige una app</string>
+    <string name="gate_search">Buscar</string>
+    <string name="gate_no_pin">Tu pantalla de inicio no deja añadir accesos directos.</string>
+    <string name="gate_disabled">Ya no está en la Puerta lenta</string>
+    <string name="gate_opening">Vas a abrir %1$s</string>
+    <string name="gate_why">¿A qué vas? (opcional)</string>
+    <string name="gate_open">Abrir %1$s</string>
+    <string name="gate_not_now">Mejor no</string>
+    <string name="gate_missing">No encuentro esta app. Puede que se haya desinstalado.</string>
+    <string name="gate_reminder">A lo que ibas: %1$s</string>
 </resources>
