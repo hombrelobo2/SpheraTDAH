@@ -30,3 +30,7 @@ Los textos están en `app/src/main/res/values/strings.xml` (español) y `values-
 - Mensajes que envías desde Sphera, y el botón "Ya he hablado con esta persona".
 
 Todos los datos se guardan solo en el móvil.
+
+## Licencia
+
+Sphera es software libre bajo la [GPL-3.0](LICENSE). El mezclador ambiental del Santuario usa código e iconos de [Blankee](https://github.com/itsPronay/blankee) (GPL-3.0); los sonidos tienen sus propias licencias, detalladas en [SOUNDS_LICENSING.md](SOUNDS_LICENSING.md).

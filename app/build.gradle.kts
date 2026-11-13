@@ -16,8 +16,8 @@ android {
         minSdk = 26
         targetSdk = 36
         // Versión: subir versionCode SIEMPRE (+1) y versionName según el cambio.
-        versionCode = 21
-        versionName = "0.0.21-alpha"
+        versionCode = 22
+        versionName = "0.0.22-alpha"
     }
 
     // La clave de firma no está en el repo: GitHub Actions la saca de los Secrets.
@@ -71,6 +71,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
     implementation("androidx.navigation:navigation-compose:2.9.0")
+    implementation("androidx.media3:media3-exoplayer:1.6.1")
     implementation("androidx.room:room-runtime:2.7.2")
     implementation("androidx.room:room-ktx:2.7.2")
     ksp("androidx.room:room-compiler:2.7.2")

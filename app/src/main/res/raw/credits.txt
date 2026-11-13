@@ -1,0 +1,43 @@
+Sphera
+Software libre bajo la licencia GNU GPL versión 3 (GPL-3.0).
+Puedes usarlo, estudiarlo, compartirlo y modificarlo; las versiones modificadas deben seguir siendo GPL-3.0.
+Texto completo: https://www.gnu.org/licenses/gpl-3.0.html
+
+Mezclador ambiental del Santuario
+El motor de reproducción y los iconos de los sonidos proceden de Blankee, de Pronay Sarker (GPL-3.0):
+https://github.com/itsPronay/blankee
+Algunos iconos se basan en Material Icons de Google (Apache 2.0).
+
+Sonidos del mezclador
+Grabaciones preparadas en bucle por el proyecto Blankie (https://blankie.rest/credits) a partir de la selección de Blanket.
+Cada sonido mantiene su propia licencia:
+• Rain: «rain ambience (https://freesound.org/s/524605/)», de alex36917. Licencia: CC BY 4.0.
+• Storm: «Infinite Storm.wav (https://freesound.org/s/41739)», de Digifish music. Licencia: CC BY 4.0.
+• Wind: «Wind blowing in a field in Texas, USA (https://freesound.org/s/217506/)», de felix.blume. Licencia: CC0 1.0.
+• Waves: «oceanwavescrushing.wav (https://freesound.org/s/48412/)», de Luftrum. Licencia: CC BY 4.0.
+• Stream: «stream2.wav (https://freesound.org/s/333987/)», de gluckose. Licencia: CC0 1.0.
+• Birds: «WoodThrushinMorningShawneeForestMay272012.wav (https://freesound.org/s/156826/)», de kvgarlic. Licencia: CC0 1.0.
+• Summer night: «Crickets Chirping At Night (https://soundbible.com/2083-Crickets-Chirping-At-Night.html)», de Lisa Redfern. Licencia: Public Domain.
+• Train: «Trains of the Yamanote Line (https://freesound.org/s/259988/)», de SDLx. Licencia: CC BY 3.0.
+• Boat: «Ambience_Sea_Boat_Night_Ropes_4.wav (https://freesound.org/s/439365/)», de Falcet. Licencia: CC0 1.0.
+• City: «NYC_street leve02l.wav (https://freesound.org/s/44796/)», de gezortenplotz. Licencia: CC BY 3.0.
+• Coffee shop: «Restaurant Ambiance (https://soundbible.com/1664-Restaurant-Ambiance.html)», de stephan. Licencia: Public Domain.
+• Fireplace: «Woodstove (https://www.nps.gov/media/video/view.htm?id=1E69FA23-BC88-460E-8EFD-8D3BA8B06C53)», de NPS & MSU Acoustic Atlas. Licencia: Public Domain.
+• Pink noise: «Pink Noise (Stereo) (https://blankie.rest/credits)», de Blankie. Licencia: CC0 1.0.
+• White noise: «White Noise (Stereo) (https://blankie.rest/credits)», de Blankie. Licencia: CC0 1.0.
+• Brown noise: «Brown Noise (Stereo) (https://blankie.rest/credits)», de Blankie. Licencia: CC0 1.0.
+• Green noise: «Green Noise (Stereo) (https://blankie.rest/credits)», de Blankie. Licencia: CC0 1.0.
+• Ambient synth: «Couple' Morning.wav (https://freesound.org/s/742808/)», de ChristmasKrumble666. Licencia: CC0 1.0.
+• Gentle guitar: «acoustic guitar in open D (https://freesound.org/s/653928/)», de yunclas. Licencia: CC0 1.0.
+• Fan: «Air Conditioner Fan Hum.wav (https://freesound.org/s/515859/)», de LilMati. Licencia: CC0 1.0.
+• Lo-fi beats: «Laundry On The Wire (https://freemusicarchive.org/music/holiznacc0/lazy-summer-lofi-1/laundry-on-the-wiremp3/)», de Holizna. Licencia: CC0 1.0.
+• Forest: «Wind_pine.wav (https://freesound.org/s/202989/)», de sinewave1kHz. Licencia: CC0 1.0.
+• Airplane: «Interior airplane.WAV (https://freesound.org/s/133496/)», de ikbenraar. Licencia: CC0 1.0.
+• Laundry room: «Laundry Room Ambience.wav (https://freesound.org/s/411914/)», de moviebuffgavin. Licencia: CC0 1.0.
+• Warm piano: «Sleepy Upright Piano Seamless Loop (https://freesound.org/people/blankie.rest/sounds/859607/)», de Cody Bromley (for Blankie). Licencia: CC0 1.0.
+
+Sonidos incluidos de Sphera
+Ruido marrón, rosa, blanco y olas: generados para Sphera, misma licencia que la app.
+
+Tipografía
+Atkinson Hyperlegible, de Braille Institute of America. SIL Open Font License 1.1.

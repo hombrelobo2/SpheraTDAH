@@ -41,6 +41,7 @@ object Routes {
     const val HOME = "home"
     const val SOCIAL = "social"
     const val SETTINGS = "settings"
+    const val CREDITS = "credits"
     const val SANCTUARY = "sanctuary"
     const val LANDING = "landing"
     const val COMM_CARD = "comm_card"
@@ -113,7 +114,8 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
 
     NavHost(nav, startDestination = startRoute) {
         composable(Routes.HOME) { HomeScreen(onOpen = { nav.navigate(it) }) }
-        composable(Routes.SETTINGS) { SettingsScreen(onBack = { back() }) }
+        composable(Routes.SETTINGS) { SettingsScreen(onBack = { back() }, onCredits = { nav.navigate(Routes.CREDITS) }) }
+        composable(Routes.CREDITS) { CreditsScreen(onBack = { back() }) }
         composable(Routes.SOCIAL) {
             ModuleTheme(Palette.social) { UniverseScreen(onBack = { back() }, openContact = contactId) }
         }

@@ -25,7 +25,8 @@ object SensoryMode {
     fun brightnessSettings(ctx: Context) =
         Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + ctx.packageName))
 
-    fun enter(ctx: Context) {
+    /** [dim]: bajar el brillo del sistema (no se hace con el mezclador, que hay que ver). */
+    fun enter(ctx: Context, dim: Boolean = true) {
         val p = prefs(ctx)
         val nm = ctx.getSystemService(NotificationManager::class.java)
         val cr = ctx.contentResolver
@@ -56,7 +57,7 @@ object SensoryMode {
             )
             nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
         }
-        if (canChangeBrightness(ctx)) {
+        if (dim && canChangeBrightness(ctx)) {
             Settings.System.putInt(cr, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
             Settings.System.putInt(cr, Settings.System.SCREEN_BRIGHTNESS, 1)
         }

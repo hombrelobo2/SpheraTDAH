@@ -81,7 +81,7 @@ private val HOURS = (0..23).map { "%02d:00".format(it) }
 private val LANGUAGES = listOf("" to R.string.lang_system, "es" to R.string.lang_es, "en" to R.string.lang_en)
 
 @Composable
-fun SettingsScreen(onBack: () -> Unit) {
+fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
     val ctx = LocalContext.current
     // Se incrementa al volver a la pantalla para releer los permisos.
     var refresh by remember { mutableIntStateOf(0) }
@@ -174,6 +174,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                         Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + ctx.packageName)),
                     )
                 }
+                TextButton(onClick = onCredits) { Text(stringResource(R.string.credits_title)) }
             }
 
             Section("🪐 " + stringResource(R.string.skill_social), Palette.social.copy(alpha = 0.12f).compositeOver(Palette.card)) {
@@ -260,10 +261,10 @@ fun SettingsScreen(onBack: () -> Unit) {
 
                 HorizontalDivider()
                 Text(stringResource(R.string.sanctuary_sound), style = MaterialTheme.typography.titleMedium)
-                val soundKeys = SanctuarySound.BUILT_IN.map { it.first } +
+                val soundKeys = listOf(SanctuarySound.MIXER) + SanctuarySound.BUILT_IN.map { it.first } +
                     (if (customSound != null) listOf(SanctuarySound.CUSTOM) else emptyList()) +
                     (if (folderSound != null) listOf(SanctuarySound.FOLDER) else emptyList())
-                val soundLabels = SanctuarySound.BUILT_IN.map { stringResource(it.second) } +
+                val soundLabels = listOf(stringResource(R.string.sound_mixer)) + SanctuarySound.BUILT_IN.map { stringResource(it.second) } +
                     (customSound?.let { listOf(stringResource(R.string.sound_custom, fileName(ctx, it))) } ?: emptyList()) +
                     (folderSound?.let {
                         listOf(stringResource(R.string.sound_folder, fileName(ctx, SanctuarySound.folderDocument(it))))
@@ -280,6 +281,9 @@ fun SettingsScreen(onBack: () -> Unit) {
                     OutlinedButton(onClick = { folderPicker.launch(null) }, modifier = Modifier.weight(1f)) {
                         Text(stringResource(R.string.sound_pick_folder))
                     }
+                }
+                if (soundChoice == SanctuarySound.MIXER) {
+                    Text(stringResource(R.string.sound_mixer_desc), style = MaterialTheme.typography.bodySmall)
                 }
                 if (soundChoice == SanctuarySound.FOLDER) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

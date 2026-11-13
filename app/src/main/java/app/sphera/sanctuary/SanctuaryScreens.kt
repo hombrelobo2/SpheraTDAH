@@ -72,6 +72,7 @@ fun Context.findActivity(): Activity? = when (this) {
 object SanctuarySound {
     const val CUSTOM = "custom"
     const val FOLDER = "folder"
+    const val MIXER = "mixer"
 
     /** Ruidos incluidos: clave guardada, nombre y archivo. */
     val BUILT_IN = listOf(
@@ -144,6 +145,7 @@ object SanctuarySound {
         val uri = custom(ctx)
         val tree = folder(ctx)
         when (val choice = choice(ctx)) {
+            MIXER -> AmbientPlayer(ctx).run { playAll(Ambient.loadMix(ctx)); Playback { release() } }
             CUSTOM -> uri?.let { loop(mediaPlayer(ctx, it)) } ?: builtIn(ctx, "brown")
             FOLDER -> tree?.let { t -> tracks(ctx, t).takeIf { it.isNotEmpty() }?.let { FolderPlayback(ctx, it, shuffle(ctx)) } }
                 ?: builtIn(ctx, "brown")
@@ -204,17 +206,19 @@ object SanctuarySound {
 @Composable
 fun SanctuaryScreen(onExit: () -> Unit) {
     val ctx = LocalContext.current
+    // Con el mezclador ambiental se ve e interactúa: brillo normal en vez del mínimo.
+    val mixer = remember { SanctuarySound.choice(ctx) == SanctuarySound.MIXER }
     BackHandler { } // el botón atrás no saca del Santuario: evita salidas accidentales
 
-    LaunchedEffect(Unit) { SensoryMode.enter(ctx) }
+    LaunchedEffect(Unit) { SensoryMode.enter(ctx, dim = !mixer) }
     DisposableEffect(Unit) {
         // Brillo de esta ventana al mínimo y pantalla siempre encendida: funciona sin permisos especiales.
         val window = ctx.findActivity()?.window
         window?.let {
-            it.attributes = it.attributes.apply { screenBrightness = 0.01f }
+            if (!mixer) it.attributes = it.attributes.apply { screenBrightness = 0.01f }
             it.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
-        val player = SanctuarySound.start(ctx)
+        val player = if (mixer) null else SanctuarySound.start(ctx)
         onDispose {
             player?.release()
             window?.let {
@@ -222,6 +226,11 @@ fun SanctuaryScreen(onExit: () -> Unit) {
                 it.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
         }
+    }
+
+    if (mixer) {
+        MixerSanctuary(onExit)
+        return
     }
 
     // Salida: tres toques seguidos en cualquier sitio, o el botón "Salir".
@@ -244,54 +253,60 @@ fun SanctuaryScreen(onExit: () -> Unit) {
             Modifier.align(Alignment.Center).padding(32.dp),
             color = Color(0xFF8A8A8A), fontSize = 40.sp, lineHeight = 50.sp, textAlign = TextAlign.Center,
         )
-        // Halo tenue que respira y una luz que recorre el borde despacio, como el lector de huella.
-        val transition = rememberInfiniteTransition(label = "glow")
-        val glow = transition.animateFloat(
-            0.15f, 0.4f, infiniteRepeatable(tween(4_000, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "alpha",
-        )
-        val angle = transition.animateFloat(
-            0f, 360f, infiniteRepeatable(tween(6_000, easing = LinearEasing)), label = "angle",
-        )
-        OutlinedButton(
-            onClick = onExit,
-            modifier = Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp).fillMaxWidth().height(72.dp)
-                .drawBehind {
-                    drawIntoCanvas { canvas ->
-                        val r = size.height / 2
-                        val cx = size.width / 2
-                        val cy = size.height / 2
-                        // Halo de fondo
-                        val halo = Paint().asFrameworkPaint().apply {
-                            isAntiAlias = true
-                            style = android.graphics.Paint.Style.STROKE
-                            strokeWidth = 6.dp.toPx()
-                            color = android.graphics.Color.argb((glow.value * 255).toInt(), 190, 205, 255)
-                            maskFilter = BlurMaskFilter(14.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
-                        }
-                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, halo)
-                        // Luz que gira: un degradado circular con un único destello, rotado según el ángulo
-                        val light = 0xFFD6E0FF.toInt()
-                        val clear = 0x00D6E0FF
-                        val sweep = SweepGradient(cx, cy, intArrayOf(clear, clear, light, clear), floatArrayOf(0f, 0.7f, 0.88f, 1f))
-                            .apply { setLocalMatrix(Matrix().apply { setRotate(angle.value, cx, cy) }) }
-                        val comet = Paint().asFrameworkPaint().apply {
-                            isAntiAlias = true
-                            style = android.graphics.Paint.Style.STROKE
-                            shader = sweep
-                        }
-                        comet.strokeWidth = 8.dp.toPx()
-                        comet.maskFilter = BlurMaskFilter(10.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
-                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, comet)
-                        comet.strokeWidth = 2.dp.toPx()
-                        comet.maskFilter = null
-                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, comet)
-                    }
-                },
-            // Bien visible aunque discreto: mismo gris que el texto central, con borde marcado.
-            border = BorderStroke(2.dp, Color(0xFF6A6A6A)),
-            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFF141414), contentColor = Color(0xFFB0B0B0)),
-        ) { Text(stringResource(R.string.sanctuary_exit), fontSize = 22.sp, lineHeight = 28.sp) }
+        ExitButton(onExit, Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp))
     }
+}
+
+/** Botón "Salir" con halo que respira y una luz que recorre el borde. */
+@Composable
+fun ExitButton(onExit: () -> Unit, modifier: Modifier) {
+    // Halo tenue que respira y una luz que recorre el borde despacio, como el lector de huella.
+    val transition = rememberInfiniteTransition(label = "glow")
+    val glow = transition.animateFloat(
+        0.15f, 0.4f, infiniteRepeatable(tween(4_000, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "alpha",
+    )
+    val angle = transition.animateFloat(
+        0f, 360f, infiniteRepeatable(tween(6_000, easing = LinearEasing)), label = "angle",
+    )
+    OutlinedButton(
+        onClick = onExit,
+        modifier = modifier.fillMaxWidth().height(72.dp)
+            .drawBehind {
+                drawIntoCanvas { canvas ->
+                    val r = size.height / 2
+                    val cx = size.width / 2
+                    val cy = size.height / 2
+                    // Halo de fondo
+                    val halo = Paint().asFrameworkPaint().apply {
+                        isAntiAlias = true
+                        style = android.graphics.Paint.Style.STROKE
+                        strokeWidth = 6.dp.toPx()
+                        color = android.graphics.Color.argb((glow.value * 255).toInt(), 190, 205, 255)
+                        maskFilter = BlurMaskFilter(14.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                    }
+                    canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, halo)
+                    // Luz que gira: un degradado circular con un único destello, rotado según el ángulo
+                    val light = 0xFFD6E0FF.toInt()
+                    val clear = 0x00D6E0FF
+                    val sweep = SweepGradient(cx, cy, intArrayOf(clear, clear, light, clear), floatArrayOf(0f, 0.7f, 0.88f, 1f))
+                        .apply { setLocalMatrix(Matrix().apply { setRotate(angle.value, cx, cy) }) }
+                    val comet = Paint().asFrameworkPaint().apply {
+                        isAntiAlias = true
+                        style = android.graphics.Paint.Style.STROKE
+                        shader = sweep
+                    }
+                    comet.strokeWidth = 8.dp.toPx()
+                    comet.maskFilter = BlurMaskFilter(10.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                    canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, comet)
+                    comet.strokeWidth = 2.dp.toPx()
+                    comet.maskFilter = null
+                    canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, comet)
+                }
+            },
+        // Bien visible aunque discreto: mismo gris que el texto central, con borde marcado.
+        border = BorderStroke(2.dp, Color(0xFF6A6A6A)),
+        colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFF141414), contentColor = Color(0xFFB0B0B0)),
+    ) { Text(stringResource(R.string.sanctuary_exit), fontSize = 22.sp, lineHeight = 28.sp) }
 }
 
 /** Descompresión tras el Santuario: tres botones que llenan la pantalla. */

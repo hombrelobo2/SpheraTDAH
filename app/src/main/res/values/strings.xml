@@ -261,4 +261,37 @@
     <string name="sound_folder">Mi carpeta: %s</string>
     <string name="sound_pick_folder">Elegir carpeta</string>
     <string name="sound_shuffle">Orden aleatorio</string>
+    <!-- 0.0.22: mezclador ambiental (nombres de sonidos de Blankee) y créditos -->
+    <string name="sound_mixer">Mezclador ambiental</string>
+    <string name="sound_mixer_desc">En el Santuario verás una cuadrícula de sonidos: toca para activarlos, combínalos y ajusta el volumen de cada uno. Tu mezcla se guarda. La pantalla no se oscurece para que puedas usarla.</string>
+    <string name="credits_title">Licencias y créditos</string>
+    <string name="amb_group_nature">Naturaleza</string>
+    <string name="amb_group_travel">Viajes</string>
+    <string name="amb_group_indoors">Interiores</string>
+    <string name="amb_group_noise">Ruido</string>
+    <string name="amb_group_music">Música</string>
+    <string name="amb_rain">Lluvia</string>
+    <string name="amb_storm">Tormenta</string>
+    <string name="amb_wind">Viento</string>
+    <string name="amb_waves">Olas</string>
+    <string name="amb_stream">Arroyo</string>
+    <string name="amb_birds">Pájaros</string>
+    <string name="amb_summer_night">Noche de verano</string>
+    <string name="amb_forest">Bosque</string>
+    <string name="amb_train">Tren</string>
+    <string name="amb_boat">Barco</string>
+    <string name="amb_city">Ciudad</string>
+    <string name="amb_airplane">Avión</string>
+    <string name="amb_coffee_shop">Cafetería</string>
+    <string name="amb_fireplace">Chimenea</string>
+    <string name="amb_fan">Ventilador</string>
+    <string name="amb_laundry_room">Lavandería</string>
+    <string name="amb_pink_noise">Ruido rosa</string>
+    <string name="amb_white_noise">Ruido blanco</string>
+    <string name="amb_brown_noise">Ruido marrón</string>
+    <string name="amb_green_noise">Ruido verde</string>
+    <string name="amb_ambient_synth">Sintetizador</string>
+    <string name="amb_gentle_guitar">Guitarra suave</string>
+    <string name="amb_lofi_beats">Lo-fi</string>
+    <string name="amb_warm_piano">Piano cálido</string>
 </resources>
