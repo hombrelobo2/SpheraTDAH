@@ -161,9 +161,9 @@ fun BackBar(@StringRes title: Int, onBack: () -> Unit, actions: @Composable RowS
 
 /** Desplegable sencillo: muestra [options][selected] y devuelve el índice elegido. */
 @Composable
-fun Picker(options: List<String>, selected: Int, onSelect: (Int) -> Unit) {
+fun Picker(options: List<String>, selected: Int, modifier: Modifier = Modifier, onSelect: (Int) -> Unit) {
     var open by remember { mutableStateOf(false) }
-    Box {
+    Box(modifier) {
         OutlinedButton(onClick = { open = true }, modifier = Modifier.fillMaxWidth()) {
             Text(options.getOrElse(selected) { "" } + "  ▾")
         }

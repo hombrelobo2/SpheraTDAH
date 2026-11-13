@@ -508,4 +508,21 @@
         <item>¿Te vendría mejor estirarte un minuto?</item>
         <item>¿Puede esperar a que acabes lo que tienes entre manos?</item>
     </string-array>
+    <string name="settings_missing_title">Te falta por activar</string>
+    <string name="settings_missing_desc">Cuando estén todos, esta caja desaparece.</string>
+    <string name="settings_sum_general">%1$s · letra %2$s</string>
+    <string name="settings_sum_summary_on">Resumen a las %s</string>
+    <string name="settings_sum_summary_off">Sin resumen diario</string>
+    <string name="settings_sum_alerts_off">sin avisos</string>
+    <plurals name="settings_sum_alerts">
+        <item quantity="one">%d aviso</item>
+        <item quantity="other">%d avisos</item>
+    </plurals>
+    <string name="settings_sum_custom">Tu audio</string>
+    <string name="settings_sum_folder">Tu carpeta</string>
+    <string name="settings_messages_row">Mensajes para empezar (%d)</string>
+    <string name="sound_custom_option">Un audio del móvil…</string>
+    <string name="sound_folder_option">Una carpeta del móvil…</string>
+    <string name="sound_change_file">Cambiar audio</string>
+    <string name="sound_change_folder">Cambiar carpeta</string>
 </resources>

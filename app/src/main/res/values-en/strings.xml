@@ -489,4 +489,21 @@
         <item>Would a one-minute stretch suit you better?</item>
         <item>Can it wait until you finish what you\'re doing?</item>
     </string-array>
+    <string name="settings_missing_title">Still to turn on</string>
+    <string name="settings_missing_desc">Once they are all on, this box goes away.</string>
+    <string name="settings_sum_general">%1$s · %2$s text</string>
+    <string name="settings_sum_summary_on">Summary at %s</string>
+    <string name="settings_sum_summary_off">No daily summary</string>
+    <string name="settings_sum_alerts_off">no alerts</string>
+    <plurals name="settings_sum_alerts">
+        <item quantity="one">%d alert</item>
+        <item quantity="other">%d alerts</item>
+    </plurals>
+    <string name="settings_sum_custom">Your audio</string>
+    <string name="settings_sum_folder">Your folder</string>
+    <string name="settings_messages_row">Starter messages (%d)</string>
+    <string name="sound_custom_option">An audio file from your phone…</string>
+    <string name="sound_folder_option">A folder from your phone…</string>
+    <string name="sound_change_file">Change audio</string>
+    <string name="sound_change_folder">Change folder</string>
 </resources>
