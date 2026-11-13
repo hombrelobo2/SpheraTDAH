@@ -41,7 +41,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -224,23 +227,41 @@ fun SanctuaryScreen(onExit: () -> Unit) {
     }
 
     // Solo se sale con el botón "Salir": los toques en la pantalla no hacen nada.
-    val breath = remember { if (Breathing.enabled(ctx)) Breathing.pattern(ctx) else null }
+    val pattern = remember { Breathing.pattern(ctx) }
+    var breathing by remember { mutableStateOf(Breathing.enabled(ctx)) }
     Box(Modifier.fillMaxSize().background(Color.Black)) {
-        if (breath != null) {
+        if (breathing) {
             // Con respiración guiada: la frase arriba, más pequeña, y el círculo en el centro.
             CalmPhrase(
                 Modifier.align(Alignment.TopCenter).safeDrawingPadding().padding(32.dp),
                 fontSize = 22.sp, color = Color(0xFF7A7A7A),
             )
-            BreathingCircle(breath, Palette.sanctuary, Modifier.align(Alignment.Center))
+            BreathingCircle(pattern, Modifier.align(Alignment.Center))
         } else {
             CalmPhrase(
                 Modifier.align(Alignment.Center).padding(32.dp),
                 fontSize = 34.sp, color = Color(0xFF8A8A8A),
             )
         }
-        ExitButton(onExit, Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp))
+        Column(Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp)) {
+            BreathToggle(breathing) {
+                breathing = it
+                Breathing.setEnabled(ctx, it)
+            }
+            ExitButton(onExit, Modifier.padding(top = 12.dp))
+        }
     }
+}
+
+/** Botón tenue para encender o apagar la respiración guiada desde el propio Santuario. */
+@Composable
+fun BreathToggle(on: Boolean, modifier: Modifier = Modifier, onChange: (Boolean) -> Unit) {
+    OutlinedButton(
+        onClick = { onChange(!on) },
+        modifier = modifier.fillMaxWidth().height(56.dp),
+        border = BorderStroke(1.dp, Color(0xFF3A3A3A)),
+        colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent, contentColor = Color(0xFF8A8A8A)),
+    ) { Text(stringResource(if (on) R.string.breath_stop else R.string.breath_start), fontSize = 18.sp) }
 }
 
 /** Botón "Salir" con halo que respira y una luz que recorre el borde. */

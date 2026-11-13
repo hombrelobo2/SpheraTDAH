@@ -97,7 +97,6 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
     }
     val dndGranted = remember(refresh) { SensoryMode.canChangeDnd(ctx) }
     var phrasesOn by remember { mutableStateOf(CalmPhrases.enabled(ctx)) }
-    var breathOn by remember { mutableStateOf(Breathing.enabled(ctx)) }
     var breathKey by remember { mutableStateOf(Breathing.pattern(ctx).key) }
     var soundChoice by remember { mutableStateOf(SanctuarySound.choice(ctx)) }
     var customSound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
@@ -277,17 +276,9 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
                         CalmPhrases.setEnabled(ctx, it)
                     })
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.breath_title), style = MaterialTheme.typography.titleMedium)
-                        Text(stringResource(R.string.breath_desc), style = MaterialTheme.typography.bodySmall)
-                    }
-                    Switch(checked = breathOn, onCheckedChange = {
-                        breathOn = it
-                        Breathing.setEnabled(ctx, it)
-                    })
-                }
-                if (breathOn) {
+                Text(stringResource(R.string.breath_title), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.breath_desc), style = MaterialTheme.typography.bodySmall)
+                run {
                     Picker(
                         Breathing.PATTERNS.map { stringResource(it.name) },
                         Breathing.PATTERNS.indexOfFirst { it.key == breathKey }.coerceAtLeast(0),

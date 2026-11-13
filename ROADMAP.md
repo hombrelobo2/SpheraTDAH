@@ -2,10 +2,6 @@
 
 ## Próximas mejoras
 
-- Respiración guiada:
-  - Colores distintos del círculo al inhalar y al exhalar, y la palabra de la fase más grande.
-  - Que también se pueda usar con el mezclador ambiental (ahora no sale).
-  - Decidirlo al entrar al Santuario en vez de en Ajustes (propuesta: botón tenue "Respirar" en el propio Santuario que la enciende y apaga, sin preguntas que frenen la entrada).
 - "Puerta lenta" (idea, pendiente de decidir): accesos directos de Sphera a apps que enganchan, con pausa de respiración y "¿A qué vas?" antes de abrirlas; sin accesibilidad. Inspirada en Defang (GPL-3.0).
 
 ## Para la beta

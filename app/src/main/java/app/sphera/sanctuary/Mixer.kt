@@ -21,7 +21,10 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +57,13 @@ fun MixerSanctuary(onExit: () -> Unit) {
     fun save() = Ambient.saveMix(ctx, mix.toMap())
 
     Column(Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().padding(16.dp)) {
-        CalmPhrase(Modifier.fillMaxWidth().padding(bottom = 8.dp), fontSize = 19.sp, color = Palette.textSoft, center = false)
+        val pattern = remember { Breathing.pattern(ctx) }
+        var breathing by remember { mutableStateOf(Breathing.enabled(ctx)) }
+        if (breathing) {
+            BreathingCircle(pattern, Modifier.fillMaxWidth().padding(bottom = 8.dp), diameter = 120.dp, labelSize = 24.sp)
+        } else {
+            CalmPhrase(Modifier.fillMaxWidth().padding(bottom = 8.dp), fontSize = 19.sp, color = Palette.textSoft, center = false)
+        }
         LazyVerticalGrid(
             GridCells.Fixed(3), Modifier.weight(1f),
             horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -88,6 +97,10 @@ fun MixerSanctuary(onExit: () -> Unit) {
                     )
                 }
             }
+        }
+        BreathToggle(breathing, Modifier.padding(top = 12.dp)) {
+            breathing = it
+            Breathing.setEnabled(ctx, it)
         }
         ExitButton(onExit, Modifier.padding(top = 12.dp))
     }

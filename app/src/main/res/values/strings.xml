@@ -425,7 +425,7 @@
     </string-array>
     <!-- 0.0.29: respiración guiada (patrones adaptados de Brethap) -->
     <string name="breath_title">Respiración guiada</string>
-    <string name="breath_desc">Un círculo que se hincha y se deshincha para seguirlo con la respiración. Sin números ni cuenta atrás. No se muestra con el mezclador.</string>
+    <string name="breath_desc">Se enciende y apaga con el botón Respirar del Santuario. Aquí eliges el ritmo.</string>
     <string name="breath_in">Inhala</string>
     <string name="breath_in_more">Un poco más</string>
     <string name="breath_hold">Mantén</string>
@@ -435,4 +435,6 @@
     <string name="breath_box">Caja (4 · 4 · 4 · 4)</string>
     <string name="breath_478">4-7-8</string>
     <string name="breath_sigh">Suspiro fisiológico</string>
+    <string name="breath_start">Respirar</string>
+    <string name="breath_stop">Dejar de respirar guiado</string>
 </resources>

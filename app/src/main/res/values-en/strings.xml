@@ -406,7 +406,7 @@
         <item>Water, please.|</item>
     </string-array>
     <string name="breath_title">Guided breathing</string>
-    <string name="breath_desc">A circle that grows and shrinks so you can follow it with your breath. No numbers or countdown. Not shown with the mixer.</string>
+    <string name="breath_desc">Turn it on and off with the Breathe button in the Sanctuary. Choose the pace here.</string>
     <string name="breath_in">Breathe in</string>
     <string name="breath_in_more">A little more</string>
     <string name="breath_hold">Hold</string>
@@ -416,4 +416,6 @@
     <string name="breath_box">Box (4 · 4 · 4 · 4)</string>
     <string name="breath_478">4-7-8</string>
     <string name="breath_sigh">Physiological sigh</string>
+    <string name="breath_start">Breathe</string>
+    <string name="breath_stop">Stop guided breathing</string>
 </resources>

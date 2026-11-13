@@ -7,6 +7,7 @@ package app.sphera.sanctuary
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,6 +31,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.R
@@ -61,36 +65,44 @@ object Breathing {
     )
 
     private fun prefs(ctx: Context) = ctx.getSharedPreferences("sanctuary", Context.MODE_PRIVATE)
+    /** Se enciende y apaga con el botón "Respirar" del Santuario; la próxima vez se entra como se dejó. */
     fun enabled(ctx: Context) = prefs(ctx).getBoolean("breath", false)
     fun setEnabled(ctx: Context, on: Boolean) = prefs(ctx).edit().putBoolean("breath", on).apply()
     fun pattern(ctx: Context) = PATTERNS.firstOrNull { it.key == prefs(ctx).getString("breath_pattern", null) } ?: PATTERNS.first()
     fun setPattern(ctx: Context, key: String) = prefs(ctx).edit().putString("breath_pattern", key).apply()
 }
 
+// Colores distintos para tomar y soltar aire; al mantener se queda el que había.
+private val INHALE_COLOR = Color(0xFF7FC8D9)
+private val EXHALE_COLOR = Color(0xFFB3A6E3)
+
 // Curva suave de subida y bajada, como una respiración (sin arranques ni frenazos).
 private val BREATH_EASING = CubicBezierEasing(0.37f, 0f, 0.63f, 1f)
 
 /** Círculo que se hincha y se deshincha con la palabra de la fase debajo. Sin números ni cuenta atrás. */
 @Composable
-fun BreathingCircle(pattern: BreathPattern, color: Color, modifier: Modifier = Modifier) {
+fun BreathingCircle(pattern: BreathPattern, modifier: Modifier = Modifier, diameter: Dp = 240.dp, labelSize: TextUnit = 36.sp) {
     val size = remember { Animatable(SMALL) }
     var phase by remember { mutableIntStateOf(0) }
+    var tint by remember { mutableStateOf(INHALE_COLOR) }
+    val color by animateColorAsState(tint, tween(pattern.phases[phase].ms), label = "breathColor")
     LaunchedEffect(pattern) {
         while (true) {
             pattern.phases.forEachIndexed { i, p ->
                 phase = i
                 val target = p.scale
+                if (target != null) tint = if (target > size.value) INHALE_COLOR else EXHALE_COLOR
                 if (target == null) delay(p.ms.toLong()) else size.animateTo(target, tween(p.ms, easing = BREATH_EASING))
             }
         }
     }
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(28.dp)) {
-        Box(Modifier.size(240.dp), contentAlignment = Alignment.Center) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(diameter / 8)) {
+        Box(Modifier.size(diameter), contentAlignment = Alignment.Center) {
             Box(
-                Modifier.size(240.dp).scale(size.value)
+                Modifier.size(diameter).scale(size.value)
                     .background(Brush.radialGradient(listOf(color.copy(alpha = 0.55f), color.copy(alpha = 0.12f))), CircleShape),
             )
         }
-        Text(stringResource(pattern.phases[phase].label), color = Color(0xFF9A9A9A), fontSize = 26.sp, lineHeight = 32.sp)
+        Text(stringResource(pattern.phases[phase].label), color = color, fontSize = labelSize, lineHeight = labelSize * 1.25f)
     }
 }
