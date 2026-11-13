@@ -15,6 +15,7 @@
         <item quantity="one">%d day since your last contact</item>
         <item quantity="other">%d days since your last contact</item>
     </plurals>
+    <string name="planet_days">%d d</string>
     <string name="send_via">Message via</string>
     <string name="ch_whatsapp">WhatsApp</string>
     <string name="ch_whatsapp_business">WhatsApp Business</string>

@@ -87,8 +87,12 @@ private val FREQUENCIES = listOf(
     7 to R.string.freq_weekly, 14 to R.string.freq_biweekly,
     30 to R.string.freq_monthly, 90 to R.string.freq_quarterly,
 )
-private val NEAR = Color(0xFF66BB6A)
-private val FAR = Color(0xFF78909C)
+private val NEAR = Color(0xFF43A047)
+private val MID = Color(0xFFFFB300)
+private val FAR = Color(0xFFE53935)
+
+/** Verde al lado del sol, ámbar a medio camino, rojo en el borde. */
+private fun planetColor(d: Float) = if (d < 0.5f) lerp(NEAR, MID, d * 2) else lerp(MID, FAR, (d - 0.5f) * 2)
 
 fun daysSince(c: Contact, now: Long) = ((now - c.lastContact) / DAY).toInt().coerceAtLeast(0)
 
@@ -159,12 +163,12 @@ private fun Space(contacts: List<Contact>, now: Long, modifier: Modifier, onTap:
         val density = LocalDensity.current
         val w = constraints.maxWidth.toFloat()
         val h = constraints.maxHeight.toFloat()
-        val planet = with(density) { 56.dp.toPx() }
+        val planet = with(density) { 48.dp.toPx() }
         val labelHalf = with(density) { 40.dp.toPx() }
-        val minR = with(density) { 72.dp.toPx() }
+        val minR = with(density) { 60.dp.toPx() } // justo fuera del sol
         // Órbitas elípticas para aprovechar toda la pantalla.
         fun radii(d: Float) = Pair(
-            minR + d * (w / 2 - planet - minR).coerceAtLeast(0f),
+            minR + d * (w / 2 - planet / 2 - minR).coerceAtLeast(0f),
             minR + d * (h / 2 - planet - minR).coerceAtLeast(0f),
         )
 
@@ -179,7 +183,7 @@ private fun Space(contacts: List<Contact>, now: Long, modifier: Modifier, onTap:
         }
 
         Box(
-            Modifier.align(Alignment.Center).size(80.dp).background(
+            Modifier.align(Alignment.Center).size(64.dp).background(
                 Brush.radialGradient(listOf(Color(0xFFFFF59D), Color(0xFFFFB300), Color(0xFFFF6F00))), CircleShape,
             ),
             contentAlignment = Alignment.Center,
@@ -201,7 +205,7 @@ private fun Space(contacts: List<Contact>, now: Long, modifier: Modifier, onTap:
             val laps = 1 + ((1 - d) * 3).roundToInt() // más cerca = más rápido; entero para que no salte al reiniciar
             val phase = i * 2.39996f // ángulo áureo: reparte los planetas sin que se amontonen
             Planet(
-                c, d,
+                c, d, daysSince(c, now),
                 Modifier.offset {
                     val a = phase + time.value * 2 * PI.toFloat() * laps
                     IntOffset((w / 2 + rx * cos(a) - labelHalf).roundToInt(), (h / 2 + ry * sin(a) - planet / 2).roundToInt())
@@ -212,15 +216,15 @@ private fun Space(contacts: List<Contact>, now: Long, modifier: Modifier, onTap:
 }
 
 @Composable
-private fun Planet(c: Contact, d: Float, modifier: Modifier, onClick: () -> Unit) {
+private fun Planet(c: Contact, d: Float, days: Int, modifier: Modifier, onClick: () -> Unit) {
     val photo = remember(c.photo) { c.photo?.let { BitmapFactory.decodeFile(it)?.asImageBitmap() } }
     Column(
         modifier.width(80.dp).clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            Modifier.size(56.dp).clip(CircleShape).background(lerp(NEAR, FAR, d))
-                .border(2.dp, if (d >= 1f) Color(0xFFEF5350) else Color.White.copy(alpha = 0.3f), CircleShape),
+            Modifier.size(48.dp).clip(CircleShape).background(planetColor(d))
+                .border(3.dp, planetColor(d), CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             if (photo != null) {
@@ -231,6 +235,7 @@ private fun Planet(c: Contact, d: Float, modifier: Modifier, onClick: () -> Unit
             }
         }
         Text(c.name.substringBefore(' '), color = Color.White, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(stringResource(R.string.planet_days, days), color = planetColor(d), fontSize = 11.sp, fontWeight = FontWeight.Bold)
     }
 }
 

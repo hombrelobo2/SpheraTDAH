@@ -18,6 +18,7 @@
         <item quantity="many">Han pasado %d días desde el último contacto</item>
         <item quantity="other">Han pasado %d días desde el último contacto</item>
     </plurals>
+    <string name="planet_days">%d d</string>
     <string name="send_via">Escribir por</string>
     <string name="ch_whatsapp">WhatsApp</string>
     <string name="ch_whatsapp_business">WhatsApp Business</string>
