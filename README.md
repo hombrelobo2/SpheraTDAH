@@ -13,6 +13,10 @@ La pantalla principal tiene 8 habilidades:
 - **Tarjetas**: mensajes a pantalla completa para cuando no puedes hablar.
 - **Puerta lenta**: accesos a las apps que enganchan con una pausa de respiración y una pregunta para pensar antes de abrirlas.
 
+En Ajustes → Pantalla de inicio puedes ordenar las casillas y ocultar las que no uses.
+
+**Widgets**: Accesos (hasta 4, a elegir), Punto de Retorno (muestra lo que apuntaste) y Santuario (botón de pánico 1×1).
+
 ## Instalar
 
 Cada cambio en `main` compila automáticamente un APK y lo publica en **Releases** (`sphera_<versión>.apk`). Descárgalo en el móvil e instálalo.

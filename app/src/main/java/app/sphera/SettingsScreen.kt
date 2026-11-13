@@ -61,6 +61,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
@@ -156,6 +157,7 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit, onMessages: () -> 
         ) {
             if (missing.isNotEmpty()) PermissionsCard(missing)
             GeneralSection(open == "general") { toggle("general") }
+            HomeSection(open == "home") { toggle("home") }
             SocialSection(open == "social", refresh, onMessages) { toggle("social") }
             SanctuarySection(open == "sanctuary") { toggle("sanctuary") }
             GateSection(open == "gate") { toggle("gate") }
@@ -294,6 +296,42 @@ private fun GeneralSection(expanded: Boolean, onToggle: () -> Unit) {
             }
         }
         Text(sizeLabel, color = Palette.textFaint, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+    }
+}
+
+/** Orden de las casillas del inicio (flechas) y cuáles se ven (interruptor). */
+@Composable
+private fun HomeSection(expanded: Boolean, onToggle: () -> Unit) {
+    val ctx = LocalContext.current
+    val all = HomeLayout.ordered()
+    val visible = HomeLayout.visible().size
+    val summary = if (visible == all.size) stringResource(R.string.home_sum_all, all.size)
+        else stringResource(R.string.home_sum_some, visible, all.size)
+    ModuleSection("🏠", stringResource(R.string.home_title), summary, Palette.accent, expanded, onToggle) {
+        Text(stringResource(R.string.home_desc), color = Palette.textFaint, fontSize = 13.sp, lineHeight = 18.sp)
+        all.forEachIndexed { i, skill ->
+            val shown = skill.key !in HomeLayout.hidden
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(skill.emoji, fontSize = 22.sp, modifier = Modifier.alpha(if (shown) 1f else 0.35f))
+                Text(
+                    stringResource(skill.label), color = if (shown) Palette.text else Palette.textFaint, fontSize = 16.sp,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(start = 10.dp),
+                )
+                IconButton(onClick = { HomeLayout.move(ctx, skill.key, -1) }, enabled = i > 0) {
+                    Text("↑", fontSize = 20.sp, color = if (i > 0) Palette.textSoft else Palette.line)
+                }
+                IconButton(onClick = { HomeLayout.move(ctx, skill.key, 1) }, enabled = i < all.lastIndex) {
+                    Text("↓", fontSize = 20.sp, color = if (i < all.lastIndex) Palette.textSoft else Palette.line)
+                }
+                Switch(
+                    checked = shown, enabled = !shown || visible > 1,
+                    onCheckedChange = { HomeLayout.setVisible(ctx, skill.key, it) },
+                )
+            }
+        }
+        if ("sanctuary" in HomeLayout.hidden) {
+            Text(stringResource(R.string.home_sanctuary_hidden), color = Palette.sanctuary, fontSize = 13.sp, lineHeight = 18.sp)
+        }
     }
 }
 

@@ -46,6 +46,10 @@ import kotlinx.coroutines.launch
 
 // Estilo inspirado en Olauncher (https://github.com/tanujnotes/Olauncher, GPL-3.0):
 // solo texto sobre negro, alineado a la izquierda, márgenes amplios y textos que se tocan sin forma de botón.
+/** El widget del Punto de Retorno muestra siempre lo último apuntado. */
+private suspend fun refreshWidget(ctx: android.content.Context) =
+    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { app.sphera.widget.ReturnWidget.refresh(ctx) }
+
 private val WHITE = Color(0xFFF2F2F2)
 private val SOFT = Color(0xFFB8B8B8)
 private val FAINT = Color(0xFF6E6E6E)
@@ -76,7 +80,8 @@ private fun TextAction(text: String, color: Color, fontSize: TextUnit, enabled: 
 /** Tarjeta que sustituye al inicio mientras haya un Punto de Retorno guardado. */
 @Composable
 fun ReturnCardScreen(onDone: () -> Unit) {
-    val dao = SpheraDb.get(LocalContext.current).returnPoints()
+    val ctx = LocalContext.current
+    val dao = SpheraDb.get(ctx).returnPoints()
     val point by remember { dao.observe() }.collectAsState(initial = null)
     val scope = rememberCoroutineScope()
     Column(Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(horizontal = MARGIN, vertical = 32.dp)) {
@@ -91,7 +96,7 @@ fun ReturnCardScreen(onDone: () -> Unit) {
                 Detail(stringResource(R.string.rp_tools), p.requiredTools)
             }
         }
-        TextAction(stringResource(R.string.rp_resume), WHITE, 28.sp) { scope.launch { dao.clear(); onDone() } }
+        TextAction(stringResource(R.string.rp_resume), WHITE, 28.sp) { scope.launch { dao.clear(); refreshWidget(ctx); onDone() } }
     }
 }
 
@@ -112,7 +117,8 @@ private const val MAX_TEXT = 1000
  */
 @Composable
 fun ReturnFormScreen(onDone: () -> Unit) {
-    val dao = SpheraDb.get(LocalContext.current).returnPoints()
+    val ctx = LocalContext.current
+    val dao = SpheraDb.get(ctx).returnPoints()
     val scope = rememberCoroutineScope()
     var text by rememberSaveable { mutableStateOf("") }
     val focus = remember { FocusRequester() }
@@ -134,6 +140,7 @@ fun ReturnFormScreen(onDone: () -> Unit) {
                 scope.launch {
                     // Todo va en "siguiente paso", que es lo que la tarjeta muestra en grande.
                     dao.save(ReturnPoint(contextLocation = "", nextStep = text.trim(), requiredTools = ""))
+                    refreshWidget(ctx)
                     onDone()
                 }
             }

@@ -86,6 +86,11 @@ object Routes {
     const val LINK_SANCTUARY = "sphera://sanctuary"
     const val LINK_RETURN_NEW = "sphera://return/new"
     const val LINK_RABBIT = "sphera://rabbit"
+    const val LINK_CARDS = "sphera://cards"
+    const val LINK_BODY = "sphera://body"
+    const val LINK_STEPS = "sphera://steps"
+    const val LINK_SOCIAL = "sphera://social"
+    const val LINK_GATE = "sphera://gate"
 }
 
 // AppCompatActivity para poder cambiar el idioma desde Ajustes en cualquier versión de Android.
@@ -103,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         )
         Store.init(this)
         TextScale.load(this)
+        HomeLayout.init(this)
         DailySummary.schedule(this)
         Alerts.schedule(this)
         val target = explicitTarget(intent)
@@ -115,6 +121,11 @@ class MainActivity : AppCompatActivity() {
         intent.dataString == Routes.LINK_SANCTUARY -> Routes.SANCTUARY
         intent.dataString == Routes.LINK_RETURN_NEW -> Routes.RETURN_FORM
         intent.dataString == Routes.LINK_RABBIT -> Routes.RABBIT
+        intent.dataString == Routes.LINK_CARDS -> Routes.CARDS
+        intent.dataString == Routes.LINK_BODY -> Routes.BODY
+        intent.dataString == Routes.LINK_STEPS -> Routes.STEPS
+        intent.dataString == Routes.LINK_SOCIAL -> Routes.SOCIAL
+        intent.dataString == Routes.LINK_GATE -> Routes.GATE
         intent.getBooleanExtra(EXTRA_OPEN_SOCIAL, false) -> Routes.SOCIAL
         else -> null
     }
@@ -125,7 +136,7 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
     val ctx = LocalContext.current
     // Si hay un Punto de Retorno guardado, es lo único que se ve al entrar, venga de donde venga.
     // Excepciones: el Santuario (es un botón de pánico) y las capturas rápidas del widget (Punto de Retorno, conejo).
-    val bypass = target == Routes.SANCTUARY || target == Routes.RETURN_FORM || (fromLink && target == Routes.RABBIT)
+    val bypass = target == Routes.SANCTUARY || target == Routes.RETURN_FORM || (fromLink && (target == Routes.RABBIT || target == Routes.CARDS))
     val start by produceState(initialValue = if (bypass) target else null) {
         if (value == null) {
             value = if (SpheraDb.get(ctx).returnPoints().get() != null) Routes.RETURN_CARD else target ?: Routes.HOME

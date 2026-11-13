@@ -145,7 +145,7 @@
     <string name="widget_sanctuary">🌑 Sanctuary</string>
     <string name="widget_return">📍 Return</string>
     <string name="widget_rabbit">🐇 Rabbit</string>
-    <string name="widget_description">Shortcut to the Sanctuary, the Return point and Do not follow the rabbit</string>
+    <string name="widget_description">Up to four shortcuts of your choice</string>
     <string name="settings_general">General</string>
     <string name="skill_rabbit">Do not follow the rabbit</string>
     <string name="rabbit_title">Do not follow the rabbit</string>
@@ -506,4 +506,26 @@
     <string name="sound_folder_option">A folder from your phone…</string>
     <string name="sound_change_file">Change audio</string>
     <string name="sound_change_folder">Change folder</string>
+    <string name="widget_shortcuts_name">Sphera · Shortcuts</string>
+    <string name="widget_return_name">Sphera · Return point</string>
+    <string name="widget_return_description">What you noted down, visible on your home screen</string>
+    <string name="widget_return_label">📍 RETURN POINT</string>
+    <string name="widget_return_empty">Nothing noted. Tap to note where you left off.</string>
+    <string name="widget_panic_name">Sphera · Sanctuary</string>
+    <string name="widget_panic_description">One button straight into the Sanctuary</string>
+    <string name="wa_sanctuary">Sanctuary</string>
+    <string name="wa_return">Note return</string>
+    <string name="wa_rabbit">Park idea</string>
+    <string name="wa_cards">Cards</string>
+    <string name="wa_body">Check-in</string>
+    <string name="wa_steps">Step by step</string>
+    <string name="wa_social">Universe</string>
+    <string name="wa_gate">Slow door</string>
+    <string name="wc_title">Widget shortcuts</string>
+    <string name="wc_desc">Tap up to %d, in the order you want to see them. To change them later, press and hold the widget.</string>
+    <string name="home_title">Home screen</string>
+    <string name="home_desc">Reorder the tiles with the arrows and switch off the ones you don\'t use. Hiding a tile doesn\'t turn the module off: its alerts and widgets keep working.</string>
+    <string name="home_sum_all">All %d tiles visible</string>
+    <string name="home_sum_some">%1$d of %2$d tiles visible</string>
+    <string name="home_sanctuary_hidden">The Sanctuary is hidden. Consider the Sanctuary widget to keep it one tap away when you need it.</string>
 </resources>

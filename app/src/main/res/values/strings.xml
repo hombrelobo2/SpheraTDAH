@@ -157,7 +157,7 @@
     <string name="widget_sanctuary">🌑 Santuario</string>
     <string name="widget_return">📍 Retorno</string>
     <string name="widget_rabbit">🐇 Conejo</string>
-    <string name="widget_description">Acceso directo al Santuario, al Punto de retorno y a No sigas al conejo</string>
+    <string name="widget_description">Hasta cuatro accesos, los que tú elijas</string>
     <string name="settings_general">General</string>
     <!-- 0.0.13: No sigas al conejo -->
     <string name="skill_rabbit">No sigas al conejo</string>
@@ -525,4 +525,26 @@
     <string name="sound_folder_option">Una carpeta del móvil…</string>
     <string name="sound_change_file">Cambiar audio</string>
     <string name="sound_change_folder">Cambiar carpeta</string>
+    <string name="widget_shortcuts_name">Sphera · Accesos</string>
+    <string name="widget_return_name">Sphera · Punto de Retorno</string>
+    <string name="widget_return_description">Lo que apuntaste, a la vista en la pantalla de inicio</string>
+    <string name="widget_return_label">📍 PUNTO DE RETORNO</string>
+    <string name="widget_return_empty">Nada apuntado. Toca para apuntar dónde lo dejas.</string>
+    <string name="widget_panic_name">Sphera · Santuario</string>
+    <string name="widget_panic_description">Un botón que entra directo al Santuario</string>
+    <string name="wa_sanctuary">Santuario</string>
+    <string name="wa_return">Apuntar retorno</string>
+    <string name="wa_rabbit">Aparcar idea</string>
+    <string name="wa_cards">Tarjetas</string>
+    <string name="wa_body">Chequeo</string>
+    <string name="wa_steps">Paso a paso</string>
+    <string name="wa_social">Universo</string>
+    <string name="wa_gate">Puerta lenta</string>
+    <string name="wc_title">Accesos del widget</string>
+    <string name="wc_desc">Toca hasta %d, en el orden en que quieres verlos. Para cambiarlos después, mantén pulsado el widget.</string>
+    <string name="home_title">Pantalla de inicio</string>
+    <string name="home_desc">Ordena las casillas con las flechas y apaga las que no uses. Ocultar una casilla no apaga el módulo: sus avisos y widgets siguen funcionando.</string>
+    <string name="home_sum_all">Las %d casillas a la vista</string>
+    <string name="home_sum_some">%1$d de %2$d casillas a la vista</string>
+    <string name="home_sanctuary_hidden">El Santuario está oculto. Te recomiendo el widget de Santuario para tenerlo a un toque cuando lo necesites.</string>
 </resources>
