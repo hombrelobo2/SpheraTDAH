@@ -36,9 +36,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.sphera.Palette
 import app.sphera.R
 
-private val GREY = Color(0xFF9E9E9E)
+private val GREY = Palette.textSoft
 
 /**
  * Una necesidad del cuerpo: la pregunta, qué respuesta indica que hace falta atenderla,
@@ -80,7 +81,7 @@ fun BodyCheckScreen(onSanctuary: () -> Unit, onAndamio: () -> Unit) {
     }
 
     Column(
-        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(24.dp),
+        Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         if (step < NEEDS.size) {
@@ -112,7 +113,7 @@ private fun AnswerButton(@StringRes label: Int, modifier: Modifier, onClick: () 
         onClick = onClick,
         modifier = modifier.height(140.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1E1E1E), contentColor = Color.White),
+        colors = ButtonDefaults.buttonColors(containerColor = Palette.cardHigh, contentColor = Color.White),
     ) { Text(stringResource(label), fontSize = 34.sp, lineHeight = 40.sp, fontWeight = FontWeight.Bold) }
 }
 
@@ -134,7 +135,7 @@ private fun Results(needs: List<Need>, onSanctuary: () -> Unit, onAndamio: () ->
                 val tips = stringArrayResource(need.tips)
                 val shown = remember(need.key) { tips.toList().shuffled().take(TIPS_SHOWN) }
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF161616), contentColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = Palette.card, contentColor = Color.White),
                     shape = RoundedCornerShape(16.dp),
                 ) {
                     Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {

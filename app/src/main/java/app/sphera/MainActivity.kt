@@ -3,6 +3,7 @@ package app.sphera
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
@@ -66,7 +67,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+        )
         Store.init(this)
         DailySummary.schedule(this)
         Alerts.schedule(this)
@@ -110,39 +114,50 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
     NavHost(nav, startDestination = startRoute) {
         composable(Routes.HOME) { HomeScreen(onOpen = { nav.navigate(it) }) }
         composable(Routes.SETTINGS) { SettingsScreen(onBack = { back() }) }
-        composable(Routes.SOCIAL) { UniverseScreen(onBack = { back() }, openContact = contactId) }
+        composable(Routes.SOCIAL) {
+            ModuleTheme(Palette.social) { UniverseScreen(onBack = { back() }, openContact = contactId) }
+        }
 
         composable(Routes.SANCTUARY) {
-            SanctuaryScreen(onExit = {
-                nav.navigate(Routes.LANDING) { popUpTo(Routes.SANCTUARY) { inclusive = true } }
-            })
+            ModuleTheme(Palette.sanctuary) {
+                SanctuaryScreen(onExit = {
+                    nav.navigate(Routes.LANDING) { popUpTo(Routes.SANCTUARY) { inclusive = true } }
+                })
+            }
         }
         composable(Routes.LANDING) {
-            LandingScreen(
-                onStayCalm = { nav.navigate(Routes.SANCTUARY) { popUpTo(Routes.LANDING) { inclusive = true } } },
-                onCannotTalk = { nav.navigate(Routes.COMM_CARD) },
-                onBack = { goHome() },
-            )
+            ModuleTheme(Palette.sanctuary) {
+                LandingScreen(
+                    onStayCalm = { nav.navigate(Routes.SANCTUARY) { popUpTo(Routes.LANDING) { inclusive = true } } },
+                    onCannotTalk = { nav.navigate(Routes.COMM_CARD) },
+                    onBack = { goHome() },
+                )
+            }
         }
         composable(Routes.COMM_CARD) { CommunicationCardScreen() }
 
         composable(Routes.RABBIT) {
-            RabbitCaptureScreen(onSaved = { if (fromLink) closeApp() else back() }, onExplore = { nav.navigate(Routes.RABBIT_EXPLORE) })
+            ModuleTheme(Palette.rabbit) {
+                RabbitCaptureScreen(onSaved = { if (fromLink) closeApp() else back() }, onExplore = { nav.navigate(Routes.RABBIT_EXPLORE) })
+            }
         }
-        composable(Routes.RABBIT_EXPLORE) { RabbitListScreen(onOpen = { nav.navigate("rabbit/$it") }) }
+        composable(Routes.RABBIT_EXPLORE) {
+            ModuleTheme(Palette.rabbit) { RabbitListScreen(onOpen = { nav.navigate("rabbit/$it") }) }
+        }
         composable(Routes.RABBIT_DETAIL, arguments = listOf(navArgument("id") { type = NavType.LongType })) { entry ->
-            RabbitDetailScreen(entry.arguments?.getLong("id") ?: -1, onBack = { back() })
+            ModuleTheme(Palette.rabbit) { RabbitDetailScreen(entry.arguments?.getLong("id") ?: -1, onBack = { back() }) }
         }
-
-        composable(Routes.ANDAMIO) { AndamioScreen() }
+        composable(Routes.ANDAMIO) { ModuleTheme(Palette.andamio) { AndamioScreen() } }
         composable(Routes.BODY) {
-            BodyCheckScreen(onSanctuary = { nav.navigate(Routes.SANCTUARY) }, onAndamio = { nav.navigate(Routes.ANDAMIO) })
+            ModuleTheme(Palette.body) {
+                BodyCheckScreen(onSanctuary = { nav.navigate(Routes.SANCTUARY) }, onAndamio = { nav.navigate(Routes.ANDAMIO) })
+            }
         }
 
-        composable(Routes.RETURN_CARD) { ReturnCardScreen(onDone = { goHome() }) }
+        composable(Routes.RETURN_CARD) { ModuleTheme(Palette.returnPoint) { ReturnCardScreen(onDone = { goHome() }) } }
         // Desde el widget se apunta y se vuelve a lo que se estaba haciendo: la app se cierra al guardar.
         composable(Routes.RETURN_FORM) {
-            ReturnFormScreen(onDone = { if (fromLink) closeApp() else back() })
+            ModuleTheme(Palette.returnPoint) { ReturnFormScreen(onDone = { if (fromLink) closeApp() else back() }) }
         }
     }
 }

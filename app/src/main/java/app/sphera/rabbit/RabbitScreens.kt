@@ -56,13 +56,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.sphera.Palette
 import app.sphera.R
 import app.sphera.returnpoint.SpheraDb
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-private val GREY = Color(0xFF9E9E9E)
+private val GREY = Palette.textSoft
 private const val MAX_QUESTION = 1000 // la captura es una idea, no un diario
 
 /**
@@ -112,7 +113,7 @@ fun RabbitCaptureScreen(onSaved: () -> Unit, onExplore: () -> Unit) {
     }
 
     Column(
-        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().imePadding().padding(24.dp),
+        Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().imePadding().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Text(stringResource(R.string.rabbit_title), color = Color.White, fontSize = 30.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold)
@@ -149,7 +150,7 @@ fun RabbitListScreen(onOpen: (Long) -> Unit) {
     val dao = SpheraDb.get(LocalContext.current).rabbitHoles()
     val holes by remember { dao.observeAll() }.collectAsState(initial = null)
     Column(
-        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(24.dp),
+        Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(stringResource(R.string.rabbit_explore), color = Color.White, fontSize = 28.sp, lineHeight = 35.sp, fontWeight = FontWeight.Bold)
@@ -160,7 +161,7 @@ fun RabbitListScreen(onOpen: (Long) -> Unit) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(list, key = { it.id }) { hole ->
                 Row(
-                    Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xFF161616))
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Palette.card)
                         .clickable { onOpen(hole.id) }.padding(horizontal = 18.dp, vertical = 16.dp),
                 ) {
                     Text(
@@ -198,7 +199,7 @@ fun RabbitDetailScreen(id: Long, onBack: () -> Unit) {
     }
 
     Column(
-        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().imePadding().padding(24.dp),
+        Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().imePadding().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {

@@ -1,85 +1,94 @@
 package app.sphera
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.text.DateFormat
+import java.util.Date
 
-private class Skill(val emoji: String, @StringRes val label: Int, val target: String?)
+private class Skill(val emoji: String, @StringRes val label: Int, val target: String, val color: Color)
 
-// Las 6 habilidades. Al desarrollar una nueva, sustituir un "próximamente".
+// Las 6 habilidades, cada una con su color de módulo.
 private val SKILLS = listOf(
-    Skill("🪐", R.string.skill_social, Routes.SOCIAL),
-    Skill("🌑", R.string.skill_sanctuary, Routes.SANCTUARY),
-    Skill("📍", R.string.skill_return, Routes.RETURN_FORM),
-    Skill("🐇", R.string.skill_rabbit, Routes.RABBIT),
-    Skill("💬", R.string.skill_andamio, Routes.ANDAMIO),
-    Skill("🫀", R.string.skill_body, Routes.BODY),
+    Skill("🪐", R.string.skill_social, Routes.SOCIAL, Palette.social),
+    Skill("🌑", R.string.skill_sanctuary, Routes.SANCTUARY, Palette.sanctuary),
+    Skill("📍", R.string.skill_return, Routes.RETURN_FORM, Palette.returnPoint),
+    Skill("🐇", R.string.skill_rabbit, Routes.RABBIT, Palette.rabbit),
+    Skill("💬", R.string.skill_andamio, Routes.ANDAMIO, Palette.andamio),
+    Skill("🫀", R.string.skill_body, Routes.BODY, Palette.body),
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onOpen: (String) -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) },
-                actions = {
-                    IconButton(onClick = { onOpen(Routes.SETTINGS) }) {
-                        Icon(Icons.Default.Settings, stringResource(R.string.settings))
-                    }
-                },
-            )
-        },
-    ) { padding ->
-        Column(
-            Modifier.padding(padding).padding(12.dp).fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            SKILLS.chunked(2).forEach { row ->
-                Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    row.forEach { s ->
-                        Card(
-                            onClick = { s.target?.let(onOpen) },
-                            enabled = s.target != null,
-                            modifier = Modifier.weight(1f).fillMaxHeight(),
-                        ) {
-                            Column(
-                                Modifier.fillMaxSize().padding(8.dp),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                Text(s.emoji, fontSize = 56.sp)
-                                Text(
-                                    stringResource(s.label),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
-                        }
-                    }
-                }
+    val today = remember { DateFormat.getDateInstance(DateFormat.FULL).format(Date()).replaceFirstChar { it.uppercase() } }
+    Column(
+        Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().padding(horizontal = 20.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(today, color = Palette.textSoft, style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.app_name), color = Palette.text, fontSize = 34.sp, lineHeight = 40.sp, fontWeight = FontWeight.Bold)
             }
+            IconButton(onClick = { onOpen(Routes.SETTINGS) }) {
+                Icon(Icons.Outlined.Settings, stringResource(R.string.settings), tint = Palette.textSoft)
+            }
+        }
+        SKILLS.chunked(2).forEach { row ->
+            Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                row.forEach { s -> SkillTile(s, Modifier.weight(1f).fillMaxHeight()) { onOpen(s.target) } }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SkillTile(s: Skill, modifier: Modifier, onClick: () -> Unit) {
+    Column(
+        modifier.clip(RoundedCornerShape(24.dp)).background(Palette.card)
+            .border(1.dp, Palette.line, RoundedCornerShape(24.dp))
+            .clickable(onClick = onClick).padding(18.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+        // El emoji sobre un círculo suave del color del módulo.
+        Box(Modifier.size(56.dp).clip(CircleShape).background(s.color.copy(alpha = 0.18f)), contentAlignment = Alignment.Center) {
+            Text(s.emoji, fontSize = 28.sp)
+        }
+        Column(Modifier.fillMaxWidth()) {
+            Box(Modifier.size(width = 24.dp, height = 3.dp).clip(CircleShape).background(s.color))
+            Text(
+                stringResource(s.label), color = Palette.text, fontSize = 19.sp, lineHeight = 24.sp,
+                fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 8.dp),
+            )
         }
     }
 }

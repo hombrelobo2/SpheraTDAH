@@ -43,9 +43,10 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.Picker
+import app.sphera.Palette
 import app.sphera.R
 
-private val GREY = Color(0xFF9E9E9E)
+private val GREY = Palette.textSoft
 
 /** Tres preguntas frías → varios mensajes ya redactados para copiar o enviar. */
 @Composable
@@ -60,7 +61,7 @@ fun AndamioScreen() {
     var scenario by rememberSaveable { mutableStateOf(0) }
 
     Column(
-        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().imePadding().padding(24.dp)
+        Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().imePadding().padding(24.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -80,7 +81,7 @@ fun AndamioScreen() {
             templates.filter { it.scenario == scenarios.getOrNull(scenario) }.forEach { t ->
                 val text = Andamio.fill(t, context, need, action)
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF161616), contentColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = Palette.card, contentColor = Color.White),
                     shape = RoundedCornerShape(16.dp),
                 ) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {

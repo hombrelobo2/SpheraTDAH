@@ -49,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -145,7 +146,7 @@ fun SettingsScreen(onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             // Una caja por cada parte de la app; los colores salen del tema, así se leen bien en claro y en oscuro.
-            Section(stringResource(R.string.settings_general), MaterialTheme.colorScheme.surfaceVariant) {
+            Section(stringResource(R.string.settings_general), Palette.card) {
                 Text(stringResource(R.string.language), style = MaterialTheme.typography.titleMedium)
                 LANGUAGES.forEach { (tag, label) ->
                     Row(
@@ -165,7 +166,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 }
             }
 
-            Section("🪐 " + stringResource(R.string.skill_social), MaterialTheme.colorScheme.primaryContainer) {
+            Section("🪐 " + stringResource(R.string.skill_social), Palette.social.copy(alpha = 0.12f).compositeOver(Palette.card)) {
                 PermissionRow(R.string.perm_calls, R.string.perm_calls_desc, callsGranted) {
                     permLauncher.launch(Interactions.PERMISSIONS)
                 }
@@ -239,7 +240,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 }
             }
 
-            Section("🌑 " + stringResource(R.string.skill_sanctuary), MaterialTheme.colorScheme.tertiaryContainer) {
+            Section("🌑 " + stringResource(R.string.skill_sanctuary), Palette.sanctuary.copy(alpha = 0.12f).compositeOver(Palette.card)) {
                 PermissionRow(R.string.perm_dnd, R.string.perm_dnd_desc, dndGranted) {
                     ctx.startActivity(SensoryMode.dndSettings())
                 }
