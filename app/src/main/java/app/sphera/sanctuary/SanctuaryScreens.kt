@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.BlurMaskFilter
+import android.graphics.Matrix
+import android.graphics.SweepGradient
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -61,27 +64,51 @@ fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-/** Sonido del Santuario: el elegido en Ajustes o, si no hay, el incluido (ruido marrón generado para Sphera). */
+/** Sonido del Santuario: uno de los ruidos de base incluidos (generados para Sphera) o un audio elegido del móvil. */
 object SanctuarySound {
+    const val CUSTOM = "custom"
+
+    /** Ruidos incluidos: clave guardada, nombre y archivo. */
+    val BUILT_IN = listOf(
+        Triple("brown", R.string.sound_brown, R.raw.calm),
+        Triple("pink", R.string.sound_pink, R.raw.pink),
+        Triple("white", R.string.sound_white, R.raw.white),
+        Triple("waves", R.string.sound_waves, R.raw.waves),
+    )
+
     private fun prefs(ctx: Context) = ctx.getSharedPreferences("sanctuary_sound", Context.MODE_PRIVATE)
     fun custom(ctx: Context): Uri? = prefs(ctx).getString("uri", null)?.let(Uri::parse)
-    fun setCustom(ctx: Context, uri: Uri?) = prefs(ctx).edit().putString("uri", uri?.toString()).apply()
+
+    /** Sonido elegido: una clave de [BUILT_IN] o [CUSTOM]. */
+    fun choice(ctx: Context): String =
+        prefs(ctx).getString("choice", null) ?: if (custom(ctx) != null) CUSTOM else BUILT_IN.first().first
+
+    fun choose(ctx: Context, key: String) = prefs(ctx).edit().putString("choice", key).apply()
+
+    fun setCustom(ctx: Context, uri: Uri) = prefs(ctx).edit().putString("uri", uri.toString()).putString("choice", CUSTOM).apply()
+
+    private fun builtIn(ctx: Context, key: String) =
+        MediaPlayer.create(ctx, (BUILT_IN.firstOrNull { it.first == key } ?: BUILT_IN.first()).third)
 
     fun start(ctx: Context): MediaPlayer? = try {
-        val player = custom(ctx)?.let { uri ->
+        val choice = choice(ctx)
+        val uri = custom(ctx)
+        val player = if (choice == CUSTOM && uri != null) {
             MediaPlayer().apply {
                 setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).build())
                 setDataSource(ctx, uri)
                 prepare()
             }
-        } ?: MediaPlayer.create(ctx, R.raw.calm)
+        } else {
+            builtIn(ctx, choice)
+        }
         player?.apply {
             isLooping = true
             start()
         }
     } catch (e: Exception) {
-        // Si el archivo elegido ya no existe o no se puede leer, se usa el incluido.
-        MediaPlayer.create(ctx, R.raw.calm)?.apply { isLooping = true; start() }
+        // Si el archivo elegido ya no existe o no se puede leer, suena el ruido marrón.
+        builtIn(ctx, "brown")?.apply { isLooping = true; start() }
     }
 }
 
@@ -129,24 +156,47 @@ fun SanctuaryScreen(onExit: () -> Unit) {
             Modifier.align(Alignment.Center).padding(32.dp),
             color = Color(0xFF8A8A8A), fontSize = 40.sp, lineHeight = 50.sp, textAlign = TextAlign.Center,
         )
-        // Halo luminoso que respira muy despacio alrededor del botón: se encuentra sin deslumbrar.
-        val glow = rememberInfiniteTransition(label = "glow").animateFloat(
-            0.25f, 0.7f, infiniteRepeatable(tween(4_000, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "alpha",
+        // Halo tenue que respira y una luz que recorre el borde despacio, como el lector de huella.
+        val transition = rememberInfiniteTransition(label = "glow")
+        val glow = transition.animateFloat(
+            0.15f, 0.4f, infiniteRepeatable(tween(4_000, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "alpha",
+        )
+        val angle = transition.animateFloat(
+            0f, 360f, infiniteRepeatable(tween(6_000, easing = LinearEasing)), label = "angle",
         )
         OutlinedButton(
             onClick = onExit,
             modifier = Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp).fillMaxWidth().height(72.dp)
                 .drawBehind {
                     drawIntoCanvas { canvas ->
-                        val paint = Paint().asFrameworkPaint().apply {
+                        val r = size.height / 2
+                        val cx = size.width / 2
+                        val cy = size.height / 2
+                        // Halo de fondo
+                        val halo = Paint().asFrameworkPaint().apply {
                             isAntiAlias = true
                             style = android.graphics.Paint.Style.STROKE
                             strokeWidth = 6.dp.toPx()
                             color = android.graphics.Color.argb((glow.value * 255).toInt(), 190, 205, 255)
                             maskFilter = BlurMaskFilter(14.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                         }
-                        val r = size.height / 2
-                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, paint)
+                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, halo)
+                        // Luz que gira: un degradado circular con un único destello, rotado según el ángulo
+                        val light = 0xFFD6E0FF.toInt()
+                        val clear = 0x00D6E0FF
+                        val sweep = SweepGradient(cx, cy, intArrayOf(clear, clear, light, clear), floatArrayOf(0f, 0.7f, 0.88f, 1f))
+                            .apply { setLocalMatrix(Matrix().apply { setRotate(angle.value, cx, cy) }) }
+                        val comet = Paint().asFrameworkPaint().apply {
+                            isAntiAlias = true
+                            style = android.graphics.Paint.Style.STROKE
+                            shader = sweep
+                        }
+                        comet.strokeWidth = 8.dp.toPx()
+                        comet.maskFilter = BlurMaskFilter(10.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, comet)
+                        comet.strokeWidth = 2.dp.toPx()
+                        comet.maskFilter = null
+                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, r, r, comet)
                     }
                 },
             // Bien visible aunque discreto: mismo gris que el texto central, con borde marcado.

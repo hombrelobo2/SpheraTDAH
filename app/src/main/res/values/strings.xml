@@ -146,9 +146,14 @@
     <string name="perm_brightness">Brillo de pantalla</string>
     <string name="perm_brightness_desc">Para bajar el brillo de todo el móvil al mínimo, no solo dentro del Santuario. Se restaura al pulsar \"Volver\".</string>
     <string name="sanctuary_sound">Sonido</string>
-    <string name="sanctuary_sound_default">Incluido: ruido marrón suave</string>
-    <string name="sanctuary_sound_pick">Elegir audio</string>
-    <string name="sanctuary_sound_reset">Usar el incluido</string>
+    <string name="sanctuary_sound_pick">Elegir audio del móvil</string>
+    <string name="sound_brown">Ruido marrón</string>
+    <string name="sound_pink">Ruido rosa</string>
+    <string name="sound_white">Ruido blanco suave</string>
+    <string name="sound_waves">Olas</string>
+    <string name="sound_custom">Mi audio: %s</string>
+    <string name="sound_preview">▶ Probar</string>
+    <string name="sound_stop">■ Parar</string>
     <string name="widget_sanctuary">🌑 Santuario</string>
     <string name="widget_return">📍 Punto de retorno</string>
     <string name="widget_description">Acceso directo al Santuario y al Punto de retorno</string>

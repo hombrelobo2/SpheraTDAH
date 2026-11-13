@@ -134,9 +134,14 @@
     <string name="perm_brightness">Screen brightness</string>
     <string name="perm_brightness_desc">To lower the whole phone brightness to the minimum, not only inside the Sanctuary. Restored when you tap \"Go back\".</string>
     <string name="sanctuary_sound">Sound</string>
-    <string name="sanctuary_sound_default">Included: soft brown noise</string>
-    <string name="sanctuary_sound_pick">Choose audio</string>
-    <string name="sanctuary_sound_reset">Use the included one</string>
+    <string name="sanctuary_sound_pick">Choose audio from phone</string>
+    <string name="sound_brown">Brown noise</string>
+    <string name="sound_pink">Pink noise</string>
+    <string name="sound_white">Soft white noise</string>
+    <string name="sound_waves">Waves</string>
+    <string name="sound_custom">My audio: %s</string>
+    <string name="sound_preview">▶ Try</string>
+    <string name="sound_stop">■ Stop</string>
     <string name="widget_sanctuary">🌑 Sanctuary</string>
     <string name="widget_return">📍 Return point</string>
     <string name="widget_description">Shortcut to the Sanctuary and the Return point</string>

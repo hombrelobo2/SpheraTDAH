@@ -1,7 +1,10 @@
 package app.sphera
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import android.provider.OpenableColumns
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -33,6 +36,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -54,6 +58,13 @@ import app.sphera.social.DailySummary
 import app.sphera.social.Interactions
 import app.sphera.social.Messages
 import app.sphera.social.Notifier
+
+/** Nombre visible de un archivo elegido con el selector del sistema. */
+private fun fileName(ctx: Context, uri: Uri): String =
+    runCatching {
+        ctx.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
+            ?.use { if (it.moveToFirst()) it.getString(0) else null }
+    }.getOrNull() ?: uri.lastPathSegment.orEmpty()
 
 private val ALERTS = listOf(
     Alerts.DRIFT to R.string.alert_drift_setting,
@@ -78,15 +89,24 @@ fun SettingsScreen(onBack: () -> Unit) {
     }
     val dndGranted = remember(refresh) { SensoryMode.canChangeDnd(ctx) }
     val brightnessGranted = remember(refresh) { SensoryMode.canChangeBrightness(ctx) }
-    var sound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
+    var soundChoice by remember { mutableStateOf(SanctuarySound.choice(ctx)) }
+    var customSound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
     val soundPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
             // Permiso permanente para poder leer el archivo también después de reiniciar.
             runCatching { ctx.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
             SanctuarySound.setCustom(ctx, uri)
-            sound = uri
+            customSound = uri
+            soundChoice = SanctuarySound.CUSTOM
         }
     }
+    // Prueba del sonido elegido sin entrar al Santuario.
+    var preview by remember { mutableStateOf<MediaPlayer?>(null) }
+    fun stopPreview() {
+        preview?.release()
+        preview = null
+    }
+    DisposableEffect(Unit) { onDispose { stopPreview() } }
     val batteryFree = remember(refresh) {
         ctx.getSystemService(PowerManager::class.java)?.isIgnoringBatteryOptimizations(ctx.packageName) == true
     }
@@ -162,16 +182,19 @@ fun SettingsScreen(onBack: () -> Unit) {
                 ctx.startActivity(SensoryMode.brightnessSettings(ctx))
             }
             Text(stringResource(R.string.sanctuary_sound), style = MaterialTheme.typography.bodyLarge)
-            Text(
-                sound?.lastPathSegment?.substringAfterLast('/') ?: stringResource(R.string.sanctuary_sound_default),
-                style = MaterialTheme.typography.bodySmall,
-            )
+            val soundKeys = SanctuarySound.BUILT_IN.map { it.first } +
+                if (customSound != null) listOf(SanctuarySound.CUSTOM) else emptyList()
+            val soundLabels = SanctuarySound.BUILT_IN.map { stringResource(it.second) } +
+                (customSound?.let { listOf(stringResource(R.string.sound_custom, fileName(ctx, it))) } ?: emptyList())
+            Picker(soundLabels, soundKeys.indexOf(soundChoice).coerceAtLeast(0)) {
+                soundChoice = soundKeys[it]
+                SanctuarySound.choose(ctx, soundChoice)
+                if (preview != null) { stopPreview(); preview = SanctuarySound.start(ctx) }
+            }
             Row {
                 Button(onClick = { soundPicker.launch(arrayOf("audio/*")) }) { Text(stringResource(R.string.sanctuary_sound_pick)) }
-                if (sound != null) {
-                    TextButton(onClick = { SanctuarySound.setCustom(ctx, null); sound = null }) {
-                        Text(stringResource(R.string.sanctuary_sound_reset))
-                    }
+                TextButton(onClick = { if (preview == null) preview = SanctuarySound.start(ctx) else stopPreview() }) {
+                    Text(stringResource(if (preview == null) R.string.sound_preview else R.string.sound_stop))
                 }
             }
 
