@@ -1,0 +1,58 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Preparar firma
+        env:
+          SPHERA_KEYSTORE: ${{ secrets.SPHERA_KEYSTORE }}
+        run: |
+          if [ -z "$SPHERA_KEYSTORE" ]; then
+            echo "::error::Faltan los secrets SPHERA_KEYSTORE y SPHERA_KEYSTORE_PASSWORD (Settings > Secrets and variables > Actions)"
+            exit 1
+          fi
+          echo "$SPHERA_KEYSTORE" | base64 -d > "$RUNNER_TEMP/sphera.jks"
+          echo "SPHERA_KEYSTORE_PATH=$RUNNER_TEMP/sphera.jks" >> "$GITHUB_ENV"
+
+      - name: Compilar
+        env:
+          SPHERA_KEYSTORE_PASSWORD: ${{ secrets.SPHERA_KEYSTORE_PASSWORD }}
+        run: ./gradlew testReleaseUnitTest assembleRelease --stacktrace
+
+      - name: Nombre del APK
+        id: v
+        run: |
+          VERSION=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          cp app/build/outputs/apk/release/app-release.apk "sphera_$VERSION.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sphera_${{ steps.v.outputs.version }}
+          path: sphera_${{ steps.v.outputs.version }}.apk
+
+      # Una release por versionName; si se repite la versión, se sustituye el APK.
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.v.outputs.version }}
+          name: Sphera ${{ steps.v.outputs.version }}
+          prerelease: true
+          files: sphera_${{ steps.v.outputs.version }}.apk

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos en español (idioma por defecto). Para otro idioma: copiar este archivo a values-XX/ y traducir. -->
+<resources>
+    <string name="app_name">Sphera</string>
+    <string name="settings">Ajustes</string>
+    <string name="back">Volver</string>
+    <string name="coming_soon">Próximamente</string>
+
+    <!-- Universo social -->
+    <string name="skill_social">Universo social</string>
+    <string name="add_contact">Añadir contacto</string>
+    <string name="me">Yo</string>
+    <string name="empty_universe">Tu universo está vacío. Toca + para añadir a alguien.</string>
+    <string name="already_added">Este contacto ya está en tu universo</string>
+    <string name="days_today">Hoy habéis estado en contacto</string>
+    <plurals name="days_since">
+        <item quantity="one">Ha pasado %d día desde el último contacto</item>
+        <item quantity="many">Han pasado %d días desde el último contacto</item>
+        <item quantity="other">Han pasado %d días desde el último contacto</item>
+    </plurals>
+    <string name="send_via">Escribir por</string>
+    <string name="ch_whatsapp">WhatsApp</string>
+    <string name="ch_whatsapp_business">WhatsApp Business</string>
+    <string name="ch_telegram">Telegram</string>
+    <string name="ch_sms">SMS</string>
+    <string name="ch_call">Llamar</string>
+    <string name="no_app">No hay ninguna app para abrir esto</string>
+    <string name="mark_contacted">Ya he hablado con esta persona</string>
+    <string name="frequency">¿Cada cuánto quieres hablar?</string>
+    <string name="freq_weekly">Cada semana</string>
+    <string name="freq_biweekly">Cada 2 semanas</string>
+    <string name="freq_monthly">Cada mes</string>
+    <string name="freq_quarterly">Cada 3 meses</string>
+    <string name="add">Añadir</string>
+    <string name="cancel">Cancelar</string>
+    <string name="close">Cerrar</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_confirm">¿Seguro? Toca otra vez</string>
+
+    <!-- Ajustes -->
+    <string name="language">Idioma</string>
+    <string name="lang_system">El del sistema</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_en">English</string>
+    <string name="permissions">Permisos</string>
+    <string name="perm_calls">Contactos y registro de llamadas</string>
+    <string name="perm_calls_desc">Para mostrar la foto del contacto y saber cuándo hablasteis por teléfono.</string>
+    <string name="perm_notifications">Acceso a notificaciones</string>
+    <string name="perm_notifications_desc">Para detectar cuándo te escribe alguien por WhatsApp, Telegram o SMS. Si Android lo bloquea: Ajustes → Apps → Sphera → ⋮ → Permitir ajustes restringidos.</string>
+    <string name="granted">Concedido</string>
+    <string name="grant">Conceder</string>
+    <string name="version">Versión %s</string>
+</resources>
