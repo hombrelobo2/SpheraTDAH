@@ -157,4 +157,27 @@
     <string name="rabbit_notes">Notes</string>
     <string name="rabbit_empty">Nothing parked yet.</string>
     <string name="rabbit_delete_title">Delete this curiosity?</string>
+    <string name="skill_andamio">Scaffold</string>
+    <string name="andamio_title">Scaffold</string>
+    <string name="andamio_hint">Three short, blunt sentences. The app takes care of the tone.</string>
+    <string name="andamio_q_context">What exactly happened?</string>
+    <string name="andamio_ex_context">you invited me to your birthday tomorrow</string>
+    <string name="andamio_q_need">What do you need?</string>
+    <string name="andamio_ex_need">to stay home in silence</string>
+    <string name="andamio_q_action">What are you going to decide?</string>
+    <string name="andamio_ex_action">I will not go</string>
+    <string name="andamio_build">Build messages</string>
+    <string name="andamio_copy">Copy</string>
+    <string name="andamio_send">Send</string>
+    <string name="andamio_copied">Copied</string>
+    <string name="andamio_edit">Change the answers</string>
+    <string-array name="andamio_templates">
+        <item>General|Short and direct|About the fact that {contexto}: {accion}. I need {necesidad}. Thanks for understanding.</item>
+        <item>General|Gentle|Hey, I am writing about the fact that {contexto}. I have realised I need {necesidad}, so {accion}. I hope you understand.</item>
+        <item>General|Warm|Hi! Writing with love about the fact that {contexto}. Right now I need {necesidad}, so {accion}. It is nothing against you, really. Big hug!</item>
+        <item>Work|Formal|Good morning. Regarding the fact that {contexto}, after assessing the situation, my priority is {necesidad}. For this reason, {accion}. Thank you for your understanding.</item>
+        <item>Work|Friendly|Hi, about the fact that {contexto}: right now I need {necesidad}, so {accion}. Happy to talk it over if needed. Thanks!</item>
+        <item>Family and partner|Honest|I want to be honest about the fact that {contexto}. I need {necesidad}, and that is why {accion}. It has nothing to do with you, I love you.</item>
+        <item>Family and partner|Calm|About the fact that {contexto}: it is nothing against you, I just need {necesidad}. So {accion}. Shall we talk about it calmly when it suits you?</item>
+    </string-array>
 </resources>

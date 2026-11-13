@@ -170,4 +170,33 @@
     <string name="rabbit_notes">Notas</string>
     <string name="rabbit_empty">Aún no hay nada aparcado.</string>
     <string name="rabbit_delete_title">¿Borrar esta curiosidad?</string>
+    <!-- 0.0.17: Andamio -->
+    <string name="skill_andamio">Andamio</string>
+    <string name="andamio_title">Andamio</string>
+    <string name="andamio_hint">Tres frases cortas, a lo bruto. Del tono se encarga la app.</string>
+    <string name="andamio_q_context">¿Qué ha pasado exactamente?</string>
+    <string name="andamio_ex_context">me has invitado a tu cumpleaños mañana</string>
+    <string name="andamio_q_need">¿Qué necesitas tú?</string>
+    <string name="andamio_ex_need">quedarme en mi casa en silencio</string>
+    <string name="andamio_q_action">¿Qué vas a decidir?</string>
+    <string name="andamio_ex_action">no voy a ir</string>
+    <string name="andamio_build">Montar mensajes</string>
+    <string name="andamio_copy">Copiar</string>
+    <string name="andamio_send">Enviar</string>
+    <string name="andamio_copied">Copiado</string>
+    <string name="andamio_edit">Cambiar las respuestas</string>
+    <!--
+        Plantillas del Andamio. Formato: Escenario|Tono|Texto.
+        Huecos: {contexto} (qué ha pasado), {necesidad} (qué necesitas), {accion} (qué decides).
+        Para un escenario nuevo basta con usar un nombre nuevo en la primera parte.
+    -->
+    <string-array name="andamio_templates">
+        <item>General|Corta y al grano|Sobre lo de que {contexto}: {accion}. Necesito {necesidad}. Gracias por entenderlo.</item>
+        <item>General|Suave|Oye, te escribo por lo de que {contexto}. Me he dado cuenta de que necesito {necesidad}, así que {accion}. Espero que lo entiendas.</item>
+        <item>General|Cariñosa|¡Hola! Te escribo con cariño por lo de que {contexto}. Ahora mismo necesito {necesidad}, así que {accion}. No es nada contra ti, de verdad. ¡Un abrazo grande!</item>
+        <item>Trabajo|Formal|Buenos días. En relación a que {contexto}, tras valorar la situación, mi prioridad es {necesidad}. Por este motivo, os comunico que {accion}. Gracias por la comprensión.</item>
+        <item>Trabajo|Cercana|Hola, sobre lo de que {contexto}: ahora mismo necesito {necesidad}, así que {accion}. Si hace falta, lo comentamos. ¡Gracias!</item>
+        <item>Familia y pareja|Sincera|Quiero hablarte con sinceridad sobre lo de que {contexto}. Necesito {necesidad}, y por eso {accion}. No tiene nada que ver contigo, te quiero.</item>
+        <item>Familia y pareja|Con calma|Sobre lo de que {contexto}: no es nada contra ti, es que necesito {necesidad}. Así que {accion}. ¿Lo hablamos con calma cuando te venga bien?</item>
+    </string-array>
 </resources>

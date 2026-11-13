@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import app.sphera.andamio.AndamioScreen
 import app.sphera.rabbit.RabbitCaptureScreen
 import app.sphera.rabbit.RabbitDetailScreen
 import app.sphera.rabbit.RabbitListScreen
@@ -46,6 +47,7 @@ object Routes {
     const val RABBIT = "rabbit"
     const val RABBIT_EXPLORE = "rabbit_explore"
     const val RABBIT_DETAIL = "rabbit/{id}"
+    const val ANDAMIO = "andamio"
 
     // Enlaces que usa el widget (y que cualquiera puede abrir con sphera://…).
     const val LINK_SANCTUARY = "sphera://sanctuary"
@@ -129,6 +131,8 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
         composable(Routes.RABBIT_DETAIL, arguments = listOf(navArgument("id") { type = NavType.LongType })) { entry ->
             RabbitDetailScreen(entry.arguments?.getLong("id") ?: -1, onBack = { back() })
         }
+
+        composable(Routes.ANDAMIO) { AndamioScreen() }
 
         composable(Routes.RETURN_CARD) { ReturnCardScreen(onDone = { goHome() }) }
         // Desde el widget se apunta y se vuelve a lo que se estaba haciendo: la app se cierra al guardar.

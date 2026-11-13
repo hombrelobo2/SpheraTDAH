@@ -33,7 +33,9 @@ private val SKILLS = listOf(
     Skill("🌑", R.string.skill_sanctuary, Routes.SANCTUARY),
     Skill("📍", R.string.skill_return, Routes.RETURN_FORM),
     Skill("🐇", R.string.skill_rabbit, Routes.RABBIT),
-) + List(2) { Skill("✨", R.string.coming_soon, null) }
+    Skill("💬", R.string.skill_andamio, Routes.ANDAMIO),
+    Skill("✨", R.string.coming_soon, null),
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
