@@ -405,4 +405,15 @@
         <item>I am fine, I just need calm.|</item>
         <item>Water, please.|</item>
     </string-array>
+    <string name="breath_title">Guided breathing</string>
+    <string name="breath_desc">A circle that grows and shrinks so you can follow it with your breath. No numbers or countdown. Not shown with the mixer.</string>
+    <string name="breath_in">Breathe in</string>
+    <string name="breath_in_more">A little more</string>
+    <string name="breath_hold">Hold</string>
+    <string name="breath_out">Breathe out</string>
+    <string name="breath_even">Gentle (4 in, 4 out)</string>
+    <string name="breath_long_out">Long exhale (4 in, 6 out)</string>
+    <string name="breath_box">Box (4 · 4 · 4 · 4)</string>
+    <string name="breath_478">4-7-8</string>
+    <string name="breath_sigh">Physiological sigh</string>
 </resources>

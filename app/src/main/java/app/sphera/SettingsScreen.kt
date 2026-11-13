@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import app.sphera.sanctuary.Breathing
 import app.sphera.sanctuary.CalmPhrases
 import app.sphera.sanctuary.SanctuarySound
 import app.sphera.sanctuary.SensoryMode
@@ -96,6 +97,8 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
     }
     val dndGranted = remember(refresh) { SensoryMode.canChangeDnd(ctx) }
     var phrasesOn by remember { mutableStateOf(CalmPhrases.enabled(ctx)) }
+    var breathOn by remember { mutableStateOf(Breathing.enabled(ctx)) }
+    var breathKey by remember { mutableStateOf(Breathing.pattern(ctx).key) }
     var soundChoice by remember { mutableStateOf(SanctuarySound.choice(ctx)) }
     var customSound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
     var folderSound by remember { mutableStateOf(SanctuarySound.folder(ctx)) }
@@ -273,6 +276,25 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
                         phrasesOn = it
                         CalmPhrases.setEnabled(ctx, it)
                     })
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.breath_title), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.breath_desc), style = MaterialTheme.typography.bodySmall)
+                    }
+                    Switch(checked = breathOn, onCheckedChange = {
+                        breathOn = it
+                        Breathing.setEnabled(ctx, it)
+                    })
+                }
+                if (breathOn) {
+                    Picker(
+                        Breathing.PATTERNS.map { stringResource(it.name) },
+                        Breathing.PATTERNS.indexOfFirst { it.key == breathKey }.coerceAtLeast(0),
+                    ) {
+                        breathKey = Breathing.PATTERNS[it].key
+                        Breathing.setPattern(ctx, breathKey)
+                    }
                 }
 
                 HorizontalDivider()

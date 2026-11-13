@@ -51,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.sphera.Palette
 import app.sphera.R
 
 private val LANDING_BG = Color(0xFF121212)
@@ -223,11 +224,21 @@ fun SanctuaryScreen(onExit: () -> Unit) {
     }
 
     // Solo se sale con el botón "Salir": los toques en la pantalla no hacen nada.
+    val breath = remember { if (Breathing.enabled(ctx)) Breathing.pattern(ctx) else null }
     Box(Modifier.fillMaxSize().background(Color.Black)) {
-        CalmPhrase(
-            Modifier.align(Alignment.Center).padding(32.dp),
-            fontSize = 34.sp, color = Color(0xFF8A8A8A),
-        )
+        if (breath != null) {
+            // Con respiración guiada: la frase arriba, más pequeña, y el círculo en el centro.
+            CalmPhrase(
+                Modifier.align(Alignment.TopCenter).safeDrawingPadding().padding(32.dp),
+                fontSize = 22.sp, color = Color(0xFF7A7A7A),
+            )
+            BreathingCircle(breath, Palette.sanctuary, Modifier.align(Alignment.Center))
+        } else {
+            CalmPhrase(
+                Modifier.align(Alignment.Center).padding(32.dp),
+                fontSize = 34.sp, color = Color(0xFF8A8A8A),
+            )
+        }
         ExitButton(onExit, Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp))
     }
 }

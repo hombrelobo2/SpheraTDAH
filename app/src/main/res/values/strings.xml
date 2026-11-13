@@ -423,4 +423,16 @@
         <item>Estoy bien, solo necesito calma.|</item>
         <item>Agua, por favor.|</item>
     </string-array>
+    <!-- 0.0.29: respiración guiada (patrones adaptados de Brethap) -->
+    <string name="breath_title">Respiración guiada</string>
+    <string name="breath_desc">Un círculo que se hincha y se deshincha para seguirlo con la respiración. Sin números ni cuenta atrás. No se muestra con el mezclador.</string>
+    <string name="breath_in">Inhala</string>
+    <string name="breath_in_more">Un poco más</string>
+    <string name="breath_hold">Mantén</string>
+    <string name="breath_out">Exhala</string>
+    <string name="breath_even">Suave (4 dentro, 4 fuera)</string>
+    <string name="breath_long_out">Exhalación larga (4 dentro, 6 fuera)</string>
+    <string name="breath_box">Caja (4 · 4 · 4 · 4)</string>
+    <string name="breath_478">4-7-8</string>
+    <string name="breath_sigh">Suspiro fisiológico</string>
 </resources>
