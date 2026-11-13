@@ -354,4 +354,6 @@
     <string name="text_size_normal">Normal</string>
     <string name="text_size_large">Grande</string>
     <string name="text_size_xlarge">Muy grande</string>
+    <string name="rp_single_hint">Qué estabas haciendo y qué toca después. Ej.: Rellenando el seguro. Siguiente: buscar el PDF de la póliza.</string>
+    <string name="rp_dictate">🎤 Dictar</string>
 </resources>

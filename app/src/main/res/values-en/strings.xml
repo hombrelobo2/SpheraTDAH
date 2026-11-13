@@ -332,4 +332,6 @@
     <string name="text_size_normal">Normal</string>
     <string name="text_size_large">Large</string>
     <string name="text_size_xlarge">Extra large</string>
+    <string name="rp_single_hint">What you were doing and what comes next. E.g.: Filling in the insurance form. Next: find the old policy PDF.</string>
+    <string name="rp_dictate">🎤 Dictate</string>
 </resources>

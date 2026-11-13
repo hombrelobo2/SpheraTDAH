@@ -2,7 +2,6 @@
 
 ## Próximas mejoras
 
-- Dictado por voz también en el Punto de Retorno.
 - Andamio: pulir las plantillas (más naturales, menos "rellenar huecos") y añadir escenarios.
 
 ## Para la beta

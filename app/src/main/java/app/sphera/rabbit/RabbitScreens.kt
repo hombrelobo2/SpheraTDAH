@@ -58,6 +58,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.Palette
 import app.sphera.R
+import app.sphera.appendDictation
+import app.sphera.rememberDictation
 import app.sphera.returnpoint.SpheraDb
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -66,29 +68,16 @@ import java.util.Locale
 private val GREY = Palette.textSoft
 private const val MAX_QUESTION = 1000 // la captura es una idea, no un diario
 
-/**
- * Botón de dictado con el reconocedor de voz del propio Android (sin IA en Sphera).
- * Si el móvil no tiene reconocedor, no se muestra.
- */
+/** Botón 🎤 de dictado. Si el móvil no tiene reconocedor de voz, no se muestra. */
 @Composable
 private fun DictateButton(modifier: Modifier, onText: (String) -> Unit) {
-    val ctx = LocalContext.current
-    val intent = remember {
-        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            .putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toLanguageTag())
-    }
-    if (remember { intent.resolveActivity(ctx.packageManager) == null }) return
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.let(onText)
-    }
-    OutlinedButton(onClick = { launcher.launch(intent) }, modifier = modifier) {
+    val dictate = rememberDictation(onText) ?: return
+    OutlinedButton(onClick = dictate, modifier = modifier) {
         Text("🎤", fontSize = 24.sp, lineHeight = 30.sp)
     }
 }
 
-/** Añade texto dictado a lo ya escrito, con un espacio en medio. */
-private fun append(current: String, dictated: String) = listOf(current.trim(), dictated.trim()).filter { it.isNotEmpty() }.joinToString(" ")
+private fun append(current: String, dictated: String) = appendDictation(current, dictated)
 
 /** Captura en 5 segundos: el teclado sale solo, se escribe, se guarda y se vuelve a lo que se estaba haciendo. */
 @Composable

@@ -40,6 +40,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.R
+import app.sphera.appendDictation
+import app.sphera.rememberDictation
 import kotlinx.coroutines.launch
 
 // Estilo inspirado en Olauncher (https://github.com/tanujnotes/Olauncher, GPL-3.0):
@@ -84,7 +86,7 @@ fun ReturnCardScreen(onDone: () -> Unit) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(36.dp)) {
             point?.let { p ->
                 // El siguiente paso es lo único que importa al volver: es el protagonista.
-                Text(p.nextStep, color = WHITE, fontSize = 40.sp, lineHeight = 48.sp)
+                Text(p.nextStep, color = WHITE, fontSize = 34.sp, lineHeight = 43.sp)
                 Detail(stringResource(R.string.rp_where), p.contextLocation)
                 Detail(stringResource(R.string.rp_tools), p.requiredTools)
             }
@@ -102,35 +104,36 @@ private fun Detail(label: String, value: String) {
     }
 }
 
-/** Formulario para apuntar dónde lo dejas. Se abre desde el inicio o desde el widget. */
+private const val MAX_TEXT = 1000
+
+/**
+ * Formulario de una sola caja: qué estabas haciendo y qué toca después, escrito o dictado.
+ * Se abre desde el inicio o desde el widget.
+ */
 @Composable
 fun ReturnFormScreen(onDone: () -> Unit) {
     val dao = SpheraDb.get(LocalContext.current).returnPoints()
     val scope = rememberCoroutineScope()
-    var where by rememberSaveable { mutableStateOf("") }
-    var next by rememberSaveable { mutableStateOf("") }
-    var tools by rememberSaveable { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf("") }
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { focus.requestFocus() }
+    val dictate = rememberDictation { text = appendDictation(text, it).take(MAX_TEXT) }
 
     Column(
         Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().imePadding()
             .padding(horizontal = MARGIN, vertical = 32.dp),
     ) {
         Label(stringResource(R.string.rp_form_title))
-        Column(
-            Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(top = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp),
-        ) {
-            LineField(stringResource(R.string.rp_where), where, 24.sp, Modifier.focusRequester(focus)) { where = it }
-            LineField(stringResource(R.string.rp_next), next, 30.sp) { next = it }
-            LineField(stringResource(R.string.rp_tools), tools, 24.sp) { tools = it }
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(top = 28.dp)) {
+            LineField(text, 28.sp, stringResource(R.string.rp_single_hint), Modifier.focusRequester(focus)) { text = it.take(MAX_TEXT) }
+            if (dictate != null) TextAction(stringResource(R.string.rp_dictate), SOFT, 20.sp, onClick = dictate)
         }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             TextAction(stringResource(R.string.cancel), SOFT, 22.sp, onClick = onDone)
-            TextAction(stringResource(R.string.rp_save), WHITE, 28.sp, enabled = next.isNotBlank()) {
+            TextAction(stringResource(R.string.rp_save), WHITE, 28.sp, enabled = text.isNotBlank()) {
                 scope.launch {
-                    dao.save(ReturnPoint(contextLocation = where.trim(), nextStep = next.trim(), requiredTools = tools.trim()))
+                    // Todo va en "siguiente paso", que es lo que la tarjeta muestra en grande.
+                    dao.save(ReturnPoint(contextLocation = "", nextStep = text.trim(), requiredTools = ""))
                     onDone()
                 }
             }
@@ -138,19 +141,21 @@ fun ReturnFormScreen(onDone: () -> Unit) {
     }
 }
 
-/** Campo sin caja: etiqueta diminuta encima y una línea fina debajo. */
+/** Caja de texto sin borde: una línea fina debajo y un ejemplo en gris mientras está vacía. */
 @Composable
-private fun LineField(label: String, value: String, fontSize: TextUnit, modifier: Modifier = Modifier, onChange: (String) -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Label(label)
-        BasicTextField(
-            value = value, onValueChange = onChange, maxLines = 3,
-            textStyle = LocalTextStyle.current.merge(TextStyle(color = WHITE, fontSize = fontSize, lineHeight = (fontSize.value * 1.25f).sp)),
-            cursorBrush = SolidColor(WHITE),
-            modifier = modifier.fillMaxWidth().drawBehind {
-                val y = size.height + 6.dp.toPx()
-                drawLine(LINE, Offset(0f, y), Offset(size.width, y), 1.dp.toPx())
-            },
-        )
-    }
+private fun LineField(value: String, fontSize: TextUnit, hint: String, modifier: Modifier = Modifier, onChange: (String) -> Unit) {
+    val style = LocalTextStyle.current.merge(TextStyle(color = WHITE, fontSize = fontSize, lineHeight = (fontSize.value * 1.25f).sp))
+    BasicTextField(
+        value = value, onValueChange = onChange, minLines = 3,
+        textStyle = style,
+        cursorBrush = SolidColor(WHITE),
+        modifier = modifier.fillMaxWidth().drawBehind {
+            val y = size.height + 6.dp.toPx()
+            drawLine(LINE, Offset(0f, y), Offset(size.width, y), 1.dp.toPx())
+        },
+        decorationBox = { inner ->
+            if (value.isEmpty()) Text(hint, style = style.copy(color = FAINT))
+            inner()
+        },
+    )
 }
