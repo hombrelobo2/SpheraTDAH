@@ -2,6 +2,7 @@
 
 ## Próximas mejoras
 
+- Santuario (ajuste fino): mismo brillo que el mezclador en todos los sonidos (sin bajar al mínimo); salir solo con el botón "Salir" (quitar los tres toques); unas 50 frases tranquilas para TDAH que cambian cada 30 s con fundido lento.
 - Dictado por voz también en el Punto de Retorno.
 - Andamio: pulir las plantillas (más naturales, menos "rellenar huecos") y añadir escenarios.
 
