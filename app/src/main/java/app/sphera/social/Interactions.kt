@@ -59,9 +59,37 @@ object Interactions {
         return null
     }
 
+    /** Actualiza llamadas y cumpleaños desde el móvil. */
     // shortcut: se lee en el hilo principal; mover a segundo plano si con muchos contactos se nota lento.
-    fun syncCallLog(ctx: Context) {
-        Store.contacts.toList().forEach { c -> lastCall(ctx, c.phone)?.let { Store.touch(c.id, it) } }
+    fun sync(ctx: Context) {
+        Store.contacts.toList().forEach { c ->
+            lastCall(ctx, c.phone)?.let { Store.touch(c.id, it) }
+            val bday = birthday(ctx, c.phone)
+            if (bday != c.birthday) Store.update(c.id) { it.copy(birthday = bday) }
+        }
+    }
+
+    private fun contactId(ctx: Context, phone: String): Long? = ctx.contentResolver.query(
+        Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone)),
+        arrayOf(ContactsContract.PhoneLookup._ID), null, null, null,
+    )?.use { if (it.moveToFirst()) it.getLong(0) else null }
+
+    /** Cumpleaños guardado en la agenda para ese número, como "MM-dd". */
+    fun birthday(ctx: Context, phone: String): String? = try {
+        contactId(ctx, phone)?.let { id ->
+            ctx.contentResolver.query(
+                ContactsContract.Data.CONTENT_URI, arrayOf(ContactsContract.CommonDataKinds.Event.START_DATE),
+                "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ? AND " +
+                    "${ContactsContract.CommonDataKinds.Event.TYPE} = ?",
+                arrayOf(
+                    id.toString(), ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
+                    ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY.toString(),
+                ),
+                null,
+            )?.use { if (it.moveToFirst()) parseBirthday(it.getString(0)) else null }
+        }
+    } catch (e: SecurityException) {
+        null
     }
 
     fun readPicked(ctx: Context, uri: Uri): Picked? =
@@ -139,11 +167,7 @@ object Interactions {
 
     /** Busca en la agenda la entrada que crea una app de mensajería (p. ej. "Mensaje a +34…" de Telegram) para ese número. */
     private fun agendaChat(ctx: Context, phone: String, app: String): Intent? = try {
-        val contactId = ctx.contentResolver.query(
-            Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone)),
-            arrayOf(ContactsContract.PhoneLookup._ID), null, null, null,
-        )?.use { if (it.moveToFirst()) it.getLong(0) else null }
-        contactId?.let { id ->
+        contactId(ctx, phone)?.let { id ->
             ctx.contentResolver.query(
                 ContactsContract.Data.CONTENT_URI,
                 arrayOf(ContactsContract.Data._ID, ContactsContract.Data.MIMETYPE),

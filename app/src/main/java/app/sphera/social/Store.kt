@@ -16,6 +16,11 @@ data class Contact(
     val alias: String? = null, // nombre propio para el planeta; `name` sigue siendo el de la agenda
     val telegram: String? = null, // usuario sin @
     val instagram: String? = null, // usuario sin @
+    val notes: String? = null,
+    val birthday: String? = null, // "MM-dd", leído de la agenda
+    val group: String? = null, // clave de GROUPS ("family", "friends", "work") o null
+    val snoozeStart: Long = 0, // aplazamiento: el tiempo entre start y until no cuenta como distancia
+    val snoozeUntil: Long = 0,
 )
 
 /** Usuario de red social limpio: sin @, sin espacios y sin la parte de URL ("https://t.me/ana" → "ana"). */
@@ -49,6 +54,10 @@ object Store {
                     o.optString("alias").ifEmpty { null },
                     o.optString("telegram").ifEmpty { null },
                     o.optString("instagram").ifEmpty { null },
+                    o.optString("notes").ifEmpty { null },
+                    o.optString("birthday").ifEmpty { null },
+                    o.optString("group").ifEmpty { null },
+                    o.optLong("snoozeStart"), o.optLong("snoozeUntil"),
                 )
             }
         } catch (e: Exception) {
@@ -79,11 +88,19 @@ object Store {
         }
     }
 
+    /** Pospone [days] días desde ahora; si ya estaba pospuesto, alarga el aplazamiento actual. */
+    fun snooze(id: Long, days: Int, now: Long) = update(id) {
+        it.copy(snoozeStart = if (isSnoozed(it, now)) it.snoozeStart else now, snoozeUntil = now + days * DAY)
+    }
+
+    fun unsnooze(id: Long, now: Long) = update(id) { if (isSnoozed(it, now)) it.copy(snoozeUntil = now) else it }
+
     /** Registra un contacto con la persona, solo si es más reciente que el último conocido. */
     fun touch(id: Long, time: Long) {
         val i = contacts.indexOfFirst { it.id == id }
         if (i >= 0 && time > contacts[i].lastContact) {
-            contacts[i] = contacts[i].copy(lastContact = time)
+            // Hablar con alguien pospuesto termina el aplazamiento.
+            contacts[i] = contacts[i].copy(lastContact = time, snoozeUntil = minOf(contacts[i].snoozeUntil, time))
             save()
         }
     }
@@ -95,7 +112,9 @@ object Store {
             arr.put(
                 JSONObject().put("id", it.id).put("name", it.name).put("phone", it.phone)
                     .put("photo", it.photo ?: "").put("frequencyDays", it.frequencyDays).put("lastContact", it.lastContact)
-                    .put("alias", it.alias ?: "").put("telegram", it.telegram ?: "").put("instagram", it.instagram ?: ""),
+                    .put("alias", it.alias ?: "").put("telegram", it.telegram ?: "").put("instagram", it.instagram ?: "")
+                    .put("notes", it.notes ?: "").put("birthday", it.birthday ?: "").put("group", it.group ?: "")
+                    .put("snoozeStart", it.snoozeStart).put("snoozeUntil", it.snoozeUntil),
             )
         }
         val tmp = File(f.parentFile, "contacts.json.tmp")

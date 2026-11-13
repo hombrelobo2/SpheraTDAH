@@ -91,4 +91,27 @@
     <string name="instagram_user">Usuario de Instagram (opcional)</string>
     <string name="perm_battery">Sin restricciones de batería</string>
     <string name="perm_battery_desc">Evita que el móvil cierre Sphera en segundo plano y se pierdan el resumen diario o la detección de mensajes. En Oppo, OnePlus, Realme o Xiaomi revisa también Ajustes → Batería → Sphera.</string>
+    <!-- 0.0.7 -->
+    <string name="notes">Notas: de qué hablasteis, qué preguntar…</string>
+    <string name="birthday_today">🎂 Hoy es su cumpleaños</string>
+    <string name="summary_birthday">Hoy es el cumpleaños de %s 🎂</string>
+    <string name="snooze">Posponer (el planeta no se aleja)</string>
+    <string name="snooze_none">No posponer</string>
+    <string name="snooze_3d">3 días</string>
+    <string name="snooze_1w">1 semana</string>
+    <string name="snooze_2w">2 semanas</string>
+    <string name="snooze_1m">1 mes</string>
+    <string name="snoozed_until">💤 Pospuesto hasta el %s</string>
+    <string name="snooze_cancel">Quitar el aplazamiento</string>
+    <string name="group">Grupo</string>
+    <string name="group_none">Sin grupo</string>
+    <string name="group_family">Familia</string>
+    <string name="group_friends">Amigos</string>
+    <string name="group_work">Trabajo</string>
+    <string name="filter_all">Todos</string>
+    <plurals name="month_count">
+        <item quantity="one">Este mes has hablado con %d persona 🌟</item>
+        <item quantity="many">Este mes has hablado con %d personas 🌟</item>
+        <item quantity="other">Este mes has hablado con %d personas 🌟</item>
+    </plurals>
 </resources>

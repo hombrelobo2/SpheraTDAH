@@ -52,9 +52,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -78,16 +80,25 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import app.sphera.BackBar
 import app.sphera.Picker
 import app.sphera.R
+import java.text.DateFormat
+import java.util.Date
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
-private const val DAY = 86_400_000L
 private val FREQUENCIES = listOf(
     7 to R.string.freq_weekly, 14 to R.string.freq_biweekly,
     30 to R.string.freq_monthly, 90 to R.string.freq_quarterly,
 )
+/** Grupos (lunas): clave guardada, nombre y color de la luna. */
+private val GROUPS = listOf(
+    Triple("family", R.string.group_family, Color(0xFFEC407A)),
+    Triple("friends", R.string.group_friends, Color(0xFF42A5F5)),
+    Triple("work", R.string.group_work, Color(0xFFAB47BC)),
+)
+private val SNOOZE_DAYS = listOf(3 to R.string.snooze_3d, 7 to R.string.snooze_1w, 14 to R.string.snooze_2w, 30 to R.string.snooze_1m)
+private val BIRTHDAY = Color(0xFFFFD54F)
 private val NEAR = Color(0xFF43A047)
 private val MID = Color(0xFFFFB300)
 private val FAR = Color(0xFFE53935)
@@ -95,33 +106,23 @@ private val FAR = Color(0xFFE53935)
 /** Verde al lado del sol, ámbar a medio camino, rojo en el borde. */
 private fun planetColor(d: Float) = if (d < 0.5f) lerp(NEAR, MID, d * 2) else lerp(MID, FAR, (d - 0.5f) * 2)
 
-fun daysSince(c: Contact, now: Long) = ((now - c.lastContact) / DAY).toInt().coerceAtLeast(0)
-
-/** 0 = pegado al sol, 1 = órbita exterior (se alcanza al pasar el doble de la frecuencia elegida). */
-fun distance(c: Contact, now: Long) = (daysSince(c, now) / (2f * c.frequencyDays)).coerceIn(0f, 1f)
-
-/** Quien ya ha pasado su frecuencia, del más alejado al menos. */
-fun drifting(contacts: List<Contact>, now: Long) =
-    contacts.filter { daysSince(it, now) >= it.frequencyDays }.sortedByDescending { daysSince(it, now).toFloat() / it.frequencyDays }
-
-/** Un único contacto sugerido para hoy: el que más se ha pasado de su frecuencia. */
-fun todaysPick(contacts: List<Contact>, now: Long) = drifting(contacts, now).firstOrNull()
-
 @Composable
 fun UniverseScreen(onBack: () -> Unit) {
     val ctx = LocalContext.current
     var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
     var selectedId by remember { mutableStateOf<Long?>(null) }
     var picked by remember { mutableStateOf<Picked?>(null) }
+    var group by rememberSaveable { mutableStateOf<String?>(null) } // filtro; null = todos
+    val visible = Store.contacts.filter { group == null || it.group == group }
 
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        Interactions.syncCallLog(ctx)
+        Interactions.sync(ctx)
     }
     LaunchedEffect(Unit) {
         if (!Interactions.hasPermissions(ctx)) permLauncher.launch(Interactions.PERMISSIONS)
     }
     LifecycleResumeEffect(Unit) {
-        Interactions.syncCallLog(ctx)
+        Interactions.sync(ctx)
         now = System.currentTimeMillis()
         onPauseOrDispose { }
     }
@@ -136,7 +137,15 @@ fun UniverseScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
-        topBar = { BackBar(R.string.skill_social, onBack) },
+        topBar = {
+            BackBar(R.string.skill_social, onBack) {
+                val labels = listOf(stringResource(R.string.filter_all)) + GROUPS.map { stringResource(it.second) }
+                val keys = listOf(null) + GROUPS.map { it.first }
+                Box(Modifier.width(160.dp).padding(end = 8.dp)) {
+                    Picker(labels, keys.indexOf(group)) { group = keys[it] }
+                }
+            }
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 picker.launch(Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI))
@@ -144,15 +153,26 @@ fun UniverseScreen(onBack: () -> Unit) {
         },
     ) { padding ->
         Box(Modifier.padding(padding)) {
-            Space(Store.contacts, now, Modifier) { selectedId = it.id }
-            todaysPick(Store.contacts, now)?.let { pick ->
+            Space(visible, now, Modifier) { selectedId = it.id }
+            val monthCount = talkedThisMonth(visible, now)
+            if (monthCount > 0) {
+                Text(
+                    pluralStringResource(R.plurals.month_count, monthCount, monthCount),
+                    Modifier.align(Alignment.BottomStart).padding(16.dp),
+                    color = Color.White.copy(alpha = 0.8f),
+                )
+            }
+            todaysPick(visible, now)?.let { pick ->
                 Card(
                     onClick = { selectedId = pick.id },
                     modifier = Modifier.align(Alignment.TopCenter).padding(12.dp).fillMaxWidth(),
                 ) {
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            stringResource(R.string.today_write_to, displayName(pick)),
+                            stringResource(
+                                if (isBirthday(pick, now)) R.string.summary_birthday else R.string.today_write_to,
+                                displayName(pick),
+                            ),
                             Modifier.weight(1f), style = MaterialTheme.typography.titleMedium,
                         )
                         Text(pluralStringResource(R.plurals.days_short, daysSince(pick, now), daysSince(pick, now)))
@@ -166,12 +186,17 @@ fun UniverseScreen(onBack: () -> Unit) {
         AddDialog(p, onDismiss = { picked = null }) { freq ->
             val id = System.currentTimeMillis()
             val last = Interactions.lastCall(ctx, p.phone) ?: id
-            Store.upsert(Contact(id, p.name, p.phone, Interactions.savePhoto(ctx, p.photoUri, id), freq, last))
+            Store.upsert(
+                Contact(
+                    id, p.name, p.phone, Interactions.savePhoto(ctx, p.photoUri, id), freq, last,
+                    birthday = Interactions.birthday(ctx, p.phone),
+                ),
+            )
             picked = null
         }
     }
     Store.contacts.firstOrNull { it.id == selectedId }?.let { c ->
-        PlanetDialog(c, now, onDismiss = { selectedId = null })
+        PlanetDialog(c, now, onDismiss = { selectedId = null; now = System.currentTimeMillis() })
     }
 }
 
@@ -229,7 +254,7 @@ private fun Space(contacts: List<Contact>, now: Long, modifier: Modifier, onTap:
             val laps = 1 + ((1 - d) * 3).roundToInt() // más cerca = más rápido; entero para que no salte al reiniciar
             val phase = i * 2.39996f // ángulo áureo: reparte los planetas sin que se amontonen
             Planet(
-                c, d, daysSince(c, now),
+                c, d, daysSince(c, now), isSnoozed(c, now), isBirthday(c, now),
                 Modifier.offset {
                     val a = phase + time.value * 2 * PI.toFloat() * laps
                     IntOffset((w / 2 + rx * cos(a) - labelHalf).roundToInt(), (h / 2 + ry * sin(a) - planet / 2).roundToInt())
@@ -240,27 +265,72 @@ private fun Space(contacts: List<Contact>, now: Long, modifier: Modifier, onTap:
 }
 
 @Composable
-private fun Planet(c: Contact, d: Float, days: Int, modifier: Modifier, onClick: () -> Unit) {
+private fun Planet(
+    c: Contact, d: Float, days: Int, snoozed: Boolean, birthday: Boolean, modifier: Modifier, onClick: () -> Unit,
+) {
     val photo = remember(c.photo) { c.photo?.let { BitmapFactory.decodeFile(it)?.asImageBitmap() } }
+    val ring = if (birthday) BIRTHDAY else planetColor(d)
     Column(
-        modifier.width(80.dp).clickable(onClick = onClick),
+        modifier.width(80.dp).alpha(if (snoozed) 0.4f else 1f).clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
-            Modifier.size(48.dp).clip(CircleShape).background(planetColor(d))
-                .border(3.dp, planetColor(d), CircleShape),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (photo != null) {
-                Image(photo, c.name, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-            } else {
-                val initials = c.name.split(" ").filter { it.isNotBlank() }.take(2).joinToString("") { it.take(1).uppercase() }
-                Text(initials, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Box(Modifier.size(52.dp)) {
+            Box(
+                Modifier.size(48.dp).align(Alignment.Center).clip(CircleShape).background(planetColor(d))
+                    .border(if (birthday) 4.dp else 3.dp, ring, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (photo != null) {
+                    Image(photo, c.name, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                } else {
+                    val initials = c.name.split(" ").filter { it.isNotBlank() }.take(2).joinToString("") { it.take(1).uppercase() }
+                    Text(initials, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                }
+            }
+            // Luna del grupo
+            GROUPS.firstOrNull { it.first == c.group }?.let { (_, _, color) ->
+                Box(
+                    Modifier.size(14.dp).align(Alignment.TopEnd).background(color, CircleShape)
+                        .border(1.5.dp, Color(0xFF05070D), CircleShape),
+                )
             }
         }
         Text(displayName(c), color = Color.White, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Text(stringResource(R.string.planet_days, days), color = planetColor(d), fontSize = 11.sp, fontWeight = FontWeight.Bold)
+        Text(
+            when {
+                snoozed -> "💤"
+                birthday -> "🎂 " + stringResource(R.string.planet_days, days)
+                else -> stringResource(R.string.planet_days, days)
+            },
+            color = ring, fontSize = 11.sp, fontWeight = FontWeight.Bold,
+        )
     }
+}
+
+@Composable
+private fun SnoozePicker(c: Contact, now: Long) {
+    val snoozed = isSnoozed(c, System.currentTimeMillis())
+    val first = if (snoozed) {
+        stringResource(R.string.snoozed_until, DateFormat.getDateInstance(DateFormat.SHORT).format(Date(c.snoozeUntil)))
+    } else {
+        stringResource(R.string.snooze_none)
+    }
+    val options = listOf(first) + SNOOZE_DAYS.map { stringResource(it.second) } +
+        if (snoozed) listOf(stringResource(R.string.snooze_cancel)) else emptyList()
+    Picker(options, 0) { i ->
+        val t = System.currentTimeMillis()
+        when {
+            i in 1..SNOOZE_DAYS.size -> Store.snooze(c.id, SNOOZE_DAYS[i - 1].first, t)
+            i > SNOOZE_DAYS.size -> Store.unsnooze(c.id, t)
+        }
+    }
+}
+
+@Composable
+private fun GroupPicker(c: Contact) {
+    val labels = listOf(stringResource(R.string.group_none)) + GROUPS.map { stringResource(it.second) }
+    val keys = listOf(null) + GROUPS.map { it.first }
+    Picker(labels, keys.indexOf(c.group)) { i -> Store.update(c.id) { it.copy(group = keys[i]) } }
 }
 
 @Composable
@@ -300,13 +370,15 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
     var alias by remember { mutableStateOf(c.alias ?: "") }
     var telegram by remember { mutableStateOf(c.telegram ?: "") }
     var instagram by remember { mutableStateOf(c.instagram ?: "") }
+    var notes by remember { mutableStateOf(c.notes ?: "") }
     // Todas las salidas de la ficha guardan estos campos, que se editan sin botón de guardar.
     val close = {
         val newAlias = alias.trim().ifEmpty { null }
         val newTg = cleanHandle(telegram)
         val newIg = cleanHandle(instagram)
-        if (newAlias != c.alias || newTg != c.telegram || newIg != c.instagram) {
-            Store.update(c.id) { it.copy(alias = newAlias, telegram = newTg, instagram = newIg) }
+        val newNotes = notes.trim().ifEmpty { null }
+        if (newAlias != c.alias || newTg != c.telegram || newIg != c.instagram || newNotes != c.notes) {
+            Store.update(c.id) { it.copy(alias = newAlias, telegram = newTg, instagram = newIg, notes = newNotes) }
         }
         onDismiss()
     }
@@ -336,6 +408,11 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
                     else pluralStringResource(R.plurals.days_since, days, days),
                     style = MaterialTheme.typography.titleMedium,
                 )
+                if (isBirthday(c, now)) Text(stringResource(R.string.birthday_today), color = BIRTHDAY)
+                OutlinedTextField(
+                    value = notes, onValueChange = { notes = it }, minLines = 2,
+                    label = { Text(stringResource(R.string.notes)) }, modifier = Modifier.fillMaxWidth(),
+                )
                 Text(stringResource(R.string.icebreaker), style = MaterialTheme.typography.labelLarge)
                 Picker(messages, message) { message = it }
                 Text(stringResource(R.string.send_via), style = MaterialTheme.typography.labelLarge)
@@ -356,6 +433,10 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
                 ) { Text(stringResource(R.string.mark_contacted)) }
                 Text(stringResource(R.string.frequency), style = MaterialTheme.typography.labelLarge)
                 FrequencyPicker(c.frequencyDays) { f -> Store.update(c.id) { it.copy(frequencyDays = f) } }
+                Text(stringResource(R.string.snooze), style = MaterialTheme.typography.labelLarge)
+                SnoozePicker(c, now)
+                Text(stringResource(R.string.group), style = MaterialTheme.typography.labelLarge)
+                GroupPicker(c)
                 OutlinedTextField(
                     value = alias, onValueChange = { alias = it }, singleLine = true,
                     label = { Text(stringResource(R.string.alias)) }, modifier = Modifier.fillMaxWidth(),

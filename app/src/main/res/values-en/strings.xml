@@ -83,4 +83,25 @@
     <string name="instagram_user">Instagram username (optional)</string>
     <string name="perm_battery">No battery restrictions</string>
     <string name="perm_battery_desc">Stops the phone from closing Sphera in the background, so the daily summary and message detection keep working. On Oppo, OnePlus, Realme or Xiaomi also check Settings → Battery → Sphera.</string>
+    <string name="notes">Notes: what you talked about, what to ask…</string>
+    <string name="birthday_today">🎂 It is their birthday today</string>
+    <string name="summary_birthday">Today is %s\'s birthday 🎂</string>
+    <string name="snooze">Snooze (the planet will not drift)</string>
+    <string name="snooze_none">Do not snooze</string>
+    <string name="snooze_3d">3 days</string>
+    <string name="snooze_1w">1 week</string>
+    <string name="snooze_2w">2 weeks</string>
+    <string name="snooze_1m">1 month</string>
+    <string name="snoozed_until">💤 Snoozed until %s</string>
+    <string name="snooze_cancel">Stop snoozing</string>
+    <string name="group">Group</string>
+    <string name="group_none">No group</string>
+    <string name="group_family">Family</string>
+    <string name="group_friends">Friends</string>
+    <string name="group_work">Work</string>
+    <string name="filter_all">Everyone</string>
+    <plurals name="month_count">
+        <item quantity="one">This month you talked to %d person 🌟</item>
+        <item quantity="other">This month you talked to %d people 🌟</item>
+    </plurals>
 </resources>

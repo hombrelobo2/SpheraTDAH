@@ -53,9 +53,10 @@ object DailySummary {
             ctx.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) return
         Store.init(ctx)
-        Interactions.syncCallLog(ctx)
+        Interactions.sync(ctx)
         val now = System.currentTimeMillis()
-        val list = drifting(Store.contacts, now)
+        // Cumpleaños primero, después quien más se aleja; los pospuestos no aparecen.
+        val list = (Store.contacts.filter { isBirthday(it, now) } + drifting(Store.contacts, now)).distinctBy { it.id }
         val first = list.firstOrNull() ?: return
         val others = list.drop(1).map(::displayName)
         val text = if (others.isEmpty()) {
@@ -79,7 +80,12 @@ object DailySummary {
             1,
             Notification.Builder(ctx, CHANNEL)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(ctx.getString(R.string.today_write_to, displayName(first)))
+                .setContentTitle(
+                    ctx.getString(
+                        if (isBirthday(first, now)) R.string.summary_birthday else R.string.today_write_to,
+                        displayName(first),
+                    ),
+                )
                 .setContentText(text)
                 .setStyle(Notification.BigTextStyle().bigText(text))
                 .setContentIntent(open)

@@ -1,13 +1,5 @@
 # Hoja de ruta
 
-## Próximas mejoras de Universo social
-
-- Notas por contacto (qué hablasteis, qué preguntar la próxima vez).
-- Cumpleaños leídos de la agenda: el planeta brilla ese día y entra en el resumen diario.
-- Posponer sin culpa: "ahora no" congela el planeta X días sin marcar contacto.
-- Grupos/lunas (familia, amigos, trabajo) con color y filtro.
-- Refuerzo positivo: "este mes has hablado con N personas", sin rachas rotas ni mensajes de culpa.
-
 ## Para la beta
 
 - Actualizador en Ajustes: comprobar si hay versión nueva en GitHub Releases y actualizar desde la app (descargar APK e instalar).

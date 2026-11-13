@@ -53,6 +53,39 @@ class UniverseTest {
     }
 
     @Test
+    fun snoozedTimeDoesNotCount() {
+        val now = 1_000 * day
+        // 20 días sin contacto, de los que 10 estuvo pospuesto (ya terminado): cuentan 10.
+        val c = contact(20, 7).copy(snoozeStart = now - 15 * day, snoozeUntil = now - 5 * day)
+        assertEquals(10, daysSince(c, now))
+        // Pospuesto ahora mismo: congelado en lo que llevaba antes, y fuera del resumen.
+        val frozen = contact(20, 7).copy(snoozeStart = now - 5 * day, snoozeUntil = now + 5 * day)
+        assertEquals(15, daysSince(frozen, now))
+        assertTrue(isSnoozed(frozen, now))
+        assertEquals(emptyList<Contact>(), drifting(listOf(frozen), now))
+    }
+
+    @Test
+    fun birthdaysAreParsedAndComeFirst() {
+        assertEquals("05-21", parseBirthday("1990-05-21"))
+        assertEquals("05-21", parseBirthday("--05-21"))
+        assertEquals(null, parseBirthday(null))
+        val now = java.util.Calendar.getInstance().apply { set(2026, 4, 21, 12, 0) }.timeInMillis
+        val bday = contact(0, 30).copy(id = 9, birthday = "05-21")
+        val late = contact(0, 7).copy(id = 8, lastContact = now - 40 * day)
+        assertTrue(isBirthday(bday, now))
+        assertEquals(9L, todaysPick(listOf(late, bday), now)?.id)
+    }
+
+    @Test
+    fun monthCountOnlyCountsThisMonth() {
+        val now = java.util.Calendar.getInstance().apply { set(2026, 4, 21, 12, 0) }.timeInMillis
+        val thisMonth = contact(0, 7).copy(lastContact = now - 3 * day)
+        val lastMonth = contact(0, 7).copy(lastContact = now - 30 * day)
+        assertEquals(1, talkedThisMonth(listOf(thisMonth, lastMonth), now))
+    }
+
+    @Test
     fun distanceGrowsUntilTwiceTheFrequency() {
         val now = 1_000 * day
         assertEquals(0f, distance(contact(0, 7), now), 0.001f)
