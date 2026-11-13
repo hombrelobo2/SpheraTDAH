@@ -25,7 +25,8 @@ object Interactions {
 
     // Apps cuyas notificaciones cuentan como "esta persona me ha escrito".
     val MESSAGING_PACKAGES = setOf(
-        "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger",
+        "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "org.telegram.messenger.web", "org.thunderdog.challegram",
+        "org.thoughtcrime.securesms", "com.viber.voip",
         "com.google.android.apps.messaging", "com.samsung.android.messaging",
     )
 
@@ -101,10 +102,14 @@ object Interactions {
         val apps = listOf(
             Triple(R.string.ch_whatsapp, "com.whatsapp", "https://wa.me/$intl"),
             Triple(R.string.ch_whatsapp_business, "com.whatsapp.w4b", "https://wa.me/$intl"),
-            Triple(R.string.ch_telegram, "org.telegram.messenger", "tg://resolve?phone=$intl"),
+            Triple(R.string.ch_signal, "org.thoughtcrime.securesms", "https://signal.me/#p/+$intl"),
+            Triple(R.string.ch_viber, "com.viber.voip", "viber://chat?number=%2B$intl"),
         ).filter { installed(ctx, it.second) }
             .map { (label, pkg, url) -> Channel(label, Intent(Intent.ACTION_VIEW, Uri.parse(url)).setPackage(pkg)) }
-        return apps +
+        // Telegram sin paquete fijo: vale cualquier versión (Play, telegram.org, F-Droid, Telegram X).
+        val telegram = Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?phone=$intl"))
+        val tg = if (telegram.resolveActivity(ctx.packageManager) != null) listOf(Channel(R.string.ch_telegram, telegram)) else emptyList()
+        return apps + tg +
             Channel(R.string.ch_sms, Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", phone, null))) +
             Channel(R.string.ch_call, Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null)))
     }

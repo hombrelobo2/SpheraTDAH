@@ -22,6 +22,8 @@
     <string name="ch_whatsapp">WhatsApp</string>
     <string name="ch_whatsapp_business">WhatsApp Business</string>
     <string name="ch_telegram">Telegram</string>
+    <string name="ch_signal">Signal</string>
+    <string name="ch_viber">Viber</string>
     <string name="ch_sms">SMS</string>
     <string name="ch_call">Llamar</string>
     <string name="no_app">No hay ninguna app para abrir esto</string>
@@ -35,7 +37,9 @@
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
     <string name="delete">Eliminar</string>
-    <string name="delete_confirm">¿Seguro? Toca otra vez</string>
+    <string name="delete_title">¿Eliminar a %s?</string>
+    <string name="delete_text">Desaparecerá de tu universo. El contacto de tu agenda no se toca.</string>
+    <string name="delete_hint">Mantén pulsado para eliminar</string>
 
     <!-- Ajustes -->
     <string name="language">Idioma</string>
@@ -46,7 +50,7 @@
     <string name="perm_calls">Contactos y registro de llamadas</string>
     <string name="perm_calls_desc">Para mostrar la foto del contacto y saber cuándo hablasteis por teléfono.</string>
     <string name="perm_notifications">Acceso a notificaciones</string>
-    <string name="perm_notifications_desc">Para detectar cuándo te escribe alguien por WhatsApp, Telegram o SMS. Si Android lo bloquea: Ajustes → Apps → Sphera → ⋮ → Permitir ajustes restringidos.</string>
+    <string name="perm_notifications_desc">Para detectar cuándo te escribe alguien por WhatsApp, Telegram, Signal, Viber o SMS. Si Android lo bloquea: Ajustes → Apps → Sphera → ⋮ → Permitir ajustes restringidos.</string>
     <string name="granted">Concedido</string>
     <string name="grant">Conceder</string>
     <string name="version">Versión %s</string>

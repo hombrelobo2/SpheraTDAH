@@ -19,6 +19,8 @@
     <string name="ch_whatsapp">WhatsApp</string>
     <string name="ch_whatsapp_business">WhatsApp Business</string>
     <string name="ch_telegram">Telegram</string>
+    <string name="ch_signal">Signal</string>
+    <string name="ch_viber">Viber</string>
     <string name="ch_sms">SMS</string>
     <string name="ch_call">Call</string>
     <string name="no_app">No app can open this</string>
@@ -32,7 +34,9 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="delete">Delete</string>
-    <string name="delete_confirm">Sure? Tap again</string>
+    <string name="delete_title">Delete %s?</string>
+    <string name="delete_text">They will leave your universe. Your phone contact is not touched.</string>
+    <string name="delete_hint">Press and hold to delete</string>
 
     <string name="language">Language</string>
     <string name="lang_system">System default</string>
@@ -42,7 +46,7 @@
     <string name="perm_calls">Contacts and call log</string>
     <string name="perm_calls_desc">To show contact photos and know when you talked on the phone.</string>
     <string name="perm_notifications">Notification access</string>
-    <string name="perm_notifications_desc">To detect when someone messages you on WhatsApp, Telegram or SMS. If Android blocks it: Settings → Apps → Sphera → ⋮ → Allow restricted settings.</string>
+    <string name="perm_notifications_desc">To detect when someone messages you on WhatsApp, Telegram, Signal, Viber or SMS. If Android blocks it: Settings → Apps → Sphera → ⋮ → Allow restricted settings.</string>
     <string name="granted">Granted</string>
     <string name="grant">Grant</string>
     <string name="version">Version %s</string>

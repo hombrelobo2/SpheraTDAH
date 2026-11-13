@@ -12,10 +12,12 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -259,12 +261,28 @@ private fun AddDialog(p: Picked, onDismiss: () -> Unit, onAdd: (Int) -> Unit) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
     val ctx = LocalContext.current
     val days = daysSince(c, now)
     val channels = remember(c.phone) { Interactions.channels(ctx, c.phone) }
     var confirmDelete by remember { mutableStateOf(false) }
+    if (confirmDelete) {
+        // Diálogo aparte con "Cancelar" a la derecha, donde estaba "Eliminar", para que un doble toque no borre.
+        AlertDialog(
+            onDismissRequest = { confirmDelete = false },
+            title = { Text(stringResource(R.string.delete_title, c.name)) },
+            text = { Text(stringResource(R.string.delete_text)) },
+            confirmButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.cancel)) } },
+            dismissButton = {
+                TextButton(onClick = { Store.remove(c); onDismiss() }) {
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
+                }
+            },
+        )
+        return
+    }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(c.name) },
@@ -296,12 +314,17 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } },
         dismissButton = {
-            TextButton(onClick = { if (confirmDelete) { Store.remove(c); onDismiss() } else confirmDelete = true }) {
-                Text(
-                    stringResource(if (confirmDelete) R.string.delete_confirm else R.string.delete),
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
+            // Hay que mantener pulsado: un toque normal solo muestra cómo hacerlo.
+            Text(
+                stringResource(R.string.delete),
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .combinedClickable(
+                        onClick = { Toast.makeText(ctx, R.string.delete_hint, Toast.LENGTH_SHORT).show() },
+                        onLongClick = { confirmDelete = true },
+                    )
+                    .padding(12.dp),
+            )
         },
     )
 }
