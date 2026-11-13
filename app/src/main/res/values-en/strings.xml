@@ -157,29 +157,6 @@
     <string name="rabbit_notes">Notes</string>
     <string name="rabbit_empty">Nothing parked yet.</string>
     <string name="rabbit_delete_title">Delete this curiosity?</string>
-    <string name="skill_andamio">Scaffold</string>
-    <string name="andamio_title">Scaffold</string>
-    <string name="andamio_hint">Three short, blunt sentences. The app takes care of the tone.</string>
-    <string name="andamio_q_context">What exactly happened?</string>
-    <string name="andamio_ex_context">you invited me to your birthday tomorrow</string>
-    <string name="andamio_q_need">What do you need?</string>
-    <string name="andamio_ex_need">to stay home in silence</string>
-    <string name="andamio_q_action">What are you going to decide?</string>
-    <string name="andamio_ex_action">I will not go</string>
-    <string name="andamio_build">Build messages</string>
-    <string name="andamio_copy">Copy</string>
-    <string name="andamio_send">Send</string>
-    <string name="andamio_copied">Copied</string>
-    <string name="andamio_edit">Change the answers</string>
-    <string-array name="andamio_templates">
-        <item>General|Short and direct|About the fact that {contexto}: {accion}. I need {necesidad}. Thanks for understanding.</item>
-        <item>General|Gentle|Hey, I am writing about the fact that {contexto}. I have realised I need {necesidad}, so {accion}. I hope you understand.</item>
-        <item>General|Warm|Hi! Writing with love about the fact that {contexto}. Right now I need {necesidad}, so {accion}. It is nothing against you, really. Big hug!</item>
-        <item>Work|Formal|Good morning. Regarding the fact that {contexto}, after assessing the situation, my priority is {necesidad}. For this reason, {accion}. Thank you for your understanding.</item>
-        <item>Work|Friendly|Hi, about the fact that {contexto}: right now I need {necesidad}, so {accion}. Happy to talk it over if needed. Thanks!</item>
-        <item>Family and partner|Honest|I want to be honest about the fact that {contexto}. I need {necesidad}, and that is why {accion}. It has nothing to do with you, I love you.</item>
-        <item>Family and partner|Calm|About the fact that {contexto}: it is nothing against you, I just need {necesidad}. So {accion}. Shall we talk about it calmly when it suits you?</item>
-    </string-array>
     <string name="skill_body">Check-in</string>
     <string name="body_title">Body check-in</string>
     <string name="body_yes">Yes</string>
@@ -334,4 +311,80 @@
     <string name="text_size_xlarge">Extra large</string>
     <string name="rp_single_hint">What you were doing and what comes next. E.g.: Filling in the insurance form. Next: find the old policy PDF.</string>
     <string name="rp_dictate">🎤 Dictate</string>
+    <string name="skill_steps">Step by step</string>
+    <string name="steps_first">First step</string>
+    <string name="steps_resume">Unfinished</string>
+    <string name="steps_resume_at">You were on step %1$d of %2$d</string>
+    <string name="steps_mine">My routines</string>
+    <string name="steps_examples">Examples</string>
+    <string name="steps_edit">Edit</string>
+    <string name="steps_copy">Copy</string>
+    <string name="steps_new">+ New routine</string>
+    <string name="steps_pause">Continue later</string>
+    <string name="steps_progress">Step %1$d of %2$d</string>
+    <string name="steps_previous">Back</string>
+    <string name="steps_skip">Skip</string>
+    <string name="steps_done">Done</string>
+    <string name="steps_finish">Stop here</string>
+    <string name="steps_repeat">Repeat</string>
+    <string name="steps_done_title">Done.</string>
+    <string name="steps_done_text">You reached the end. Whatever you skipped does not matter.</string>
+    <string name="steps_name">Routine name</string>
+    <string name="steps_list">Steps</string>
+    <string name="steps_add">+ Add step</string>
+    <string name="steps_delete_title">Delete this routine?</string>
+    <string name="steps_first_q_task">Which task is blocking you?</string>
+    <string name="steps_first_ex_task">file my tax return</string>
+    <string name="steps_first_q_step">What is the smallest action to get started?</string>
+    <string name="steps_first_q_next">And the next small action?</string>
+    <string name="steps_first_ex_step">open the laptop</string>
+    <string name="steps_first_go">OK</string>
+    <string name="steps_first_stop">I have started, that is enough</string>
+    <string name="steps_first_finished">You have started.</string>
+    <string name="steps_first_finished_text">Starting was the hardest part. Keep going at your pace or stop here.</string>
+    <string name="steps_first_save">Save these steps as a routine</string>
+    <string name="steps_ex_leave_home">Leaving home</string>
+    <string-array name="steps_ex_leave_home">
+        <item>Put your shoes on.</item>
+        <item>Take your keys.</item>
+        <item>Take your wallet.</item>
+        <item>Take your phone and charger.</item>
+        <item>Check if you need a coat or umbrella.</item>
+        <item>Turn off lights and the stove.</item>
+        <item>Go out and lock the door.</item>
+    </string-array>
+    <string name="steps_ex_morning">Morning routine</string>
+    <string-array name="steps_ex_morning">
+        <item>Drink a glass of water.</item>
+        <item>Go to the bathroom.</item>
+        <item>Wash your face and brush your teeth.</item>
+        <item>Take your medication, if it is time.</item>
+        <item>Put on the first comfortable clothes you see.</item>
+        <item>Eat something, even a little.</item>
+    </string-array>
+    <string name="steps_ex_start_work">Starting work</string>
+    <string-array name="steps_ex_start_work">
+        <item>Fill your water bottle.</item>
+        <item>Put your phone face down or in another room.</item>
+        <item>Close the tabs you do not need.</item>
+        <item>Open only the document for the task.</item>
+        <item>Write one sentence, even a bad one.</item>
+    </string-array>
+    <string name="steps_ex_shower">Taking a shower</string>
+    <string-array name="steps_ex_shower">
+        <item>Take the towel and clean clothes to the bathroom.</item>
+        <item>Turn on the water and wait until it is warm.</item>
+        <item>Get in the shower.</item>
+        <item>Wash your hair.</item>
+        <item>Wash your body.</item>
+        <item>Dry off and get dressed.</item>
+    </string-array>
+    <string name="steps_ex_bedtime">Before bed</string>
+    <string-array name="steps_ex_bedtime">
+        <item>Charge your phone away from the bed.</item>
+        <item>Brush your teeth.</item>
+        <item>Get tomorrow ready (clothes, keys).</item>
+        <item>Dim the lights.</item>
+        <item>Get into bed.</item>
+    </string-array>
 </resources>

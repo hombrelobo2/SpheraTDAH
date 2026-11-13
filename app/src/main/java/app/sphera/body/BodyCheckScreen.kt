@@ -72,7 +72,7 @@ private const val TIPS_SHOWN = 3 // pocas ideas cada vez para no abrumar; cambia
 
 /** Chequeo del cuerpo: una pregunta cada vez y, al final, solo lo que necesita atención. No guarda nada. */
 @Composable
-fun BodyCheckScreen(onSanctuary: () -> Unit, onAndamio: () -> Unit) {
+fun BodyCheckScreen(onSanctuary: () -> Unit, onSteps: () -> Unit) {
     var step by remember { mutableIntStateOf(0) }
     val pending = remember { mutableStateListOf<String>() } // claves de lo que hace falta atender
     BackHandler(enabled = step in 1 until NEEDS.size) {
@@ -99,7 +99,7 @@ fun BodyCheckScreen(onSanctuary: () -> Unit, onAndamio: () -> Unit) {
                 AnswerButton(R.string.body_no, Modifier.weight(1f)) { answer(false) }
             }
         } else {
-            Results(NEEDS.filter { it.key in pending }, onSanctuary, onAndamio) {
+            Results(NEEDS.filter { it.key in pending }, onSanctuary, onSteps) {
                 pending.clear()
                 step = 0
             }
@@ -118,7 +118,7 @@ private fun AnswerButton(@StringRes label: Int, modifier: Modifier, onClick: () 
 }
 
 @Composable
-private fun Results(needs: List<Need>, onSanctuary: () -> Unit, onAndamio: () -> Unit, onRestart: () -> Unit) {
+private fun Results(needs: List<Need>, onSanctuary: () -> Unit, onSteps: () -> Unit, onRestart: () -> Unit) {
     Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         if (needs.isEmpty()) {
             Text(stringResource(R.string.body_all_good), color = Color.White, fontSize = 28.sp, lineHeight = 35.sp, fontWeight = FontWeight.Bold)
@@ -126,8 +126,8 @@ private fun Results(needs: List<Need>, onSanctuary: () -> Unit, onAndamio: () ->
             OutlinedButton(onClick = onSanctuary, modifier = Modifier.fillMaxWidth().height(72.dp)) {
                 Text("🌑 " + stringResource(R.string.skill_sanctuary), fontSize = 20.sp)
             }
-            OutlinedButton(onClick = onAndamio, modifier = Modifier.fillMaxWidth().height(72.dp)) {
-                Text("💬 " + stringResource(R.string.skill_andamio), fontSize = 20.sp)
+            OutlinedButton(onClick = onSteps, modifier = Modifier.fillMaxWidth().height(72.dp)) {
+                Text("👣 " + stringResource(R.string.skill_steps), fontSize = 20.sp)
             }
         } else {
             Text(stringResource(R.string.body_results), color = Color.White, fontSize = 28.sp, lineHeight = 35.sp, fontWeight = FontWeight.Bold)

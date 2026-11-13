@@ -43,7 +43,7 @@ private val SKILLS = listOf(
     Skill("🌑", R.string.skill_sanctuary, Routes.SANCTUARY, Palette.sanctuary),
     Skill("📍", R.string.skill_return, Routes.RETURN_FORM, Palette.returnPoint),
     Skill("🐇", R.string.skill_rabbit, Routes.RABBIT, Palette.rabbit),
-    Skill("💬", R.string.skill_andamio, Routes.ANDAMIO, Palette.andamio),
+    Skill("👣", R.string.skill_steps, Routes.STEPS, Palette.steps),
     Skill("🫀", R.string.skill_body, Routes.BODY, Palette.body),
 )
 

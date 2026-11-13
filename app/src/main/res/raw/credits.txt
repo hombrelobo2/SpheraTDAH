@@ -39,5 +39,12 @@ Cada sonido mantiene su propia licencia:
 Sonidos incluidos de Sphera
 Ruido marrón, rosa, blanco y olas: generados para Sphera, misma licencia que la app.
 
+Paso a paso
+Adaptado de Visual Routines, de oikumene-works (GPL-3.0):
+https://github.com/oikumene-works/visual-routines
+
+Estilo del Punto de Retorno
+Inspirado en Olauncher, de tanujnotes (GPL-3.0): https://github.com/tanujnotes/Olauncher
+
 Tipografía
 Atkinson Hyperlegible, de Braille Institute of America. SIL Open Font License 1.1.

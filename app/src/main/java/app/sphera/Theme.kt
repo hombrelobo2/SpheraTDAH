@@ -58,7 +58,7 @@ object Palette {
     val sanctuary = Color(0xFFA9A1D6)
     val returnPoint = Color(0xFFD9B98C)
     val rabbit = Color(0xFFC99A8E)
-    val andamio = Color(0xFF8EB6D9)
+    val steps = Color(0xFF8EB6D9)
     val body = Color(0xFFD99AAE)
 }
 
