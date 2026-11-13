@@ -125,12 +125,12 @@ object Interactions {
     }
 
     /**
-     * Orden: ID numérico → usuario → el acceso a Telegram que la propia app guarda en la agenda
+     * Orden: ID numérico (abre el chat con los datos que Telegram ya tiene, sin buscar en red) → usuario → el acceso a Telegram que la propia app guarda en la agenda
      * (el mismo que usa la ficha del contacto) → por número, que no todas las versiones aceptan.
      */
     private fun telegramIntent(ctx: Context, c: Contact, intl: String): Intent {
         c.telegram?.let { handle ->
-            val uri = if (handle.all(Char::isDigit)) "tg://user?id=$handle" else "tg://resolve?domain=$handle"
+            val uri = if (handle.all(Char::isDigit)) "tg://openmessage?user_id=$handle" else "tg://resolve?domain=$handle"
             return Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         }
         agendaChat(ctx, c.phone, "telegram")?.let { return it }
