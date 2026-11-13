@@ -199,4 +199,63 @@
         <item>Familia y pareja|Sincera|Quiero hablarte con sinceridad sobre lo de que {contexto}. Necesito {necesidad}, y por eso {accion}. No tiene nada que ver contigo, te quiero.</item>
         <item>Familia y pareja|Con calma|Sobre lo de que {contexto}: no es nada contra ti, es que necesito {necesidad}. Así que {accion}. ¿Lo hablamos con calma cuando te venga bien?</item>
     </string-array>
+    <!-- 0.0.19: Chequeo del cuerpo. Las listas de ideas se pueden ampliar libremente: se muestran 3 al azar. -->
+    <string name="skill_body">Chequeo</string>
+    <string name="body_title">Chequeo del cuerpo</string>
+    <string name="body_yes">Sí</string>
+    <string name="body_no">No</string>
+    <string name="body_q_food">¿Has comido algo en las últimas 3 o 4 horas?</string>
+    <string name="body_q_water">¿Has bebido agua en la última hora?</string>
+    <string name="body_q_bathroom">¿Tienes ganas de ir al baño?</string>
+    <string name="body_q_sleep">¿Has dormido o descansado bien?</string>
+    <string name="body_q_senses">¿Hay mucho ruido, luz o gente a tu alrededor?</string>
+    <string name="body_q_crash">¿Acabas de dejar algo muy estimulante? (redes, videojuegos, un hiperfoco, un plan social…)</string>
+    <string name="body_results">Esto puede estar influyendo</string>
+    <string name="body_all_good">Tu cuerpo parece estar en orden</string>
+    <string name="body_all_good_text">El malestar puede venir de otro sitio. Date un momento:</string>
+    <string name="body_restart">Volver a empezar</string>
+    <string name="body_food">Comer algo</string>
+    <string-array name="body_tips_food">
+        <item>Algo sencillo vale: fruta, frutos secos, un yogur o una tostada.</item>
+        <item>Aunque no notes hambre, prueba con algo pequeño: a veces el hambre no se nota hasta que comes.</item>
+        <item>Mejor si lleva algo de proteína (huevo, queso, legumbres, frutos secos): el bajón tarda más en volver.</item>
+        <item>Deja algo de comer a la vista para la próxima vez.</item>
+    </string-array>
+    <string name="body_water">Beber agua</string>
+    <string-array name="body_tips_water">
+        <item>Un vaso entero ahora, a sorbos.</item>
+        <item>Déjate la botella a la vista: lo que no se ve, no existe.</item>
+        <item>Si el agua sola te aburre, prueba con unas gotas de limón o una infusión fría.</item>
+    </string-array>
+    <string name="body_bathroom">Ir al baño</string>
+    <string-array name="body_tips_bathroom">
+        <item>Ve ahora: aguantar también pone de mal humor aunque no lo notes.</item>
+        <item>Aprovecha para lavarte la cara con agua fresca.</item>
+    </string-array>
+    <string name="body_sleep">Descanso</string>
+    <string-array name="body_tips_sleep">
+        <item>Con poco sueño todo cuesta el doble: baja el listón de hoy.</item>
+        <item>Si puedes, 10 o 20 minutos tumbado con los ojos cerrados ayudan aunque no duermas.</item>
+        <item>Esta noche, deja la pantalla un rato antes de dormir.</item>
+        <item>Hoy no es buen día para decisiones grandes: apúntalas para mañana.</item>
+    </string-array>
+    <string name="body_senses">Demasiados estímulos</string>
+    <string-array name="body_tips_senses">
+        <item>Busca un sitio más tranquilo, aunque sea unos minutos.</item>
+        <item>Cascos o tapones, aunque no pongas música.</item>
+        <item>Baja la luz de la pantalla y de la habitación.</item>
+        <item>Cierra los ojos y respira despacio mientras cuentas cinco respiraciones.</item>
+    </string-array>
+    <string name="body_crash">Bajón de dopamina</string>
+    <string name="body_crash_explanation">Después de mucha estimulación, lo normal se siente aburrido o irritante. Es un bajón pasajero, no es culpa tuya.</string>
+    <string-array name="body_tips_crash">
+        <item>Muévete 5 minutos: andar, estirar o bailar una canción.</item>
+        <item>Sal a la luz natural o asómate a la ventana un momento.</item>
+        <item>Pon música que te guste mientras haces algo sencillo.</item>
+        <item>No vuelvas al mismo estímulo para quitártelo: cámbialo por algo tranquilo un rato.</item>
+        <item>Elige una tarea pequeña con final claro: fregar una taza, hacer la cama.</item>
+        <item>Come o bebe algo si hace rato que no lo haces.</item>
+        <item>Cuéntaselo a alguien de confianza: «estoy de bajón un rato, no es por ti».</item>
+    </string-array>
+    <string name="body_crash_note">Si te pasa sobre todo cuando se te pasa el efecto de la medicación, coméntalo con tu médico.</string>
 </resources>

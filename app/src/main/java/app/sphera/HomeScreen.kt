@@ -34,7 +34,7 @@ private val SKILLS = listOf(
     Skill("📍", R.string.skill_return, Routes.RETURN_FORM),
     Skill("🐇", R.string.skill_rabbit, Routes.RABBIT),
     Skill("💬", R.string.skill_andamio, Routes.ANDAMIO),
-    Skill("✨", R.string.coming_soon, null),
+    Skill("🫀", R.string.skill_body, Routes.BODY),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

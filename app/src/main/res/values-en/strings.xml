@@ -180,4 +180,62 @@
         <item>Family and partner|Honest|I want to be honest about the fact that {contexto}. I need {necesidad}, and that is why {accion}. It has nothing to do with you, I love you.</item>
         <item>Family and partner|Calm|About the fact that {contexto}: it is nothing against you, I just need {necesidad}. So {accion}. Shall we talk about it calmly when it suits you?</item>
     </string-array>
+    <string name="skill_body">Check-in</string>
+    <string name="body_title">Body check-in</string>
+    <string name="body_yes">Yes</string>
+    <string name="body_no">No</string>
+    <string name="body_q_food">Have you eaten something in the last 3 or 4 hours?</string>
+    <string name="body_q_water">Have you drunk water in the last hour?</string>
+    <string name="body_q_bathroom">Do you need to go to the bathroom?</string>
+    <string name="body_q_sleep">Have you slept or rested well?</string>
+    <string name="body_q_senses">Is there a lot of noise, light or people around you?</string>
+    <string name="body_q_crash">Have you just stopped something very stimulating? (social media, games, a hyperfocus, a social plan…)</string>
+    <string name="body_results">This may be playing a part</string>
+    <string name="body_all_good">Your body seems to be fine</string>
+    <string name="body_all_good_text">The discomfort may come from somewhere else. Give yourself a moment:</string>
+    <string name="body_restart">Start again</string>
+    <string name="body_food">Eat something</string>
+    <string-array name="body_tips_food">
+        <item>Something simple is fine: fruit, nuts, a yoghurt or a piece of toast.</item>
+        <item>Even if you do not feel hungry, try something small: sometimes hunger only shows once you eat.</item>
+        <item>Better with some protein (egg, cheese, pulses, nuts): the dip takes longer to come back.</item>
+        <item>Leave something to eat in sight for next time.</item>
+    </string-array>
+    <string name="body_water">Drink water</string>
+    <string-array name="body_tips_water">
+        <item>A full glass now, in sips.</item>
+        <item>Keep the bottle in sight: out of sight, out of mind.</item>
+        <item>If plain water bores you, try a few drops of lemon or a cold infusion.</item>
+    </string-array>
+    <string name="body_bathroom">Go to the bathroom</string>
+    <string-array name="body_tips_bathroom">
+        <item>Go now: holding it in also affects your mood even if you do not notice.</item>
+        <item>Take the chance to wash your face with cool water.</item>
+    </string-array>
+    <string name="body_sleep">Rest</string>
+    <string-array name="body_tips_sleep">
+        <item>With little sleep everything is twice as hard: lower the bar for today.</item>
+        <item>If you can, 10 or 20 minutes lying down with your eyes closed help even if you do not sleep.</item>
+        <item>Tonight, put the screen away a while before bed.</item>
+        <item>Today is not a good day for big decisions: note them down for tomorrow.</item>
+    </string-array>
+    <string name="body_senses">Too much stimulation</string>
+    <string-array name="body_tips_senses">
+        <item>Find a quieter place, even for a few minutes.</item>
+        <item>Headphones or earplugs, even without music.</item>
+        <item>Turn down the screen and room lights.</item>
+        <item>Close your eyes and breathe slowly while you count five breaths.</item>
+    </string-array>
+    <string name="body_crash">Dopamine crash</string>
+    <string name="body_crash_explanation">After a lot of stimulation, normal things feel boring or irritating. It is a passing dip, not your fault.</string>
+    <string-array name="body_tips_crash">
+        <item>Move for 5 minutes: walk, stretch or dance to one song.</item>
+        <item>Get some daylight or look out of the window for a moment.</item>
+        <item>Put on music you like while you do something simple.</item>
+        <item>Do not go back to the same stimulus to escape it: swap it for something calm for a while.</item>
+        <item>Pick a small task with a clear end: wash a mug, make the bed.</item>
+        <item>Eat or drink something if it has been a while.</item>
+        <item>Tell someone you trust: \"I am in a dip for a bit, it is not about you\".</item>
+    </string-array>
+    <string name="body_crash_note">If it happens mostly when your medication wears off, talk to your doctor about it.</string>
 </resources>
