@@ -2,6 +2,8 @@ package app.sphera.social
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,7 +27,7 @@ object Interactions {
 
     // Apps cuyas notificaciones cuentan como "esta persona me ha escrito".
     val MESSAGING_PACKAGES = setOf(
-        "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "org.telegram.messenger.web", "org.thunderdog.challegram",
+        "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "org.telegram.messenger.web", "org.thunderdog.challegram", "org.telegram.plus",
         "org.thoughtcrime.securesms", "com.viber.voip",
         "com.google.android.apps.messaging", "com.samsung.android.messaging",
     )
@@ -97,11 +99,13 @@ object Interactions {
     }
 
     /** Formas de contactar: apps de mensajería instaladas, más SMS y llamada. */
-    fun channels(ctx: Context, phone: String): List<Channel> {
+    /** [text]: mensaje para empezar; WhatsApp y SMS lo traen ya escrito, en el resto se pega desde el portapapeles. */
+    fun channels(ctx: Context, phone: String, text: String? = null): List<Channel> {
         val intl = intlDigits(ctx, phone)
+        val waText = text?.let { "?text=" + Uri.encode(it) } ?: ""
         val apps = listOf(
-            Triple(R.string.ch_whatsapp, "com.whatsapp", "https://wa.me/$intl"),
-            Triple(R.string.ch_whatsapp_business, "com.whatsapp.w4b", "https://wa.me/$intl"),
+            Triple(R.string.ch_whatsapp, "com.whatsapp", "https://wa.me/$intl$waText"),
+            Triple(R.string.ch_whatsapp_business, "com.whatsapp.w4b", "https://wa.me/$intl$waText"),
             Triple(R.string.ch_signal, "org.thoughtcrime.securesms", "https://signal.me/#p/+$intl"),
             Triple(R.string.ch_viber, "com.viber.voip", "viber://chat?number=%2B$intl"),
         ).filter { installed(ctx, it.second) }
@@ -110,8 +114,13 @@ object Interactions {
         val telegram = Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?phone=$intl"))
         val tg = if (telegram.resolveActivity(ctx.packageManager) != null) listOf(Channel(R.string.ch_telegram, telegram)) else emptyList()
         return apps + tg +
-            Channel(R.string.ch_sms, Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", phone, null))) +
+            Channel(R.string.ch_sms, Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", phone, null)).putExtra("sms_body", text)) +
             Channel(R.string.ch_call, Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null)))
+    }
+
+    fun copy(ctx: Context, text: String) {
+        ctx.getSystemService(ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText("Sphera", text))
+        Toast.makeText(ctx, R.string.message_copied, Toast.LENGTH_SHORT).show()
     }
 
     fun open(ctx: Context, intent: Intent): Boolean = try {

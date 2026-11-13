@@ -55,4 +55,31 @@
     <string name="granted">Concedido</string>
     <string name="grant">Conceder</string>
     <string name="version">Versión %s</string>
+
+    <!-- 0.0.3 -->
+    <string name="today_write_to">Hoy, escribe a %s</string>
+    <plurals name="days_short">
+        <item quantity="one">%d día</item>
+        <item quantity="many">%d días</item>
+        <item quantity="other">%d días</item>
+    </plurals>
+    <string name="alias">Alias (opcional)</string>
+    <string name="icebreaker">Mensaje para empezar</string>
+    <string name="no_message">Sin mensaje</string>
+    <string name="message_copied">Mensaje copiado: si no aparece en el chat, pégalo</string>
+    <!-- %1$s es el nombre de la persona. Se pueden añadir o cambiar frases libremente. -->
+    <string-array name="icebreakers">
+        <item>¡Hola %1$s! Me he acordado de ti, ¿qué tal todo?</item>
+        <item>¡Hey %1$s! Hace mucho que no hablamos, ¿cómo estás?</item>
+        <item>%1$s, ¿te apetece que quedemos un día de estos?</item>
+        <item>¡Hola %1$s! Perdona que haya tardado en escribir, ¿qué tal te va?</item>
+    </string-array>
+    <string name="summary_title">Resumen diario</string>
+    <string name="summary_desc">Una notificación al día con quién se está alejando de tu universo. Solo llega si hay alguien.</string>
+    <string name="summary_hour">Hora del aviso</string>
+    <plurals name="summary_others">
+        <item quantity="one">%s también se está alejando</item>
+        <item quantity="many">%s también se están alejando</item>
+        <item quantity="other">%s también se están alejando</item>
+    </plurals>
 </resources>

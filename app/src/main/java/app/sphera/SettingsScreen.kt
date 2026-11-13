@@ -1,6 +1,9 @@
 package app.sphera
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,10 +22,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,8 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import app.sphera.social.DailySummary
 import app.sphera.social.Interactions
 
+private val HOURS = (0..23).map { "%02d:00".format(it) }
 private val LANGUAGES = listOf("" to R.string.lang_system, "es" to R.string.lang_es, "en" to R.string.lang_en)
 
 @Composable
@@ -52,6 +59,12 @@ fun SettingsScreen(onBack: () -> Unit) {
     }
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { refresh++ }
     val currentLang = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+    var summaryOn by remember { mutableStateOf(DailySummary.isEnabled(ctx)) }
+    var summaryHour by remember { mutableIntStateOf(DailySummary.hour(ctx)) }
+    val notifPermLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        summaryOn = granted
+        DailySummary.configure(ctx, granted, summaryHour)
+    }
 
     Scaffold(topBar = { BackBar(R.string.settings, onBack) }) { padding ->
         Column(
@@ -68,6 +81,31 @@ fun SettingsScreen(onBack: () -> Unit) {
                 ) {
                     RadioButton(selected = currentLang == tag, onClick = null)
                     Text(stringResource(label), Modifier.padding(start = 12.dp))
+                }
+            }
+
+            HorizontalDivider()
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.summary_title), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.summary_desc), style = MaterialTheme.typography.bodySmall)
+                }
+                Switch(checked = summaryOn, onCheckedChange = { on ->
+                    val needsPermission = on && Build.VERSION.SDK_INT >= 33 &&
+                        ctx.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+                    if (needsPermission) {
+                        notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    } else {
+                        summaryOn = on
+                        DailySummary.configure(ctx, on, summaryHour)
+                    }
+                })
+            }
+            if (summaryOn) {
+                Text(stringResource(R.string.summary_hour), style = MaterialTheme.typography.bodyLarge)
+                Picker(HOURS, summaryHour) {
+                    summaryHour = it
+                    DailySummary.configure(ctx, true, it)
                 }
             }
 

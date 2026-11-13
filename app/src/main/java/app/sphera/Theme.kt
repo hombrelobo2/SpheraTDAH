@@ -15,7 +15,17 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 
@@ -42,4 +52,20 @@ fun BackBar(@StringRes title: Int, onBack: () -> Unit) {
             }
         },
     )
+}
+
+/** Desplegable sencillo: muestra [options][selected] y devuelve el índice elegido. */
+@Composable
+fun Picker(options: List<String>, selected: Int, onSelect: (Int) -> Unit) {
+    var open by remember { mutableStateOf(false) }
+    Box {
+        OutlinedButton(onClick = { open = true }, modifier = Modifier.fillMaxWidth()) {
+            Text(options.getOrElse(selected) { "" } + "  ▾")
+        }
+        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+            options.forEachIndexed { i, option ->
+                DropdownMenuItem(text = { Text(option) }, onClick = { onSelect(i); open = false })
+            }
+        }
+    }
 }

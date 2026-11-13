@@ -22,11 +22,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -37,7 +36,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Card
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +67,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -76,6 +77,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import app.sphera.BackBar
+import app.sphera.Picker
 import app.sphera.R
 import kotlin.math.PI
 import kotlin.math.cos
@@ -98,6 +100,13 @@ fun daysSince(c: Contact, now: Long) = ((now - c.lastContact) / DAY).toInt().coe
 
 /** 0 = pegado al sol, 1 = órbita exterior (se alcanza al pasar el doble de la frecuencia elegida). */
 fun distance(c: Contact, now: Long) = (daysSince(c, now) / (2f * c.frequencyDays)).coerceIn(0f, 1f)
+
+/** Quien ya ha pasado su frecuencia, del más alejado al menos. */
+fun drifting(contacts: List<Contact>, now: Long) =
+    contacts.filter { daysSince(it, now) >= it.frequencyDays }.sortedByDescending { daysSince(it, now).toFloat() / it.frequencyDays }
+
+/** Un único contacto sugerido para hoy: el que más se ha pasado de su frecuencia. */
+fun todaysPick(contacts: List<Contact>, now: Long) = drifting(contacts, now).firstOrNull()
 
 @Composable
 fun UniverseScreen(onBack: () -> Unit) {
@@ -135,7 +144,23 @@ fun UniverseScreen(onBack: () -> Unit) {
             }) { Icon(Icons.Default.Add, stringResource(R.string.add_contact)) }
         },
     ) { padding ->
-        Space(Store.contacts, now, Modifier.padding(padding)) { selectedId = it.id }
+        Box(Modifier.padding(padding)) {
+            Space(Store.contacts, now, Modifier) { selectedId = it.id }
+            todaysPick(Store.contacts, now)?.let { pick ->
+                Card(
+                    onClick = { selectedId = pick.id },
+                    modifier = Modifier.align(Alignment.TopCenter).padding(12.dp).fillMaxWidth(),
+                ) {
+                    Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            stringResource(R.string.today_write_to, displayName(pick)),
+                            Modifier.weight(1f), style = MaterialTheme.typography.titleMedium,
+                        )
+                        Text(pluralStringResource(R.plurals.days_short, daysSince(pick, now), daysSince(pick, now)))
+                    }
+                }
+            }
+        }
     }
 
     picked?.let { p ->
@@ -234,18 +259,15 @@ private fun Planet(c: Contact, d: Float, days: Int, modifier: Modifier, onClick:
                 Text(initials, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
             }
         }
-        Text(c.name.substringBefore(' '), color = Color.White, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(displayName(c), color = Color.White, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
         Text(stringResource(R.string.planet_days, days), color = planetColor(d), fontSize = 11.sp, fontWeight = FontWeight.Bold)
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FrequencyChips(selected: Int, onSelect: (Int) -> Unit) {
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        FREQUENCIES.forEach { (days, label) ->
-            FilterChip(selected = selected == days, onClick = { onSelect(days) }, label = { Text(stringResource(label)) })
-        }
+private fun FrequencyPicker(selected: Int, onSelect: (Int) -> Unit) {
+    Picker(FREQUENCIES.map { stringResource(it.second) }, FREQUENCIES.indexOfFirst { it.first == selected }) {
+        onSelect(FREQUENCIES[it].first)
     }
 }
 
@@ -258,7 +280,7 @@ private fun AddDialog(p: Picked, onDismiss: () -> Unit, onAdd: (Int) -> Unit) {
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(stringResource(R.string.frequency))
-                FrequencyChips(freq) { freq = it }
+                FrequencyPicker(freq) { freq = it }
             }
         },
         confirmButton = { TextButton(onClick = { onAdd(freq) }) { Text(stringResource(R.string.add)) } },
@@ -271,13 +293,25 @@ private fun AddDialog(p: Picked, onDismiss: () -> Unit, onAdd: (Int) -> Unit) {
 private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
     val ctx = LocalContext.current
     val days = daysSince(c, now)
-    val channels = remember(c.phone) { Interactions.channels(ctx, c.phone) }
+    val firstName = c.name.trim().substringBefore(' ')
+    val messages = listOf(stringResource(R.string.no_message)) +
+        stringArrayResource(R.array.icebreakers).map { it.format(firstName) }
+    var message by remember { mutableIntStateOf(0) }
+    val text = messages[message].takeIf { message > 0 }
+    val channels = remember(c.phone, text) { Interactions.channels(ctx, c.phone, text) }
+    var alias by remember { mutableStateOf(c.alias ?: "") }
+    // Todas las salidas de la ficha guardan el alias, que se edita sin botón de guardar.
+    val close = {
+        val newAlias = alias.trim().ifEmpty { null }
+        if (newAlias != c.alias) Store.update(c.id) { it.copy(alias = newAlias) }
+        onDismiss()
+    }
     var confirmDelete by remember { mutableStateOf(false) }
     if (confirmDelete) {
         // Diálogo aparte con "Cancelar" a la derecha, donde estaba "Eliminar", para que un doble toque no borre.
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text(stringResource(R.string.delete_title, c.name)) },
+            title = { Text(stringResource(R.string.delete_title, displayName(c))) },
             text = { Text(stringResource(R.string.delete_text)) },
             confirmButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.cancel)) } },
             dismissButton = {
@@ -289,7 +323,7 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
         return
     }
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = close,
         title = { Text(c.name) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -298,26 +332,33 @@ private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
                     else pluralStringResource(R.plurals.days_since, days, days),
                     style = MaterialTheme.typography.titleMedium,
                 )
+                Text(stringResource(R.string.icebreaker), style = MaterialTheme.typography.labelLarge)
+                Picker(messages, message) { message = it }
                 Text(stringResource(R.string.send_via), style = MaterialTheme.typography.labelLarge)
                 channels.forEach { ch ->
                     OutlinedButton(
                         onClick = {
+                            text?.let { Interactions.copy(ctx, it) }
                             // Escribir desde aquí cuenta como contacto: no podemos ver los mensajes que envías.
                             if (Interactions.open(ctx, ch.intent)) Store.touch(c.id, System.currentTimeMillis())
-                            onDismiss()
+                            close()
                         },
                         modifier = Modifier.fillMaxWidth(),
                     ) { Text(stringResource(ch.label)) }
                 }
                 Button(
-                    onClick = { Store.touch(c.id, System.currentTimeMillis()); onDismiss() },
+                    onClick = { Store.touch(c.id, System.currentTimeMillis()); close() },
                     modifier = Modifier.fillMaxWidth(),
                 ) { Text(stringResource(R.string.mark_contacted)) }
                 Text(stringResource(R.string.frequency), style = MaterialTheme.typography.labelLarge)
-                FrequencyChips(c.frequencyDays) { Store.upsert(c.copy(frequencyDays = it)) }
+                FrequencyPicker(c.frequencyDays) { f -> Store.update(c.id) { it.copy(frequencyDays = f) } }
+                OutlinedTextField(
+                    value = alias, onValueChange = { alias = it }, singleLine = true,
+                    label = { Text(stringResource(R.string.alias)) }, modifier = Modifier.fillMaxWidth(),
+                )
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } },
+        confirmButton = { TextButton(onClick = close) { Text(stringResource(R.string.close)) } },
         dismissButton = {
             // Hay que mantener pulsado: un toque normal solo muestra cómo hacerlo.
             Text(

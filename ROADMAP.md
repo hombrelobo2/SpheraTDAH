@@ -1,17 +1,6 @@
 # Hoja de ruta
 
-## Próxima versión (0.0.3-alpha)
-
-- Universo social: mostrar nombre + inicial del apellido en el planeta ("Unai B.") para distinguir contactos con el mismo nombre.
-- Telegram Plus (`org.telegram.plus`): comprobar que aparece en "Escribir por" y añadirlo a las apps cuyas notificaciones cuentan como contacto.
-- "¿Cada cuánto quieres hablar?" como desplegable en vez de botones (al añadir y en la ficha del planeta).
-- Alias por contacto: nombre editable que se muestra en el planeta y en la ficha, sin tocar la agenda. Si hay alias, sustituye a "nombre + inicial".
-  - Ojo: la detección por notificaciones compara con el nombre de la agenda, no con el alias; hay que guardar los dos.
-- Resumen diario: una notificación al día ("Ana y Unai se están alejando"). Configurable en Ajustes: activar/desactivar y hora. Necesita permiso de notificaciones.
-- "Hoy, escribe a…": un único planeta destacado al día (el más alejado) con botón directo.
-- Mensajes rompehielos: frases listas que se pegan al abrir WhatsApp/SMS/Telegram.
-
-## 0.0.4-alpha
+## Próxima versión (0.0.4-alpha)
 
 - Notas por contacto (qué hablasteis, qué preguntar la próxima vez).
 - Cumpleaños leídos de la agenda: el planeta brilla ese día y entra en el resumen diario.

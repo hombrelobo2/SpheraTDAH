@@ -18,6 +18,25 @@ class UniverseTest {
     }
 
     @Test
+    fun displayNameUsesAliasOrSurnameInitial() {
+        assertEquals("Unai B.", displayName(contact(0, 7).copy(name = "Unai  Butron Garcia")))
+        assertEquals("Ana", displayName(contact(0, 7)))
+        assertEquals("Mamá", displayName(contact(0, 7).copy(alias = " Mamá ")))
+        assertEquals("Ana", displayName(contact(0, 7).copy(alias = " ")))
+    }
+
+    @Test
+    fun todaysPickIsTheMostOverdue() {
+        val now = 1_000 * day
+        val a = contact(10, 30).copy(id = 1) // aún dentro de su frecuencia
+        val b = contact(8, 7).copy(id = 2) // 8/7 pasado
+        val c = contact(40, 30).copy(id = 3) // 40/30 más pasado
+        assertEquals(3L, todaysPick(listOf(a, b, c), now)?.id)
+        assertEquals(listOf(3L, 2L), drifting(listOf(a, b, c), now).map { it.id })
+        assertEquals(null, todaysPick(listOf(a), now))
+    }
+
+    @Test
     fun distanceGrowsUntilTwiceTheFrequency() {
         val now = 1_000 * day
         assertEquals(0f, distance(contact(0, 7), now), 0.001f)
