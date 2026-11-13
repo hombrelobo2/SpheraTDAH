@@ -116,12 +116,9 @@ object Interactions {
         val tgUri = c.telegram?.let { "tg://resolve?domain=$it" } ?: "tg://resolve?phone=$intl"
         val telegram = Intent(Intent.ACTION_VIEW, Uri.parse(tgUri))
         val tg = if (telegram.resolveActivity(ctx.packageManager) != null) listOf(Channel(R.string.ch_telegram, telegram)) else emptyList()
-        // Instagram solo por usuario: abre directamente los mensajes privados (en la app si está, si no en el navegador).
-        val ig = c.instagram?.let { user ->
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://ig.me/m/$user"))
-            if (installed(ctx, "com.instagram.android")) intent.setPackage("com.instagram.android")
-            listOf(Channel(R.string.ch_instagram, intent))
-        } ?: emptyList()
+        // Instagram solo por usuario: ig.me/m/ abre los mensajes privados; Android decide si en la app o el navegador.
+        val ig = c.instagram?.let { listOf(Channel(R.string.ch_instagram, Intent(Intent.ACTION_VIEW, Uri.parse("https://ig.me/m/$it")))) }
+            ?: emptyList()
         return apps + tg + ig +
             Channel(R.string.ch_sms, Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", phone, null)).putExtra("sms_body", text)) +
             Channel(R.string.ch_call, Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null)))
