@@ -134,9 +134,9 @@
     <string name="comm_title">Ahora mismo no puedo hablar.</string>
     <string name="comm_text">No es por ti. Necesito un momento de calma. Puedo comunicarme por escrito o con gestos.</string>
     <string name="rp_title">Lo dejaste aquí</string>
-    <string name="rp_where">¿Dónde estabas?</string>
+    <string name="rp_where">Dónde estaba</string>
     <string name="rp_next">Siguiente paso</string>
-    <string name="rp_tools">¿Qué necesitas tener a mano?</string>
+    <string name="rp_tools">Qué necesito</string>
     <string name="rp_resume">Retomar y limpiar</string>
     <string name="rp_form_title">Punto de retorno</string>
     <string name="rp_save">Guardar</string>

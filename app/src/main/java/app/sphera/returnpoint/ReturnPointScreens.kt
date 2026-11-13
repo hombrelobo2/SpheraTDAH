@@ -50,7 +50,7 @@ fun ReturnCardScreen(onDone: () -> Unit) {
             Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            Text(stringResource(R.string.rp_title), color = GREY, fontSize = 22.sp)
+            Text(stringResource(R.string.rp_title), color = GREY, fontSize = 22.sp, lineHeight = 28.sp)
             point?.let { p ->
                 Field(R.string.rp_where, p.contextLocation)
                 Field(R.string.rp_next, p.nextStep, big = true)
@@ -60,7 +60,7 @@ fun ReturnCardScreen(onDone: () -> Unit) {
         Button(
             onClick = { scope.launch { dao.clear(); onDone() } },
             modifier = Modifier.fillMaxWidth().height(120.dp),
-        ) { Text(stringResource(R.string.rp_resume), fontSize = 28.sp, fontWeight = FontWeight.Bold) }
+        ) { Text(stringResource(R.string.rp_resume), fontSize = 28.sp, lineHeight = 35.sp, fontWeight = FontWeight.Bold) }
     }
 }
 
@@ -68,8 +68,8 @@ fun ReturnCardScreen(onDone: () -> Unit) {
 private fun Field(label: Int, value: String, big: Boolean = false) {
     if (value.isBlank()) return
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(stringResource(label), color = GREY, fontSize = 18.sp)
-        Text(value, color = Color.White, fontSize = if (big) 36.sp else 26.sp, fontWeight = if (big) FontWeight.Bold else null)
+        Text(stringResource(label), color = GREY, fontSize = 18.sp, lineHeight = 22.sp)
+        Text(value, color = Color.White, fontSize = if (big) 36.sp else 26.sp, lineHeight = if (big) 45.sp else 33.sp, fontWeight = if (big) FontWeight.Bold else null)
     }
 }
 
@@ -85,13 +85,13 @@ fun ReturnFormScreen(onDone: () -> Unit) {
         Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text(stringResource(R.string.rp_form_title), color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.rp_form_title), color = Color.White, fontSize = 30.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold)
         BigField(R.string.rp_where, where) { where = it }
         BigField(R.string.rp_next, next) { next = it }
         BigField(R.string.rp_tools, tools) { tools = it }
         Row(Modifier.weight(1f), verticalAlignment = androidx.compose.ui.Alignment.Bottom) {
             OutlinedButton(onClick = onDone, modifier = Modifier.weight(1f).height(96.dp)) {
-                Text(stringResource(R.string.cancel), fontSize = 22.sp)
+                Text(stringResource(R.string.cancel), fontSize = 22.sp, lineHeight = 28.sp)
             }
             Button(
                 enabled = next.isNotBlank(),
@@ -101,9 +101,9 @@ fun ReturnFormScreen(onDone: () -> Unit) {
                         onDone()
                     }
                 },
-                modifier = Modifier.weight(2f).padding(start = 12.dp).height(96.dp),
+                modifier = Modifier.weight(1f).padding(start = 12.dp).height(96.dp),
                 colors = ButtonDefaults.buttonColors(),
-            ) { Text(stringResource(R.string.rp_save), fontSize = 24.sp, fontWeight = FontWeight.Bold) }
+            ) { Text(stringResource(R.string.rp_save), fontSize = 24.sp, lineHeight = 30.sp, fontWeight = FontWeight.Bold) }
         }
     }
 }
@@ -112,8 +112,8 @@ fun ReturnFormScreen(onDone: () -> Unit) {
 private fun BigField(label: Int, value: String, onChange: (String) -> Unit) {
     OutlinedTextField(
         value = value, onValueChange = onChange, modifier = Modifier.fillMaxWidth(),
-        label = { Text(stringResource(label), fontSize = 18.sp) },
-        textStyle = TextStyle(fontSize = 22.sp, color = Color.White),
+        label = { Text(stringResource(label), fontSize = 18.sp, lineHeight = 22.sp) },
+        textStyle = TextStyle(fontSize = 22.sp, lineHeight = 28.sp, color = Color.White),
         maxLines = 3,
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = Color.White, unfocusedTextColor = Color.White,

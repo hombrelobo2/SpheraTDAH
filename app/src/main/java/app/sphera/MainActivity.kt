@@ -74,11 +74,12 @@ class MainActivity : AppCompatActivity() {
 @Composable
 private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
     val ctx = LocalContext.current
-    // Apertura normal: si hay un Punto de Retorno guardado, es lo único que se ve al entrar.
-    // Los accesos directos (Santuario, notificaciones) no se interceptan.
-    val start by produceState<String?>(initialValue = target) {
+    // Si hay un Punto de Retorno guardado, es lo único que se ve al entrar, venga de donde venga.
+    // Excepciones: el Santuario (es un botón de pánico) y el formulario del widget (sirve para sobrescribirlo).
+    val bypass = target == Routes.SANCTUARY || target == Routes.RETURN_FORM
+    val start by produceState(initialValue = if (bypass) target else null) {
         if (value == null) {
-            value = if (SpheraDb.get(ctx).returnPoints().get() != null) Routes.RETURN_CARD else Routes.HOME
+            value = if (SpheraDb.get(ctx).returnPoints().get() != null) Routes.RETURN_CARD else target ?: Routes.HOME
         }
     }
     val startRoute = start

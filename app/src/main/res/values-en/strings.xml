@@ -122,9 +122,9 @@
     <string name="comm_title">I cannot talk right now.</string>
     <string name="comm_text">It is not about you. I need a calm moment. I can communicate in writing or with gestures.</string>
     <string name="rp_title">You left it here</string>
-    <string name="rp_where">Where were you?</string>
+    <string name="rp_where">Where I was</string>
     <string name="rp_next">Next step</string>
-    <string name="rp_tools">What do you need at hand?</string>
+    <string name="rp_tools">What I need</string>
     <string name="rp_resume">Resume and clear</string>
     <string name="rp_form_title">Return point</string>
     <string name="rp_save">Save</string>

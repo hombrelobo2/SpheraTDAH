@@ -117,12 +117,12 @@ fun SanctuaryScreen(onExit: () -> Unit) {
         Text(
             stringResource(R.string.sanctuary_text),
             Modifier.align(Alignment.Center).padding(32.dp),
-            color = Color(0xFF8A8A8A), fontSize = 40.sp, textAlign = TextAlign.Center,
+            color = Color(0xFF8A8A8A), fontSize = 40.sp, lineHeight = 50.sp, textAlign = TextAlign.Center,
         )
         Text(
             stringResource(R.string.sanctuary_hint),
             Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp),
-            color = Color(0xFF3A3A3A), fontSize = 18.sp, textAlign = TextAlign.Center,
+            color = Color(0xFF3A3A3A), fontSize = 18.sp, lineHeight = 22.sp, textAlign = TextAlign.Center,
         )
     }
 }
@@ -151,7 +151,7 @@ private fun BigButton(label: Int, color: Color, modifier: Modifier, onClick: () 
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(containerColor = color, contentColor = Color(0xFFE0E0E0)),
-    ) { Text(stringResource(label), fontSize = 32.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center) }
+    ) { Text(stringResource(label), fontSize = 32.sp, lineHeight = 40.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center) }
 }
 
 /** Tarjeta para enseñar a otra persona cuando no se puede hablar. */
@@ -161,7 +161,7 @@ fun CommunicationCardScreen() {
         Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(32.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
     ) {
-        Text(stringResource(R.string.comm_title), color = Color.White, fontSize = 44.sp, fontWeight = FontWeight.Bold)
-        Text(stringResource(R.string.comm_text), color = Color(0xFFCCCCCC), fontSize = 30.sp)
+        Text(stringResource(R.string.comm_title), color = Color.White, fontSize = 44.sp, lineHeight = 55.sp, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.comm_text), color = Color(0xFFCCCCCC), fontSize = 30.sp, lineHeight = 38.sp)
     }
 }
