@@ -84,7 +84,7 @@
   <h2 style="margin-top:6mm"><span class="e">⚙️</span>Ajustes<span class="bar"></span></h2>
   <p>Cada parte de la app es una fila plegada que ya te dice cómo está (por ejemplo, <i>Resumen a las 21:00 · 2 avisos</i>). Tócala para abrirla; solo hay una abierta a la vez.</p>
   <ul class="dots">
-    <li><b>General</b>: idioma (español o inglés) y tamaño de letra. Las cuatro «A» cambian el tamaño al momento en toda la app.</li>
+    <li><b>General</b>: idioma (español, inglés o euskera) y tamaño de letra. Las cuatro «A» cambian el tamaño al momento en toda la app.</li>
     <li><b>Pantalla de inicio</b>: orden y casillas visibles.</li>
     <li><b>Universo social</b>, <b>Santuario</b> y <b>Puerta lenta</b>: sus opciones, explicadas en cada módulo.</li>
     <li><b>Acerca de Sphera</b>: versión, este manual, actualizaciones, código y créditos.</li>
@@ -109,7 +109,7 @@
       <div class="ttl">Sphera <span>⚙️</span></div>
       <div class="grid">
         <div class="tile" style="--c:var(--social)"><i style="background:rgba(143,184,168,.2)">🪐</i><b>Universo social</b></div>
-        <div class="tile" style="--c:var(--sanctuary)"><i style="background:rgba(169,161,214,.2)">🌑</i><b>Santuario</b></div>
+        <div class="tile" style="--c:var(--sanctuary)"><i style="background:rgba(169,161,214,.2)"><svg viewBox="0 0 100 120" style="height:4.2mm;vertical-align:middle"><g transform="translate(-30,-25)"><path d="M45 140 V85 Q45 45 80 28 Q115 45 115 85 V140 Z" fill="#A9A1D6" fill-opacity=".18" stroke="#A9A1D6" stroke-width="4" stroke-linejoin="round"/><path d="M58 140 V88 Q58 58 80 44 Q102 58 102 88 V140 Z" fill="#0F1218"/><path d="M88 72 a14 14 0 1 1 -10 -18 a11 11 0 1 0 10 18 z" fill="#E7E9EE"/><path d="M36 140 L124 140" stroke="#A9A1D6" stroke-width="4" stroke-linecap="round"/></g></svg></i><b>Santuario</b></div>
         <div class="tile" style="--c:var(--ret)"><i style="background:rgba(217,185,140,.2)">📍</i><b>Punto de retorno</b></div>
         <div class="tile" style="--c:var(--rabbit)"><i style="background:rgba(201,154,142,.2)">🐇</i><b>No sigas al conejo</b></div>
         <div class="tile" style="--c:var(--steps)"><i style="background:rgba(142,182,217,.2)">👣</i><b>Paso a paso</b></div>
@@ -167,7 +167,7 @@
 <section class="page">
   <div class="cols" style="--c:var(--sanctuary)">
     <div>
-      <h2><span class="e">🌑</span>Santuario<span class="bar"></span></h2>
+      <h2><span class="e" style="background:#0F1218"><svg viewBox="0 0 100 120" style="height:6.5mm;vertical-align:middle"><g transform="translate(-30,-25)"><path d="M45 140 V85 Q45 45 80 28 Q115 45 115 85 V140 Z" fill="#A9A1D6" fill-opacity=".18" stroke="#A9A1D6" stroke-width="4" stroke-linejoin="round"/><path d="M58 140 V88 Q58 58 80 44 Q102 58 102 88 V140 Z" fill="#0F1218"/><path d="M88 72 a14 14 0 1 1 -10 -18 a11 11 0 1 0 10 18 z" fill="#E7E9EE"/><path d="M36 140 L124 140" stroke="#A9A1D6" stroke-width="4" stroke-linecap="round"/></g></svg></span>Santuario<span class="bar"></span></h2>
       <p class="lead">Tu botón de pánico para cuando todo satura: pantalla negra, sonido de fondo y nada que hacer. Sin temporizadores ni cuentas atrás.</p>
       <p>Al entrar, Sphera activa <b>No molestar</b> (si le diste permiso) y muestra frases tranquilas cada 30 segundos, con un fundido lento. Para salir hay un único botón, <span class="ui">Salir</span>, abajo, con un brillo suave para que lo encuentres.</p>
       <h3>Respirar</h3>
@@ -181,7 +181,7 @@
         <li><b>No puedo hablar</b>: abre tus Tarjetas, para enseñarle a alguien un mensaje.</li>
         <li><b>Volver</b>: al inicio, con No molestar ya restaurado.</li>
       </ul>
-      <div class="box tip"><span class="t">Tenlo siempre a mano</span><p>Pon el widget <b>Sphera · Santuario</b> (un círculo 🌑 de 1×1) en tu pantalla de inicio: un toque y estás dentro, aunque tengas un Punto de Retorno pendiente.</p></div>
+      <div class="box tip"><span class="t">Tenlo siempre a mano</span><p>Pon el widget <b>Sphera · Santuario</b> (un círculo de 1×1 con el arco del Santuario) en tu pantalla de inicio: un toque y estás dentro, aunque tengas un Punto de Retorno pendiente.</p></div>
     </div>
     <div class="phone"><div class="black">
       <div class="breath"></div>
@@ -249,7 +249,7 @@
     <ul class="dots">
       <li><b>Toca</b> una tarjeta para mostrarla en grande. <b>Mantenla pulsada</b> para editarla: mensaje, detalle opcional, color y posición.</li>
       <li><span class="ui">🔔 Avisar</span> hace sonar un aviso para llamar la atención de quien tengas cerca.</li>
-      <li>Crea las tuyas con <span class="ui">+ Nueva tarjeta</span>. Vienen algunas de ejemplo («Ahora mismo no puedo hablar», «Necesito un momento a solas»…).</li>
+      <li>Crea las tuyas con <span class="ui">+ Nueva tarjeta</span>. Vienen algunas de ejemplo («Ahora mismo no puedo hablar», «Necesito un momento a solas»…), que cambian con el idioma de la app hasta que las edites. Si borras alguna, la recuperas con <b>Recuperar las tarjetas de ejemplo</b>.</li>
     </ul>
     <p class="small">Desde el widget, Tarjetas se abre directamente, sin pasar por el Punto de Retorno.</p>
   </div>

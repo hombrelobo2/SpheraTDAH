@@ -111,7 +111,7 @@ private val ALERTS = listOf(
     Alerts.SNOOZE_END to R.string.alert_snooze_setting,
 )
 private val HOURS = (0..23).map { "%02d:00".format(it) }
-private val LANGUAGES = listOf("" to R.string.lang_system, "es" to R.string.lang_es, "en" to R.string.lang_en)
+private val LANGUAGES = listOf("" to R.string.lang_system, "es" to R.string.lang_es, "en" to R.string.lang_en, "eu" to R.string.lang_eu)
 private val TEXT_SIZES = listOf(R.string.text_size_small, R.string.text_size_normal, R.string.text_size_large, R.string.text_size_xlarge)
 
 /** Un permiso que falta: qué es, para qué sirve y cómo se concede. */
@@ -205,7 +205,7 @@ private fun PermissionsCard(missing: List<MissingPermission>) {
 @Composable
 private fun ModuleSection(
     emoji: String, title: String, summary: String, color: Color,
-    expanded: Boolean, onToggle: () -> Unit, content: @Composable ColumnScope.() -> Unit,
+    expanded: Boolean, onToggle: () -> Unit, iconSkill: Skill? = null, content: @Composable ColumnScope.() -> Unit,
 ) {
     val arrow by animateFloatAsState(if (expanded) 90f else 0f, label = "arrow")
     ModuleTheme(color) {
@@ -217,7 +217,7 @@ private fun ModuleSection(
                 Modifier.fillMaxWidth().clickable(onClick = onToggle).padding(start = 20.dp, end = 16.dp, top = 16.dp, bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(emoji, fontSize = 26.sp)
+                if (iconSkill != null) SkillIcon(iconSkill, 26.sp) else Text(emoji, fontSize = 26.sp)
                 Column(Modifier.weight(1f).padding(horizontal = 14.dp)) {
                     Text(title, color = Palette.text, fontSize = 19.sp, fontWeight = FontWeight.Bold)
                     Text(summary, color = Palette.textFaint, fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -318,7 +318,7 @@ private fun HomeSection(expanded: Boolean, onToggle: () -> Unit) {
         all.forEachIndexed { i, skill ->
             val shown = skill.key !in HomeLayout.hidden
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(skill.emoji, fontSize = 22.sp, modifier = Modifier.alpha(if (shown) 1f else 0.35f))
+                SkillIcon(skill, 22.sp, Modifier.alpha(if (shown) 1f else 0.35f))
                 Text(
                     stringResource(skill.label), color = if (shown) Palette.text else Palette.textFaint, fontSize = 16.sp,
                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(start = 10.dp),
@@ -456,7 +456,7 @@ private fun SanctuarySection(expanded: Boolean, onToggle: () -> Unit) {
     }
     val summary = listOf(shortSound, stringResource(pattern.name)).joinToString(" · ")
 
-    ModuleSection("🌑", stringResource(R.string.skill_sanctuary), summary, Palette.sanctuary, expanded, onToggle) {
+    ModuleSection("", stringResource(R.string.skill_sanctuary), summary, Palette.sanctuary, expanded, onToggle, skill("sanctuary")) {
         Text(stringResource(R.string.sanctuary_sound), color = Palette.text, fontSize = 17.sp)
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Picker(soundLabels, soundIndex, Modifier.weight(1f)) {

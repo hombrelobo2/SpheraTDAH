@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icono del Santuario: arco ojival de piedra con una luna creciente dentro. Diseño propio de Sphera. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="25dp"
+    android:height="30dp"
+    android:viewportWidth="100"
+    android:viewportHeight="120">
+    <group
+        android:translateX="-30"
+        android:translateY="-25">
+        <path
+            android:fillColor="#A9A1D6"
+            android:fillAlpha="0.18"
+            android:strokeColor="#A9A1D6"
+            android:strokeWidth="4"
+            android:strokeLineJoin="round"
+            android:pathData="M45,140 V85 Q45,45 80,28 Q115,45 115,85 V140 Z" />
+        <path
+            android:fillColor="#0F1218"
+            android:pathData="M58,140 V88 Q58,58 80,44 Q102,58 102,88 V140 Z" />
+        <path
+            android:fillColor="#E7E9EE"
+            android:pathData="M88,72 a14,14 0,1 1,-10 -18 a11,11 0,1 0,10 18 z" />
+        <path
+            android:strokeColor="#A9A1D6"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M36,140 L124,140" />
+    </group>
+</vector>

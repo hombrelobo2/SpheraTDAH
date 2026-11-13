@@ -33,7 +33,14 @@ class SpheraWidget : AppWidgetProvider() {
                     views.setViewVisibility(slot, View.GONE)
                 } else {
                     views.setViewVisibility(slot, View.VISIBLE)
-                    views.setTextViewText(slot, action.emoji + "\n" + ctx.getString(action.label))
+                    // Con icono dibujado, el icono va encima del texto; si no, el emoji en la primera línea.
+                    if (action.icon != null) {
+                        views.setTextViewCompoundDrawables(slot, 0, action.icon, 0, 0)
+                        views.setTextViewText(slot, ctx.getString(action.label))
+                    } else {
+                        views.setTextViewCompoundDrawables(slot, 0, 0, 0, 0)
+                        views.setTextViewText(slot, action.emoji + "\n" + ctx.getString(action.label))
+                    }
                     views.setTextColor(slot, action.color)
                     // Código distinto por widget y casilla para que cada botón abra lo suyo.
                     views.setOnClickPendingIntent(slot, linkIntent(ctx, action.link, 1000 + id * 10 + i))

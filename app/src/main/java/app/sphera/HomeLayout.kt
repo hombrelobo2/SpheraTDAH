@@ -1,16 +1,41 @@
 package app.sphera
 
 import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.Color
 
-/** Una casilla del inicio, con el color de su módulo. */
-class Skill(val key: String, val emoji: String, @StringRes val label: Int, val target: String, val color: Color)
+/** Una casilla del inicio, con el color de su módulo. [icon]: icono dibujado en lugar del emoji. */
+class Skill(
+    val key: String, val emoji: String, @StringRes val label: Int, val target: String, val color: Color,
+    @DrawableRes val icon: Int? = null,
+)
+
+/** El icono de un módulo: su dibujo si lo tiene, o su emoji. */
+@Composable
+fun SkillIcon(skill: Skill, size: TextUnit = 24.sp, modifier: Modifier = Modifier) {
+    if (skill.icon != null) {
+        Image(painterResource(skill.icon), null, modifier.size((size.value * 1.15f).dp))
+    } else {
+        Text(skill.emoji, fontSize = size, modifier = modifier)
+    }
+}
+
+fun skill(key: String) = SKILLS.first { it.key == key }
 
 val SKILLS = listOf(
     Skill("social", "🪐", R.string.skill_social, Routes.SOCIAL, Palette.social),
-    Skill("sanctuary", "🌑", R.string.skill_sanctuary, Routes.SANCTUARY, Palette.sanctuary),
+    Skill("sanctuary", "🌙", R.string.skill_sanctuary, Routes.SANCTUARY, Palette.sanctuary, R.drawable.ic_sanctuary),
     Skill("return", "📍", R.string.skill_return, Routes.RETURN_FORM, Palette.returnPoint),
     Skill("rabbit", "🐇", R.string.skill_rabbit, Routes.RABBIT, Palette.rabbit),
     Skill("steps", "👣", R.string.skill_steps, Routes.STEPS, Palette.steps),

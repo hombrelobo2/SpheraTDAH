@@ -124,7 +124,7 @@ private fun Results(needs: List<Need>, onSanctuary: () -> Unit, onSteps: () -> U
             Text(stringResource(R.string.body_all_good), color = Color.White, fontSize = 28.sp, lineHeight = 35.sp, fontWeight = FontWeight.Bold)
             Text(stringResource(R.string.body_all_good_text), color = GREY, fontSize = 20.sp, lineHeight = 26.sp)
             OutlinedButton(onClick = onSanctuary, modifier = Modifier.fillMaxWidth().height(72.dp)) {
-                Text("🌑 " + stringResource(R.string.skill_sanctuary), fontSize = 20.sp)
+                Text("🌙 " + stringResource(R.string.skill_sanctuary), fontSize = 20.sp)
             }
             OutlinedButton(onClick = onSteps, modifier = Modifier.fillMaxWidth().height(72.dp)) {
                 Text("👣 " + stringResource(R.string.skill_steps), fontSize = 20.sp)
@@ -145,7 +145,7 @@ private fun Results(needs: List<Need>, onSanctuary: () -> Unit, onSteps: () -> U
                         need.note?.let { Text(stringResource(it), color = GREY, fontSize = 15.sp, lineHeight = 20.sp) }
                         if (need.sanctuary) {
                             Button(onClick = onSanctuary, modifier = Modifier.fillMaxWidth().height(64.dp)) {
-                                Text("🌑 " + stringResource(R.string.skill_sanctuary), fontSize = 20.sp)
+                                Text("🌙 " + stringResource(R.string.skill_sanctuary), fontSize = 20.sp)
                             }
                         }
                     }

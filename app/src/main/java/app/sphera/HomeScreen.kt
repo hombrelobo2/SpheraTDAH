@@ -69,7 +69,7 @@ private fun SkillTile(s: Skill, modifier: Modifier, onClick: () -> Unit) {
     ) {
         // El emoji sobre un círculo suave del color del módulo.
         Box(Modifier.size(48.dp).clip(CircleShape).background(s.color.copy(alpha = 0.18f)), contentAlignment = Alignment.Center) {
-            Text(s.emoji, fontSize = 24.sp)
+            SkillIcon(s, 24.sp)
         }
         Column(Modifier.fillMaxWidth()) {
             Box(Modifier.size(width = 24.dp, height = 3.dp).clip(CircleShape).background(s.color))

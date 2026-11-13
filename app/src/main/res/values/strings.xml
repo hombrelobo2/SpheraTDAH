@@ -47,6 +47,7 @@
     <string name="lang_system">El del sistema</string>
     <string name="lang_es">Español</string>
     <string name="lang_en">English</string>
+    <string name="lang_eu">Euskara</string>
     <string name="permissions">Permisos</string>
     <string name="perm_calls">Contactos y registro de llamadas</string>
     <string name="perm_calls_desc">Para mostrar la foto del contacto y saber cuándo hablasteis por teléfono.</string>
@@ -564,4 +565,5 @@
     <string name="update_channel">Versiones nuevas</string>
     <string name="update_notif_title">Hay una versión nueva de Sphera: %s</string>
     <string name="update_notif_text">Toca para descargarla e instálala encima: no se pierde nada.</string>
+    <string name="cards_restore">Recuperar las tarjetas de ejemplo</string>
 </resources>

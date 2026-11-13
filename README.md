@@ -17,7 +17,7 @@ App de Android, libre y gratuita, que reúne herramientas para el día a día co
 - 🗣️ **Tarjetas**: mensajes a pantalla completa para cuando no puedes hablar.
 - 🚪 **Puerta lenta**: una pausa con respiración y una pregunta antes de abrir las apps que enganchan.
 
-En Ajustes puedes ordenar y ocultar las casillas del inicio. Widgets: Accesos (hasta 4, a elegir), Punto de Retorno y Santuario (1×1).
+Idiomas: español, inglés y euskera. En Ajustes puedes ordenar y ocultar las casillas del inicio. Widgets: Accesos (hasta 4, a elegir), Punto de Retorno y Santuario (1×1).
 
 ## Instalar y actualizar
 
@@ -35,7 +35,7 @@ Todo se guarda en el móvil. De las notificaciones de WhatsApp, Telegram, Signal
 
 - Kotlin + Jetpack Compose. Cada cambio en `main` compila el APK firmado y lo publica en Releases (`.github/workflows/build.yml`).
 - Versión en `app/build.gradle.kts`: sube `versionCode` siempre en 1 y `versionName` según el cambio.
-- Textos en `app/src/main/res/values/strings.xml` (español) y `values-en/` (inglés). Para otro idioma, copia la carpeta a `values-XX/`, tradúcela y añade el código en `res/xml/locales_config.xml` y en Ajustes.
+- Textos en `app/src/main/res/values/strings.xml` (español), `values-en/` (inglés) y `values-eu/` (euskera batua). Para otro idioma, copia la carpeta a `values-XX/`, tradúcela y añade el código en `res/xml/locales_config.xml` y en Ajustes.
 - La guía está en `docs/guia/` (`portada.html` y `guia.html`). Para regenerar el PDF: `python3 docs/guia/generar_pdf.py` (necesita Chrome o Chromium y `pypdf`).
 
 ## Licencia

@@ -91,6 +91,12 @@ fun CardsListScreen(onShow: (String) -> Unit, onEdit: (String) -> Unit) {
         OutlinedButton(onClick = { onEdit("new") }, modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(56.dp)) {
             Text(stringResource(R.string.cards_new))
         }
+        // Solo si se borró alguna de ejemplo.
+        if (CardsStore.missingDefaults(ctx).isNotEmpty()) {
+            TextButton(onClick = { CardsStore.restoreDefaults(ctx) }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Text(stringResource(R.string.cards_restore), color = Palette.textSoft)
+            }
+        }
     }
 }
 

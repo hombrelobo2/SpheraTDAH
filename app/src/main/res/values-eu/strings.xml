@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Euskara batua. Itzulpena: values/strings.xml-tik (gaztelania). -->
+<resources>
+    <string name="app_name">Sphera</string>
+    <string name="settings">Ezarpenak</string>
+    <string name="back">Itzuli</string>
+    <string name="coming_soon">Laster</string>
+    <string name="skill_social">Unibertso soziala</string>
+    <string name="add_contact">Gehitu kontaktua</string>
+    <string name="me">Ni</string>
+    <string name="empty_universe">Zure unibertsoa hutsik dago. Sakatu + norbait gehitzeko.</string>
+    <string name="already_added">Kontaktu hau zure unibertsoan dago jada</string>
+    <string name="days_today">Gaur harremanetan egon zarete</string>
+    <plurals name="days_since">
+        <item quantity="one">Egun %d igaro da azken harremanetik</item>
+        <item quantity="other">%d egun igaro dira azken harremanetik</item>
+    </plurals>
+    <string name="planet_days">%d e</string>
+    <string name="send_via">Idatzi honen bidez</string>
+    <string name="ch_whatsapp">WhatsApp</string>
+    <string name="ch_whatsapp_business">WhatsApp Business</string>
+    <string name="ch_telegram">Telegram</string>
+    <string name="ch_signal">Signal</string>
+    <string name="ch_viber">Viber</string>
+    <string name="ch_sms">SMS</string>
+    <string name="ch_call">Deitu</string>
+    <string name="no_app">Ez dago hau irekitzeko aplikaziorik</string>
+    <string name="mark_contacted">Pertsona honekin hitz egin dut jada</string>
+    <string name="frequency">Zenbatero hitz egin nahi duzu?</string>
+    <string name="freq_weekly">Astero</string>
+    <string name="freq_biweekly">2 astean behin</string>
+    <string name="freq_monthly">Hilero</string>
+    <string name="freq_quarterly">3 hilean behin</string>
+    <string name="add">Gehitu</string>
+    <string name="cancel">Utzi</string>
+    <string name="close">Itxi</string>
+    <string name="delete">Ezabatu</string>
+    <string name="delete_title">%s ezabatu?</string>
+    <string name="delete_text">Zure unibertsotik desagertuko da. Zure agendako kontaktua ez da ukituko.</string>
+    <string name="delete_hint">Eduki sakatuta ezabatzeko</string>
+    <string name="language">Hizkuntza</string>
+    <string name="lang_system">Sistemarena</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_en">English</string>
+    <string name="lang_eu">Euskara</string>
+    <string name="permissions">Baimenak</string>
+    <string name="perm_calls">Kontaktuak eta deien erregistroa</string>
+    <string name="perm_calls_desc">Kontaktuaren argazkia erakusteko eta telefonoz noiz hitz egin zenuten jakiteko.</string>
+    <string name="perm_notifications">Jakinarazpenetarako sarbidea</string>
+    <string name="perm_notifications_desc">Norbaitek WhatsApp, Telegram, Signal, Viber edo SMS bidez idazten dizunean jakiteko. Androidek blokeatzen badu: Ezarpenak → Aplikazioak → Sphera → ⋮ → Baimendu ezarpen mugatuak.</string>
+    <string name="granted">Emanda</string>
+    <string name="grant">Eman</string>
+    <string name="version">%s bertsioa</string>
+    <string name="today_write_to">Gaur, idatzi %s(r)i</string>
+    <plurals name="days_short">
+        <item quantity="one">egun %d</item>
+        <item quantity="other">%d egun</item>
+    </plurals>
+    <string name="alias">Ezizena (aukerakoa)</string>
+    <string name="icebreaker">Hasteko mezua</string>
+    <string name="no_message">Mezurik gabe</string>
+    <string name="message_copied">Mezua kopiatu da: txatean agertzen ez bada, itsatsi</string>
+    <string-array name="icebreakers">
+        <item>Kaixo {alias}! Zutaz gogoratu naiz, zer moduz dena?</item>
+        <item>Aupa {alias}! Aspaldi ez dugula hitz egiten, zer moduz zaude?</item>
+        <item>Egunen batean geratzeko gogoa duzu, {alias}?</item>
+        <item>Kaixo {alias}! Barkatu idazteko berandu ibili izana, zer moduz zabiltza?</item>
+    </string-array>
+    <string name="summary_title">Eguneko laburpena</string>
+    <string name="summary_desc">Jakinarazpen bat egunean, zure unibertsotik nor ari den urruntzen esateko. Norbait badago bakarrik iristen da.</string>
+    <string name="summary_hour">Abisuaren ordua</string>
+    <plurals name="summary_others">
+        <item quantity="one">%s ere urruntzen ari da</item>
+        <item quantity="other">%s ere urruntzen ari dira</item>
+    </plurals>
+    <string name="messages_title">Hasteko mezuak</string>
+    <string name="messages_desc">Idatzi {alias} kontaktuaren ezizena joan dadin nahi duzun tokian. Ezizenik ez badu, kendu egiten da.</string>
+    <string name="messages_new">Mezu berria</string>
+    <string name="messages_reset">Berrezarri lehenetsiak</string>
+    <string name="ch_instagram">Instagram</string>
+    <string name="telegram_user">Telegrameko erabiltzailea edo IDa (aukerakoa)</string>
+    <string name="instagram_user">Instagrameko erabiltzailea (aukerakoa)</string>
+    <string name="perm_battery">Bateria-murrizketarik gabe</string>
+    <string name="perm_battery_desc">Mugikorrak Sphera atzeko planoan ixtea saihesten du, eguneko laburpena edo mezuen detekzioa gal ez daitezen. Oppo, OnePlus, Realme edo Xiaomi-n, begiratu baita Ezarpenak → Bateria → Sphera.</string>
+    <string name="notes">Oharrak: zertaz hitz egin zenuten, zer galdetu…</string>
+    <string name="birthday_today">🎂 Gaur da haren urtebetetzea</string>
+    <string name="summary_birthday">Gaur da %s(r)en urtebetetzea 🎂</string>
+    <string name="snooze">Atzeratu (planeta ez da urrunduko)</string>
+    <string name="snooze_none">Ez atzeratu</string>
+    <string name="snooze_3d">3 egun</string>
+    <string name="snooze_1w">Aste 1</string>
+    <string name="snooze_2w">2 aste</string>
+    <string name="snooze_1m">Hilabete 1</string>
+    <string name="snoozed_until">💤 %s arte atzeratuta</string>
+    <string name="snooze_cancel">Kendu atzerapena</string>
+    <string name="group">Taldea</string>
+    <string name="group_none">Talderik gabe</string>
+    <string name="group_family">Familia</string>
+    <string name="group_friends">Lagunak</string>
+    <string name="group_work">Lana</string>
+    <string name="filter_all">Denak</string>
+    <plurals name="month_count">
+        <item quantity="one">Hilabete honetan pertsona %d(e)kin hitz egin duzu 🌟</item>
+        <item quantity="other">Hilabete honetan %d pertsonarekin hitz egin duzu 🌟</item>
+    </plurals>
+    <string name="alerts_title">Abisuak</string>
+    <string name="alerts_desc">Jakinarazpen solteak, eguneko laburpenaz gain. 9:00etatik 22:00etara bakarrik iristen dira.</string>
+    <string name="alert_drift_setting">Norbaitek bere maiztasuna gainditzen duenean</string>
+    <string name="alert_birthday_setting">Urtebetetzeak</string>
+    <string name="alert_snooze_setting">Atzerapen bat amaitzen denean</string>
+    <string name="alert_drift">%s urruntzen ari da</string>
+    <string name="alert_snooze_end">%s(r)en atzerapena amaitu da</string>
+    <string name="alert_tap_to_write">Sakatu idazteko</string>
+    <string name="skill_sanctuary">Santutegia</string>
+    <string name="skill_return">Itzulera puntua</string>
+    <string name="sanctuary_text">Zure unea da</string>
+    <string name="sanctuary_exit">Irten</string>
+    <string name="landing_stay">Lasai jarraitu</string>
+    <string name="landing_cannot_talk">Ezin dut hitz egin</string>
+    <string name="landing_back">Itzuli</string>
+    <string name="comm_title">Oraintxe ezin dut hitz egin.</string>
+    <string name="comm_text">Ez da zuregatik. Lasaitasun une bat behar dut. Idatziz edo keinuekin komunika naiteke.</string>
+    <string name="rp_title">Hemen utzi zenuen</string>
+    <string name="rp_where">Non nengoen</string>
+    <string name="rp_next">Hurrengo urratsa</string>
+    <string name="rp_tools">Zer behar dut</string>
+    <string name="rp_resume">Berrekin eta garbitu</string>
+    <string name="rp_form_title">Itzulera puntua</string>
+    <string name="rp_save">Gorde</string>
+    <string name="sanctuary_settings">Santutegia</string>
+    <string name="perm_dnd">Ez molestatu modua</string>
+    <string name="perm_dnd_desc">Santutegian sartzean jakinarazpenak isilarazteko. \"Itzuli\" sakatzean berrezartzen da.</string>
+    <string name="perm_brightness">Pantailaren distira</string>
+    <string name="perm_brightness_desc">Mugikor osoaren distira minimora jaisteko, ez Santutegian bakarrik. \"Itzuli\" sakatzean berrezartzen da.</string>
+    <string name="sanctuary_sound">Soinua</string>
+    <string name="sanctuary_sound_pick">Aukeratu mugikorreko audioa</string>
+    <string name="sound_brown">Zarata marroia</string>
+    <string name="sound_pink">Zarata arrosa</string>
+    <string name="sound_white">Zarata zuri leuna</string>
+    <string name="sound_waves">Olatuak</string>
+    <string name="sound_custom">Nire audioa: %s</string>
+    <string name="sound_preview">▶ Probatu</string>
+    <string name="sound_stop">■ Gelditu</string>
+    <string name="widget_sanctuary">Santutegia</string>
+    <string name="widget_return">📍 Itzulera</string>
+    <string name="widget_rabbit">🐇 Untxia</string>
+    <string name="widget_description">Lau sarbide arte, zuk aukeratutakoak</string>
+    <string name="settings_general">Orokorra</string>
+    <string name="skill_rabbit">Ez jarraitu untxiari</string>
+    <string name="rabbit_title">Ez jarraitu untxiari</string>
+    <string name="rabbit_capture_hint">Zerk piztu dizu jakin-mina? Idatzi eta itzuli zure gauzetara.</string>
+    <string name="rabbit_save">Aparkatu</string>
+    <string name="rabbit_saved">Aparkatuta 🐇</string>
+    <string name="rabbit_explore">Jaitsi untxi-zulora</string>
+    <string name="rabbit_next">Hurrengoa</string>
+    <string name="rabbit_notes">Oharrak</string>
+    <string name="rabbit_empty">Oraindik ez dago ezer aparkatuta.</string>
+    <string name="rabbit_delete_title">Jakin-min hau ezabatu?</string>
+    <string name="skill_body">Egiaztapena</string>
+    <string name="body_title">Gorputzaren egiaztapena</string>
+    <string name="body_yes">Bai</string>
+    <string name="body_no">Ez</string>
+    <string name="body_q_food">Zerbait jan duzu azken 3 edo 4 orduetan?</string>
+    <string name="body_q_water">Ura edan duzu azken orduan?</string>
+    <string name="body_q_bathroom">Komunera joateko gogoa duzu?</string>
+    <string name="body_q_sleep">Ondo lo egin edo atseden hartu duzu?</string>
+    <string name="body_q_senses">Zarata, argi edo jende asko dago zure inguruan?</string>
+    <string name="body_q_crash">Oso estimulagarria den zerbait utzi berri duzu? (sare sozialak, bideojokoak, hiperfoku bat, plan sozial bat…)</string>
+    <string name="body_results">Honek eragina izan dezake</string>
+    <string name="body_all_good">Zure gorputza ondo dagoela dirudi</string>
+    <string name="body_all_good_text">Ondoeza beste nonbaitetik etor daiteke. Hartu une bat:</string>
+    <string name="body_restart">Hasi berriro</string>
+    <string name="body_food">Zerbait jan</string>
+    <string-array name="body_tips_food">
+        <item>Zerbait sinplea nahikoa da: fruta, fruitu lehorrak, jogurt bat edo txigorki bat.</item>
+        <item>Gosea nabaritzen ez baduzu ere, probatu zerbait txikiarekin: batzuetan gosea ez da nabaritzen jan arte.</item>
+        <item>Hobe proteina pixka bat badu (arraultza, gazta, lekaleak, fruitu lehorrak): beherakadak gehiago behar du itzultzeko.</item>
+        <item>Utzi zerbait jateko begi-bistan hurrengorako.</item>
+    </string-array>
+    <string name="body_water">Ura edan</string>
+    <string-array name="body_tips_water">
+        <item>Edalontzi oso bat orain, txurrupaka.</item>
+        <item>Utzi botila begi-bistan: ikusten ez dena ez da existitzen.</item>
+        <item>Ur hutsak aspertzen bazaitu, probatu limoi tanta batzuekin edo infusio hotz batekin.</item>
+    </string-array>
+    <string name="body_bathroom">Komunera joan</string>
+    <string-array name="body_tips_bathroom">
+        <item>Joan orain: eusteak ere umore txarra jartzen du, nabaritu ez arren.</item>
+        <item>Aprobetxatu aurpegia ur freskoarekin garbitzeko.</item>
+    </string-array>
+    <string name="body_sleep">Atsedena</string>
+    <string-array name="body_tips_sleep">
+        <item>Lo gutxirekin dena bikoitz kostatzen da: jaitsi gaurko langa.</item>
+        <item>Ahal baduzu, 10 edo 20 minutu etzanda begiak itxita lagungarriak dira, lorik egin ez arren.</item>
+        <item>Gaur gauean, utzi pantaila pixka bat lo egin aurretik.</item>
+        <item>Gaur ez da egun ona erabaki handietarako: idatzi biharko.</item>
+    </string-array>
+    <string name="body_senses">Estimulu gehiegi</string>
+    <string-array name="body_tips_senses">
+        <item>Bilatu toki lasaiago bat, minutu batzuetarako bada ere.</item>
+        <item>Entzungailuak edo belarri-tapoiak, musikarik jarri ez arren.</item>
+        <item>Jaitsi pantailaren eta gelaren argia.</item>
+        <item>Itxi begiak eta hartu arnasa poliki bost arnasaldi zenbatzen dituzun bitartean.</item>
+    </string-array>
+    <string name="body_crash">Dopamina-beherakada</string>
+    <string name="body_crash_explanation">Estimulazio handiaren ondoren, ohikoa aspergarria edo gogaikarria iruditzen zaizu. Igarotzen den beherakada bat da, ez da zure errua.</string>
+    <string-array name="body_tips_crash">
+        <item>Mugitu 5 minutuz: ibili, luzatu edo dantzatu abesti bat.</item>
+        <item>Irten argi naturalera edo begiratu leihotik une batez.</item>
+        <item>Jarri gustuko musika zerbait sinplea egiten duzun bitartean.</item>
+        <item>Ez itzuli estimulu berera kentzeko: aldatu zerbait lasaiagatik denbora batez.</item>
+        <item>Aukeratu amaiera argia duen zeregin txiki bat: katilu bat garbitu, ohea egin.</item>
+        <item>Jan edo edan zerbait aspalditik egin ez baduzu.</item>
+        <item>Kontatu konfiantzazko norbaiti: «denbora batez gogo gutxirekin nago, ez da zuregatik».</item>
+    </string-array>
+    <string name="body_crash_note">Batez ere botikaren eragina amaitzean gertatzen bazaizu, esan zure medikuari.</string>
+    <string name="sound_folder">Nire karpeta: %s</string>
+    <string name="sound_pick_folder">Aukeratu karpeta</string>
+    <string name="sound_shuffle">Ausazko ordena</string>
+    <string name="sound_mixer">Giro-nahasgailua</string>
+    <string name="sound_mixer_desc">Santutegian soinu-sareta bat ikusiko duzu: sakatu aktibatzeko, konbinatu eta doitu bakoitzaren bolumena. Zure nahasketa gorde egiten da.</string>
+    <string name="credits_title">Lizentziak eta kredituak</string>
+    <string name="amb_group_nature">Natura</string>
+    <string name="amb_group_travel">Bidaiak</string>
+    <string name="amb_group_indoors">Barnealdeak</string>
+    <string name="amb_group_noise">Zarata</string>
+    <string name="amb_group_music">Musika</string>
+    <string name="amb_rain">Euria</string>
+    <string name="amb_storm">Ekaitza</string>
+    <string name="amb_wind">Haizea</string>
+    <string name="amb_waves">Olatuak</string>
+    <string name="amb_stream">Erreka</string>
+    <string name="amb_birds">Txoriak</string>
+    <string name="amb_summer_night">Udako gaua</string>
+    <string name="amb_forest">Basoa</string>
+    <string name="amb_train">Trena</string>
+    <string name="amb_boat">Itsasontzia</string>
+    <string name="amb_city">Hiria</string>
+    <string name="amb_airplane">Hegazkina</string>
+    <string name="amb_coffee_shop">Kafetegia</string>
+    <string name="amb_fireplace">Tximinia</string>
+    <string name="amb_fan">Haizagailua</string>
+    <string name="amb_laundry_room">Garbitegia</string>
+    <string name="amb_pink_noise">Zarata arrosa</string>
+    <string name="amb_white_noise">Zarata zuria</string>
+    <string name="amb_brown_noise">Zarata marroia</string>
+    <string name="amb_green_noise">Zarata berdea</string>
+    <string name="amb_ambient_synth">Sintetizadorea</string>
+    <string name="amb_gentle_guitar">Gitarra leuna</string>
+    <string name="amb_lofi_beats">Lo-fi</string>
+    <string name="amb_warm_piano">Piano epela</string>
+    <string name="phrases_title">Esaldi lasaiak</string>
+    <string name="phrases_desc">Esaldi bat 30 segundoro, iraungitze geldo batekin. Desaktibatzen baduzu, \"Zure unea da\" bakarrik ikusiko duzu.</string>
+    <string-array name="sanctuary_phrases">
+        <item>Ez duzu ezer konpondu behar orain.</item>
+        <item>Zure burmuinak azkar doa. Hemen poliki joan daiteke.</item>
+        <item>Hau ere igaroko da.</item>
+        <item>Arnasa hartzea nahikoa da oraingoz.</item>
+        <item>Ez zara inora berandu iristen.</item>
+        <item>Sorbaldak askatu ditzakezu.</item>
+        <item>Hemen inork ez zaitu itxaroten.</item>
+        <item>Sentitzen duzuna benetakoa da, eta iragankorra.</item>
+        <item>Ez da dena ulertu behar ondo egoteko.</item>
+        <item>Gelditzeko baimena duzu.</item>
+        <item>Kanpoko zaratak itxaron dezake.</item>
+        <item>Une honetan seguru zaude.</item>
+        <item>Aurrekoa baino arnasaldi geldoagoa.</item>
+        <item>Ez zara zure pentsamenduak. Entzuten ari zara bakarrik.</item>
+        <item>Egiteke dagoena hor egongo da. Zu lehenengo.</item>
+        <item>Atseden hartzea ere zerbait egitea da.</item>
+        <item>Zure funtzionatzeko modua ez da akats bat.</item>
+        <item>Gaur egun sinplea izan daiteke.</item>
+        <item>Ez duzu perfektu egin behar.</item>
+        <item>Hemen ez dago ezer frogatzeko.</item>
+        <item>Askatu masailezurra.</item>
+        <item>Sentitu oinak lurrean.</item>
+        <item>Une bat aldi bakoitzean.</item>
+        <item>Zure balioa ez dago gaur egin duzunaren menpe.</item>
+        <item>Ahal duzun onena egiten ari zara, eta nahikoa da.</item>
+        <item>Geroago esan dezakezu ezetz. Orain, atseden hartu.</item>
+        <item>Presak ez datoz zurekin hona.</item>
+        <item>Gainezka egiten dizuna ez da oraingoa.</item>
+        <item>Utzi pentsamenduak hodeiak bezala igarotzen.</item>
+        <item>Besteei ematen diezun pazientzia bera merezi duzu.</item>
+        <item>Atsedena ez da irabazi behar.</item>
+        <item>Isiltasuna ere zurea da.</item>
+        <item>Desbideratzen bazara, itzuli zeure burua errieta egin gabe.</item>
+        <item>Toki hau zuretzat bakarrik da.</item>
+        <item>Ez da gogorik behar denbora batez ondo egoteko.</item>
+        <item>Zure gorputzak badaki lasaitzen. Eman denbora.</item>
+        <item>Intentsitatea jaitsi egiten da. Beti jaisten da.</item>
+        <item>Ez duzu huts egin geldiune bat behar izateagatik.</item>
+        <item>Bihar ez da gaur konpondu behar.</item>
+        <item>Nahi duzunean has zaitezke berriro.</item>
+        <item>Txikiak ere balio du.</item>
+        <item>Hemen zaude. Horrekin nahikoa.</item>
+        <item>Nabaritu airea sartzen eta irteten.</item>
+        <item>Ezer premiazkorik ez da sartzen une honetan.</item>
+        <item>Atsegina izan zaitezke zeurekin oraintxe bertan.</item>
+        <item>Poliki joatea ez da gaizki joatea.</item>
+        <item>Egun zailak gainditu dituzu lehen ere.</item>
+        <item>Ez duzu ehuneko ehunean egon behar.</item>
+        <item>Gaur egin ez denak ez zaitu definitzen.</item>
+        <item>Geratu behar duzun denbora guztia.</item>
+    </string-array>
+    <string name="text_size">Letra-tamaina</string>
+    <string name="text_size_small">Txikia</string>
+    <string name="text_size_normal">Normala</string>
+    <string name="text_size_large">Handia</string>
+    <string name="text_size_xlarge">Oso handia</string>
+    <string name="rp_single_hint">Zer ari zinen egiten eta zer dagokion ondoren. Adib.: Asegurua betetzen. Hurrengoa: polizaren PDFa bilatu.</string>
+    <string name="rp_dictate">🎤 Diktatu</string>
+    <string name="skill_steps">Urratsez urrats</string>
+    <string name="steps_first">Lehen urratsa</string>
+    <string name="steps_resume">Erdizka</string>
+    <string name="steps_resume_at">%2$d urratsetatik %1$d.ean zinen</string>
+    <string name="steps_mine">Nire errutinak</string>
+    <string name="steps_examples">Adibideak</string>
+    <string name="steps_edit">Editatu</string>
+    <string name="steps_copy">Kopiatu</string>
+    <string name="steps_new">+ Errutina berria</string>
+    <string name="steps_pause">Gero jarraitu</string>
+    <string name="steps_progress">%1$d. urratsa / %2$d</string>
+    <string name="steps_previous">Atzera</string>
+    <string name="steps_skip">Saltatu</string>
+    <string name="steps_done">Eginda</string>
+    <string name="steps_finish">Hemen amaitu</string>
+    <string name="steps_repeat">Errepikatu</string>
+    <string name="steps_done_title">Eginda.</string>
+    <string name="steps_done_text">Amaierara iritsi zara. Saltatu duzuna ez da garrantzitsua.</string>
+    <string name="steps_name">Errutinaren izena</string>
+    <string name="steps_list">Urratsak</string>
+    <string name="steps_add">+ Gehitu urratsa</string>
+    <string name="steps_delete_title">Errutina hau ezabatu?</string>
+    <string name="steps_first_q_task">Zein zereginek blokeatzen zaitu?</string>
+    <string name="steps_first_ex_task">errenta-aitorpena egitea</string>
+    <string name="steps_first_q_step">Zein da hasteko keinurik txikiena?</string>
+    <string name="steps_first_q_next">Eta hurrengo keinu txikia?</string>
+    <string name="steps_first_ex_step">ordenagailu eramangarria ireki</string>
+    <string name="steps_first_go">Ados</string>
+    <string name="steps_first_stop">Abiatu naiz jada, honekin nahikoa</string>
+    <string name="steps_first_finished">Hasi zara jada.</string>
+    <string name="steps_first_finished_text">Zailena abiatzea zen. Jarraitu zure erritmoan edo utzi hemen.</string>
+    <string name="steps_first_save">Gorde urrats hauek errutina gisa</string>
+    <string name="steps_ex_leave_home">Etxetik irten</string>
+    <string-array name="steps_ex_leave_home">
+        <item>Oinetakoak jantzi.</item>
+        <item>Giltzak hartu.</item>
+        <item>Zorroa hartu.</item>
+        <item>Mugikorra eta kargagailua hartu.</item>
+        <item>Begiratu berokia edo aterkia behar duzun.</item>
+        <item>Argiak eta sua itzali.</item>
+        <item>Irten eta giltzaz itxi.</item>
+    </string-array>
+    <string name="steps_ex_morning">Goizeko errutina</string>
+    <string-array name="steps_ex_morning">
+        <item>Ur baso bat edan.</item>
+        <item>Komunera joan.</item>
+        <item>Aurpegia eta hortzak garbitu.</item>
+        <item>Botika hartu, dagokionean.</item>
+        <item>Erosoa iruditzen zaizun lehenengo arropa jantzi.</item>
+        <item>Zerbait gosaldu, gutxi bada ere.</item>
+    </string-array>
+    <string name="steps_ex_start_work">Lanean hasi</string>
+    <string-array name="steps_ex_start_work">
+        <item>Ur-botila bete.</item>
+        <item>Mugikorra ahoz behera utzi edo beste gela batean.</item>
+        <item>Behar ez dituzun fitxak itxi.</item>
+        <item>Zereginaren dokumentua bakarrik ireki.</item>
+        <item>Esaldi bat idatzi, txarra bada ere.</item>
+    </string-array>
+    <string name="steps_ex_shower">Dutxatu</string>
+    <string-array name="steps_ex_shower">
+        <item>Eraman eskuoihala eta arropa garbia komunera.</item>
+        <item>Ura ireki eta epel egon arte itxaron.</item>
+        <item>Dutxan sartu.</item>
+        <item>Ilea garbitu.</item>
+        <item>Gorputza garbitu.</item>
+        <item>Lehortu eta jantzi.</item>
+    </string-array>
+    <string name="steps_ex_bedtime">Lo egin aurretik</string>
+    <string-array name="steps_ex_bedtime">
+        <item>Mugikorra kargatzen jarri ohetik urrun.</item>
+        <item>Hortzak garbitu.</item>
+        <item>Biharkoa prest utzi (arropa, giltzak).</item>
+        <item>Argiak jaitsi.</item>
+        <item>Ohean sartu.</item>
+    </string-array>
+    <string name="skill_cards">Txartelak</string>
+    <string name="cards_hint">Sakatu erakusteko. Eduki sakatuta editatzeko.</string>
+    <string name="cards_new">+ Txartel berria</string>
+    <string name="cards_ring">🔔 Abisatu</string>
+    <string name="cards_text">Mezua</string>
+    <string name="cards_desc">Xehetasuna (aukerakoa)</string>
+    <string name="cards_color">Kolorea</string>
+    <string name="cards_move_up">↑ Igo</string>
+    <string name="cards_move_down">↓ Jaitsi</string>
+    <string name="cards_delete_title">Txartel hau ezabatu?</string>
+    <string-array name="cards_defaults">
+        <item>Oraintxe ezin dut hitz egin.|Ez da zuregatik. Lasaitasun une bat behar dut. Idatziz edo keinuekin komunika naiteke.</item>
+        <item>Une bat bakarrik egon behar dut.|Berehala itzuliko naiz.</item>
+        <item>Idatziz jar didazu?|Orain kosta egiten zait entzuten dudana prozesatzea.</item>
+        <item>Zarata gehiegi dago niretzat.|Toki lasaiago batera joan gaitezke?</item>
+        <item>Ondo nago, lasaitasuna bakarrik behar dut.|</item>
+        <item>Ura, mesedez.|</item>
+    </string-array>
+    <string name="breath_title">Arnasketa gidatua</string>
+    <string name="breath_desc">Santutegiko Arnastu botoiarekin pizten eta itzaltzen da. Hemen erritmoa aukeratzen duzu.</string>
+    <string name="breath_in">Arnasa hartu</string>
+    <string name="breath_in_more">Pixka bat gehiago</string>
+    <string name="breath_hold">Eutsi</string>
+    <string name="breath_out">Arnasa bota</string>
+    <string name="breath_even">Leuna (4 barrura, 4 kanpora)</string>
+    <string name="breath_long_out">Arnasa luze bota (4 barrura, 6 kanpora)</string>
+    <string name="breath_box">Kutxa (4 · 4 · 4 · 4)</string>
+    <string name="breath_478">4-7-8</string>
+    <string name="breath_sigh">Hasperen fisiologikoa</string>
+    <string name="breath_start">Arnastu</string>
+    <string name="breath_stop">Utzi arnasketa gidatua</string>
+    <string name="skill_gate">Ate geldoa</string>
+    <string name="gate_hint">Lotzen zaituzten aplikazioak, ireki aurretik geldiune batekin: arnasa hartzen duzu eta zertara zoazen galdetzen diozu zeure buruari.</string>
+    <string name="gate_empty">Oraindik ez dago bat ere ez. Gehitu aplikazio bat eta Spherak geldiunetik igarotzen den sarbide bat jarriko du zure hasierako pantailan.</string>
+    <string name="gate_tip">Ondoren, kendu jatorrizko ikonoa hasierako pantailatik (eduki sakatuta eta aukeratu Kendu). Aplikazioa instalatuta jarraitzen du; sartzeko bidea bakarrik aldatzen da.</string>
+    <string name="gate_add">Gehitu aplikazioa</string>
+    <string name="gate_pin">Hasierara</string>
+    <string name="gate_remove">Kendu</string>
+    <string name="gate_breaths">Geldiunea ireki aurretik</string>
+    <string name="gate_breaths_1">Arnasaldi 1</string>
+    <string name="gate_breaths_2">2 arnasaldi</string>
+    <string name="gate_breaths_3">3 arnasaldi</string>
+    <string name="gate_pick_title">Aukeratu aplikazio bat</string>
+    <string name="gate_search">Bilatu</string>
+    <string name="gate_no_pin">Zure hasierako pantailak ez du lasterbiderik gehitzen uzten.</string>
+    <string name="gate_disabled">Jada ez dago Ate geldoan</string>
+    <string name="gate_opening">%1$s irekiko duzu</string>
+    <string name="gate_open">Ireki %1$s</string>
+    <string name="gate_not_now">Hobe ez</string>
+    <string name="gate_missing">Ez dut aplikazio hau aurkitzen. Agian desinstalatu egin da.</string>
+    <string-array name="gate_questions">
+        <item>Aspertuta irekitzen duzu?</item>
+        <item>Zer bilatzen duzu hor oraintxe?</item>
+        <item>Duela minutu bat egin nahi zenuena da hau?</item>
+        <item>Benetan nahi duzu, ala pilotu automatikoa da?</item>
+        <item>Zerbait saihesten ari zara?</item>
+        <item>Nekea, urduritasuna ala gogoa?</item>
+        <item>Zerbait jakin baterako zoaz, ala zer dagoen ikustera?</item>
+        <item>Nola sentitu nahi duzu ixtean?</item>
+        <item>Honek atseden ematen dizu ala sakabanatzen zaitu?</item>
+        <item>Zer egitekoa zinen honetan pentsatu aurretik?</item>
+        <item>Gosea, egarria edo logura duzu?</item>
+        <item>Ziur orain izan behar dela?</item>
+        <item>Nahi duzulako irekitzen duzu, ala ohituragatik?</item>
+        <item>Zer gertatuko litzateke pixka bat itxarongo bazenu?</item>
+        <item>Benetako atseden bat behar duzu?</item>
+        <item>Irekitzea erabaki bat da ala erreflexu bat?</item>
+        <item>Egiteke duzun zerbaitek pisatzen dizu?</item>
+        <item>Konpainia, distrakzioa ala informazioa bilatzen duzu?</item>
+        <item>Zenbat denbora egon nahi duzu barruan?</item>
+        <item>Nola sentitu ohi zara gero?</item>
+        <item>Eta beste arnasaldi bat hartuko bazenu?</item>
+        <item>Unea da?</item>
+        <item>Zerk ekarri zaitu honaino?</item>
+        <item>Zerbait aspergarri edo zailetik ihesi zoaz?</item>
+        <item>Ordubete barru eskertuko diozu zeure buruari?</item>
+        <item>Ba al dago norbait harekin hitz egitea nahiago zenukeena?</item>
+        <item>Premiazkoa da?</item>
+        <item>Gorputzak eskatzen dizu ala ohiturak?</item>
+        <item>Badakizu zer egingo duzun sartzean?</item>
+        <item>Zer behar duzu benetan orain?</item>
+        <item>Zenbat denbora egon zinen hemen azken aldian?</item>
+        <item>Azken aldiz «une baterako» sartu zinenean, zenbat iraun zuen?</item>
+        <item>Gogoratzen duzu zer atera zenuen azken bisitatik?</item>
+        <item>Zenbat aldiz ireki duzu gaur?</item>
+        <item>Hobeto ala okerrago irten zinen azken aldian?</item>
+        <item>Bilatzen zenuena aurkitu zenuen azken aldian?</item>
+        <item>Zer ordu da? Ondo datorkizu orain?</item>
+        <item>Zerbait egiteko duzu hurrengo minutuetan?</item>
+        <item>Deskonektatzeko da, ala ez pentsatzeko?</item>
+        <item>Zer utziko zenuke egiteke orain sartzen bazara?</item>
+        <item>Zerbait hasteko irekitzen duzu, ala ez hasteko?</item>
+        <item>Zerbaiten zain zaude, ala zain bakarrik?</item>
+        <item>Bakarrik sentitzen zara, ala zarata pixka baten gogoa duzu?</item>
+        <item>Aspertu zara ala blokeatu zara?</item>
+        <item>Zer emozioak ekarri zaitu honaino?</item>
+        <item>Zer esango lizuke zu ondo maite zaituen norbaitek?</item>
+        <item>Zerbait iritsi zaizu, ala badaezpada irekitzen duzu?</item>
+        <item>Hobe izango litzaizuke ur baso bat?</item>
+        <item>Hobe etorriko litzaizuke minutu batez luzatzea?</item>
+        <item>Itxaron dezake esku artean duzuna amaitu arte?</item>
+    </string-array>
+    <string name="settings_missing_title">Aktibatzeko falta zaizu</string>
+    <string name="settings_missing_desc">Denak daudenean, kutxa hau desagertu egingo da.</string>
+    <string name="settings_sum_general">%1$s · letra %2$s</string>
+    <string name="settings_sum_summary_on">Laburpena %s(e)tan</string>
+    <string name="settings_sum_summary_off">Eguneko laburpenik gabe</string>
+    <string name="settings_sum_alerts_off">abisurik gabe</string>
+    <plurals name="settings_sum_alerts">
+        <item quantity="one">abisu %d</item>
+        <item quantity="other">%d abisu</item>
+    </plurals>
+    <string name="settings_sum_custom">Zure audioa</string>
+    <string name="settings_sum_folder">Zure karpeta</string>
+    <string name="settings_messages_row">Hasteko mezuak (%d)</string>
+    <string name="sound_custom_option">Mugikorreko audio bat…</string>
+    <string name="sound_folder_option">Mugikorreko karpeta bat…</string>
+    <string name="sound_change_file">Aldatu audioa</string>
+    <string name="sound_change_folder">Aldatu karpeta</string>
+    <string name="widget_shortcuts_name">Sphera · Sarbideak</string>
+    <string name="widget_return_name">Sphera · Itzulera puntua</string>
+    <string name="widget_return_description">Idatzi zenuena, hasierako pantailan begi-bistan</string>
+    <string name="widget_return_label">📍 ITZULERA PUNTUA</string>
+    <string name="widget_return_empty">Ez dago ezer idatzita. Sakatu non uzten duzun idazteko.</string>
+    <string name="widget_panic_name">Sphera · Santutegia</string>
+    <string name="widget_panic_description">Santutegira zuzenean sartzen den botoi bat</string>
+    <string name="wa_sanctuary">Santutegia</string>
+    <string name="wa_return">Idatzi itzulera</string>
+    <string name="wa_rabbit">Aparkatu ideia</string>
+    <string name="wa_cards">Txartelak</string>
+    <string name="wa_body">Egiaztapena</string>
+    <string name="wa_steps">Urratsez urrats</string>
+    <string name="wa_social">Unibertsoa</string>
+    <string name="wa_gate">Ate geldoa</string>
+    <string name="wc_title">Widgetaren sarbideak</string>
+    <string name="wc_desc">Sakatu %d arte, ikusi nahi dituzun ordenan. Gero aldatzeko, eduki sakatuta widgeta.</string>
+    <string name="home_title">Hasierako pantaila</string>
+    <string name="home_desc">Ordenatu laukiak geziekin eta itzali erabiltzen ez dituzunak. Lauki bat ezkutatzeak ez du modulua itzaltzen: haren abisuek eta widgetek funtzionatzen jarraitzen dute.</string>
+    <string name="home_sum_all">%d laukiak begi-bistan</string>
+    <string name="home_sum_some">%2$d laukietatik %1$d begi-bistan</string>
+    <string name="home_sanctuary_hidden">Santutegia ezkutatuta dago. Santutegiaren widgeta gomendatzen dizut, behar duzunean ukitu batera izateko.</string>
+    <string name="about_title">Sphera-ri buruz</string>
+    <string name="about_manual">📖 Erabiltzailearen gida (PDF, gaztelaniaz)</string>
+    <string name="about_free">Software librea, GNU GPL v3 lizentziapean. Iragarkirik eta konturik gabe: zure datuak zure mugikorrean geratzen dira. Interneteko konexio bakarra bertsioen egiaztapena da, eta ez du daturik bidaltzen.</string>
+    <string name="about_code">Kodea GitHub-en</string>
+    <string name="about_issue">Arazo baten berri eman</string>
+    <string name="update_auto">Bilatu bertsio berriak astero</string>
+    <string name="update_auto_desc">Interneterekin, astean behin. Berririk badago, abisu bat jasoko duzu.</string>
+    <string name="update_check">Bilatu eguneraketak orain</string>
+    <string name="update_checking">Egiaztatzen…</string>
+    <string name="update_ok">✓ Azken bertsioa duzu (%s).</string>
+    <string name="update_available">Bertsio berri bat dago: %s</string>
+    <string name="update_how">Deskargatu eta instalatu daukazunaren gainean: ez da ezer galtzen.</string>
+    <string name="update_download">Deskargatu %s</string>
+    <string name="update_failed">Ezin izan da egiaztatu. Begiratu interneteko konexioa.</string>
+    <string name="update_channel">Bertsio berriak</string>
+    <string name="update_notif_title">Sphera-ren bertsio berri bat dago: %s</string>
+    <string name="update_notif_text">Sakatu deskargatzeko eta instalatu gainean: ez da ezer galtzen.</string>
+    <string name="cards_restore">Berreskuratu adibideko txartelak</string>
+</resources>

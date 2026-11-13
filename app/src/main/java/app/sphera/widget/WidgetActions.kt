@@ -8,11 +8,14 @@ import app.sphera.R
 import app.sphera.Routes
 
 /** Un acceso que se puede poner en el widget de accesos. */
-class WidgetAction(val key: String, val emoji: String, @StringRes val label: Int, val link: String, val color: Int)
+class WidgetAction(
+    val key: String, val emoji: String, @StringRes val label: Int, val link: String, val color: Int,
+    @androidx.annotation.DrawableRes val icon: Int? = null,
+)
 
 object WidgetActions {
     val ALL = listOf(
-        WidgetAction("sanctuary", "🌑", R.string.wa_sanctuary, Routes.LINK_SANCTUARY, 0xFFA9A1D6.toInt()),
+        WidgetAction("sanctuary", "🌙", R.string.wa_sanctuary, Routes.LINK_SANCTUARY, 0xFFA9A1D6.toInt(), R.drawable.ic_sanctuary),
         WidgetAction("return_new", "📍", R.string.wa_return, Routes.LINK_RETURN_NEW, 0xFFD9B98C.toInt()),
         WidgetAction("rabbit", "🐇", R.string.wa_rabbit, Routes.LINK_RABBIT, 0xFFC99A8E.toInt()),
         WidgetAction("cards", "🗣️", R.string.wa_cards, Routes.LINK_CARDS, 0xFF7CC6C0.toInt()),

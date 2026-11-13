@@ -80,7 +80,13 @@ class WidgetConfigActivity : AppCompatActivity() {
                                     .padding(14.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Text(action.emoji, fontSize = 24.sp)
+                                if (action.icon != null) {
+                                    androidx.compose.foundation.Image(
+                                        androidx.compose.ui.res.painterResource(action.icon), null, Modifier.size(28.dp),
+                                    )
+                                } else {
+                                    Text(action.emoji, fontSize = 24.sp)
+                                }
                                 Text(stringResource(action.label), color = Palette.text, fontSize = 18.sp, modifier = Modifier.weight(1f).padding(start = 12.dp))
                                 // Número de posición en el widget
                                 Box(
