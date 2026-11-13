@@ -349,4 +349,9 @@
         <item>Lo que no se hizo hoy no te define.</item>
         <item>Quédate el tiempo que necesites.</item>
     </string-array>
+    <string name="text_size">Tamaño de letra</string>
+    <string name="text_size_small">Pequeño</string>
+    <string name="text_size_normal">Normal</string>
+    <string name="text_size_large">Grande</string>
+    <string name="text_size_xlarge">Muy grande</string>
 </resources>

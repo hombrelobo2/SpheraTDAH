@@ -175,6 +175,14 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
                         Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + ctx.packageName)),
                     )
                 }
+                Text(stringResource(R.string.text_size), style = MaterialTheme.typography.titleMedium)
+                val sizeLabels = listOf(
+                    stringResource(R.string.text_size_small), stringResource(R.string.text_size_normal),
+                    stringResource(R.string.text_size_large), stringResource(R.string.text_size_xlarge),
+                )
+                Picker(sizeLabels, TextScale.OPTIONS.indexOf(TextScale.value).coerceAtLeast(1)) {
+                    TextScale.set(ctx, TextScale.OPTIONS[it])
+                }
                 TextButton(onClick = onCredits) { Text(stringResource(R.string.credits_title)) }
             }
 

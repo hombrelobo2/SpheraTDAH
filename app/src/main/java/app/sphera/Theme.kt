@@ -20,6 +20,10 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.TextStyle
@@ -92,11 +96,36 @@ private val SpheraType = Typography().let { t ->
     )
 }
 
+/**
+ * Tamaño de letra de toda la app (idea de Olauncher): multiplica la escala de letra del sistema.
+ * Se elige en Ajustes → General y se aplica al momento.
+ */
+object TextScale {
+    val OPTIONS = listOf(0.9f, 1f, 1.15f, 1.3f)
+    var value by mutableFloatStateOf(1f)
+        private set
+
+    private fun prefs(ctx: Context) = ctx.getSharedPreferences("settings", Context.MODE_PRIVATE)
+    fun load(ctx: Context) {
+        value = prefs(ctx).getFloat("text_scale", 1f)
+    }
+
+    fun set(ctx: Context, scale: Float) {
+        value = scale
+        prefs(ctx).edit().putFloat("text_scale", scale).apply()
+    }
+}
+
 @Composable
 fun SpheraTheme(content: @Composable () -> Unit) {
+    val density = LocalDensity.current
     MaterialTheme(colorScheme = SpheraColors, typography = SpheraType) {
         // La tipografía también para los textos que no usan un estilo del tema.
-        CompositionLocalProvider(LocalTextStyle provides LocalTextStyle.current.copy(fontFamily = Atkinson), content = content)
+        CompositionLocalProvider(
+            LocalTextStyle provides LocalTextStyle.current.copy(fontFamily = Atkinson),
+            LocalDensity provides Density(density.density, density.fontScale * TextScale.value),
+            content = content,
+        )
     }
 }
 

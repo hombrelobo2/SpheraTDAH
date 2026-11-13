@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
             navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
         )
         Store.init(this)
+        TextScale.load(this)
         DailySummary.schedule(this)
         Alerts.schedule(this)
         val target = explicitTarget(intent)
