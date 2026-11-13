@@ -54,10 +54,7 @@ fun MixerSanctuary(onExit: () -> Unit) {
     fun save() = Ambient.saveMix(ctx, mix.toMap())
 
     Column(Modifier.fillMaxSize().background(Palette.night).safeDrawingPadding().padding(16.dp)) {
-        Text(
-            stringResource(R.string.sanctuary_text), color = Palette.textSoft,
-            fontSize = 22.sp, lineHeight = 28.sp, modifier = Modifier.padding(bottom = 8.dp),
-        )
+        CalmPhrase(Modifier.fillMaxWidth().padding(bottom = 8.dp), fontSize = 19.sp, color = Palette.textSoft, center = false)
         LazyVerticalGrid(
             GridCells.Fixed(3), Modifier.weight(1f),
             horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp),

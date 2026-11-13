@@ -242,7 +242,7 @@
     <string name="sound_pick_folder">Choose folder</string>
     <string name="sound_shuffle">Shuffle</string>
     <string name="sound_mixer">Ambient mixer</string>
-    <string name="sound_mixer_desc">In the Sanctuary you will see a grid of sounds: tap to turn them on, combine them and set each volume. Your mix is saved. The screen is not dimmed so you can use it.</string>
+    <string name="sound_mixer_desc">In the Sanctuary you will see a grid of sounds: tap to turn them on, combine them and set each volume. Your mix is saved.</string>
     <string name="credits_title">Licences and credits</string>
     <string name="amb_group_nature">Nature</string>
     <string name="amb_group_travel">Travel</string>
@@ -273,4 +273,58 @@
     <string name="amb_gentle_guitar">Gentle guitar</string>
     <string name="amb_lofi_beats">Lo-fi beats</string>
     <string name="amb_warm_piano">Warm piano</string>
+    <string name="phrases_title">Calm phrases</string>
+    <string name="phrases_desc">A phrase every 30 seconds, with a slow fade. If you turn it off, you will only see \"This is your moment\".</string>
+    <string-array name="sanctuary_phrases">
+        <item>You do not have to solve anything right now.</item>
+        <item>Your brain goes fast. Here it can go slow.</item>
+        <item>This too will pass.</item>
+        <item>Breathing is enough for now.</item>
+        <item>You are not late for anything.</item>
+        <item>You can let your shoulders drop.</item>
+        <item>Nobody is waiting for you here.</item>
+        <item>What you feel is real, and it is temporary.</item>
+        <item>You do not need to understand everything to be okay.</item>
+        <item>You are allowed to stop.</item>
+        <item>The noise outside can wait.</item>
+        <item>You are safe in this moment.</item>
+        <item>One breath slower than the last.</item>
+        <item>You are not your thoughts. You are just hearing them.</item>
+        <item>What is pending will still be there. You come first.</item>
+        <item>Resting is also doing something.</item>
+        <item>The way you work is not a mistake.</item>
+        <item>Today can be a simple day.</item>
+        <item>It does not have to be perfect.</item>
+        <item>There is nothing to prove here.</item>
+        <item>Unclench your jaw.</item>
+        <item>Feel your feet on the ground.</item>
+        <item>One moment at a time.</item>
+        <item>Your worth does not depend on what you did today.</item>
+        <item>You are doing the best you can, and that is enough.</item>
+        <item>You can say no later. Right now, rest.</item>
+        <item>The rush does not come with you here.</item>
+        <item>What overwhelms you is not for now.</item>
+        <item>Let your thoughts pass like clouds.</item>
+        <item>You deserve the patience you give others.</item>
+        <item>You do not have to earn rest.</item>
+        <item>The silence is yours too.</item>
+        <item>If your mind wanders, come back without scolding yourself.</item>
+        <item>This space is just for you.</item>
+        <item>You do not need to feel like it to be okay for a while.</item>
+        <item>Your body knows how to calm down. Give it time.</item>
+        <item>The intensity fades. It always does.</item>
+        <item>Needing a pause is not failing.</item>
+        <item>Tomorrow does not have to be solved today.</item>
+        <item>You can start again whenever you want.</item>
+        <item>Small things count too.</item>
+        <item>You are here. That is enough.</item>
+        <item>Notice the air coming in and going out.</item>
+        <item>Nothing urgent fits in this moment.</item>
+        <item>You can be kind to yourself right now.</item>
+        <item>Going slowly is not going badly.</item>
+        <item>You have made it through hard days before.</item>
+        <item>You do not have to be at one hundred percent.</item>
+        <item>What did not get done today does not define you.</item>
+        <item>Stay as long as you need.</item>
+    </string-array>
 </resources>

@@ -7,11 +7,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <!-- Santuario: No molestar y brillo del sistema. Ambos se conceden a mano desde Ajustes. -->
+    <!-- Santuario: No molestar. Se concede a mano desde Ajustes. -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <uses-permission
-        android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
 
     <!-- Para saber qué apps de mensajería están instaladas (Android 11+). -->
     <queries>

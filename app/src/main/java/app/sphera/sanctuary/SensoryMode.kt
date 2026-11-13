@@ -8,7 +8,7 @@ import android.os.Build
 import android.provider.Settings
 
 /**
- * Modo Santuario a nivel de sistema: brillo al mínimo y No molestar.
+ * Modo Santuario a nivel de sistema: No molestar (el brillo no se toca: la pantalla negra ya es tenue).
  * Guarda el estado anterior la primera vez y lo restaura con [restore] ("Volver" en el Aterrizaje).
  * Sin permisos no rompe nada: el brillo de la propia pantalla del Santuario se baja igualmente (ver SanctuaryScreen).
  */
@@ -22,11 +22,8 @@ object SensoryMode {
 
     fun dndSettings() = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
 
-    fun brightnessSettings(ctx: Context) =
-        Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + ctx.packageName))
 
-    /** [dim]: bajar el brillo del sistema (no se hace con el mezclador, que hay que ver). */
-    fun enter(ctx: Context, dim: Boolean = true) {
+    fun enter(ctx: Context) {
         val p = prefs(ctx)
         val nm = ctx.getSystemService(NotificationManager::class.java)
         val cr = ctx.contentResolver
@@ -40,10 +37,6 @@ object SensoryMode {
                         .putInt("p_msgs", it.priorityMessageSenders).putInt("p_fx", it.suppressedVisualEffects)
                 }
             }
-            if (canChangeBrightness(ctx)) {
-                e.putInt("mode", Settings.System.getInt(cr, Settings.System.SCREEN_BRIGHTNESS_MODE, 0))
-                e.putInt("level", Settings.System.getInt(cr, Settings.System.SCREEN_BRIGHTNESS, 128))
-            }
             e.apply()
         }
         // Prioridad respeta las excepciones que la persona tenga configuradas (alarmas, favoritos…).
@@ -56,10 +49,6 @@ object SensoryMode {
                 p.priorityCallSenders, p.priorityMessageSenders, p.suppressedVisualEffects,
             )
             nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
-        }
-        if (dim && canChangeBrightness(ctx)) {
-            Settings.System.putInt(cr, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
-            Settings.System.putInt(cr, Settings.System.SCREEN_BRIGHTNESS, 1)
         }
     }
 
@@ -75,6 +64,7 @@ object SensoryMode {
             }
             nm.setInterruptionFilter(p.getInt("dnd", NotificationManager.INTERRUPTION_FILTER_ALL))
         }
+        // Versiones anteriores bajaban el brillo del sistema: si quedó guardado, se devuelve.
         if (canChangeBrightness(ctx) && p.contains("mode")) {
             val cr = ctx.contentResolver
             Settings.System.putInt(cr, Settings.System.SCREEN_BRIGHTNESS, p.getInt("level", 128))

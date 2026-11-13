@@ -263,7 +263,7 @@
     <string name="sound_shuffle">Orden aleatorio</string>
     <!-- 0.0.22: mezclador ambiental (nombres de sonidos de Blankee) y créditos -->
     <string name="sound_mixer">Mezclador ambiental</string>
-    <string name="sound_mixer_desc">En el Santuario verás una cuadrícula de sonidos: toca para activarlos, combínalos y ajusta el volumen de cada uno. Tu mezcla se guarda. La pantalla no se oscurece para que puedas usarla.</string>
+    <string name="sound_mixer_desc">En el Santuario verás una cuadrícula de sonidos: toca para activarlos, combínalos y ajusta el volumen de cada uno. Tu mezcla se guarda.</string>
     <string name="credits_title">Licencias y créditos</string>
     <string name="amb_group_nature">Naturaleza</string>
     <string name="amb_group_travel">Viajes</string>
@@ -294,4 +294,59 @@
     <string name="amb_gentle_guitar">Guitarra suave</string>
     <string name="amb_lofi_beats">Lo-fi</string>
     <string name="amb_warm_piano">Piano cálido</string>
+    <string name="phrases_title">Frases tranquilas</string>
+    <string name="phrases_desc">Una frase cada 30 segundos, con un fundido lento. Si lo desactivas, verás solo \"Es tu momento\".</string>
+    <!-- 0.0.23: frases del Santuario. Cortas, sin exigencias ni positividad forzada. Se pueden añadir o cambiar. -->
+    <string-array name="sanctuary_phrases">
+        <item>No tienes que resolver nada ahora.</item>
+        <item>Tu cerebro va rápido. Aquí puede ir despacio.</item>
+        <item>Esto también pasará.</item>
+        <item>Respirar ya es suficiente por ahora.</item>
+        <item>No llegas tarde a nada.</item>
+        <item>Puedes soltar los hombros.</item>
+        <item>Nadie te está esperando aquí.</item>
+        <item>Lo que sientes es real, y es pasajero.</item>
+        <item>No hace falta entenderlo todo para estar bien.</item>
+        <item>Tienes permiso para parar.</item>
+        <item>El ruido de fuera puede esperar.</item>
+        <item>Estás a salvo en este momento.</item>
+        <item>Una respiración más lenta que la anterior.</item>
+        <item>No eres tus pensamientos. Solo los estás oyendo.</item>
+        <item>Lo pendiente seguirá ahí. Tú primero.</item>
+        <item>Descansar también es hacer algo.</item>
+        <item>Tu manera de funcionar no es un error.</item>
+        <item>Hoy puede ser un día sencillo.</item>
+        <item>No necesitas hacerlo perfecto.</item>
+        <item>Aquí no hay nada que demostrar.</item>
+        <item>Afloja la mandíbula.</item>
+        <item>Siente los pies en el suelo.</item>
+        <item>Un momento cada vez.</item>
+        <item>Tu valor no depende de lo que hayas hecho hoy.</item>
+        <item>Lo estás haciendo lo mejor que puedes, y basta.</item>
+        <item>Puedes decir que no más tarde. Ahora, descansa.</item>
+        <item>Las prisas no vienen contigo aquí.</item>
+        <item>Lo que te abruma no es para ahora.</item>
+        <item>Deja que los pensamientos pasen como nubes.</item>
+        <item>Mereces la misma paciencia que das a otros.</item>
+        <item>No hay que ganarse el descanso.</item>
+        <item>El silencio también es tuyo.</item>
+        <item>Si te despistas, vuelve sin reñirte.</item>
+        <item>Este espacio es solo para ti.</item>
+        <item>No hace falta tener ganas para estar bien un rato.</item>
+        <item>Tu cuerpo sabe calmarse. Dale tiempo.</item>
+        <item>La intensidad baja. Siempre baja.</item>
+        <item>No has fallado por necesitar una pausa.</item>
+        <item>Mañana no hay que resolverlo hoy.</item>
+        <item>Puedes empezar de nuevo cuando quieras.</item>
+        <item>Lo pequeño también cuenta.</item>
+        <item>Estás aquí. Con eso vale.</item>
+        <item>Nota el aire entrar y salir.</item>
+        <item>Nada urgente cabe en este momento.</item>
+        <item>Puedes ser amable contigo ahora mismo.</item>
+        <item>Ir despacio no es ir mal.</item>
+        <item>Ya has superado días difíciles antes.</item>
+        <item>No tienes que estar al cien por cien.</item>
+        <item>Lo que no se hizo hoy no te define.</item>
+        <item>Quédate el tiempo que necesites.</item>
+    </string-array>
 </resources>

@@ -21,12 +21,10 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.provider.DocumentsContract
-import android.os.SystemClock
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +45,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +53,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.sphera.R
 
-private const val TRIPLE_TAP_WINDOW_MS = 1_500L // los tres toques deben caber en este tiempo
 private val LANDING_BG = Color(0xFF121212)
 
 fun Context.findActivity(): Activity? = when (this) {
@@ -206,25 +202,18 @@ object SanctuarySound {
 @Composable
 fun SanctuaryScreen(onExit: () -> Unit) {
     val ctx = LocalContext.current
-    // Con el mezclador ambiental se ve e interactúa: brillo normal en vez del mínimo.
     val mixer = remember { SanctuarySound.choice(ctx) == SanctuarySound.MIXER }
     BackHandler { } // el botón atrás no saca del Santuario: evita salidas accidentales
 
-    LaunchedEffect(Unit) { SensoryMode.enter(ctx, dim = !mixer) }
+    LaunchedEffect(Unit) { SensoryMode.enter(ctx) }
     DisposableEffect(Unit) {
-        // Brillo de esta ventana al mínimo y pantalla siempre encendida: funciona sin permisos especiales.
+        // Pantalla siempre encendida mientras se está en el Santuario. El brillo no se toca.
         val window = ctx.findActivity()?.window
-        window?.let {
-            if (!mixer) it.attributes = it.attributes.apply { screenBrightness = 0.01f }
-            it.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         val player = if (mixer) null else SanctuarySound.start(ctx)
         onDispose {
             player?.release()
-            window?.let {
-                it.attributes = it.attributes.apply { screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE }
-                it.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-            }
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
 
@@ -233,25 +222,11 @@ fun SanctuaryScreen(onExit: () -> Unit) {
         return
     }
 
-    // Salida: tres toques seguidos en cualquier sitio, o el botón "Salir".
-    val taps = remember { ArrayDeque<Long>() }
-    Box(
-        Modifier.fillMaxSize().background(Color.Black).pointerInput(Unit) {
-            detectTapGestures(onTap = {
-                val now = SystemClock.uptimeMillis()
-                taps.addLast(now)
-                while (taps.isNotEmpty() && now - taps.first() > TRIPLE_TAP_WINDOW_MS) taps.removeFirst()
-                if (taps.size >= 3) {
-                    taps.clear()
-                    onExit()
-                }
-            })
-        },
-    ) {
-        Text(
-            stringResource(R.string.sanctuary_text),
+    // Solo se sale con el botón "Salir": los toques en la pantalla no hacen nada.
+    Box(Modifier.fillMaxSize().background(Color.Black)) {
+        CalmPhrase(
             Modifier.align(Alignment.Center).padding(32.dp),
-            color = Color(0xFF8A8A8A), fontSize = 40.sp, lineHeight = 50.sp, textAlign = TextAlign.Center,
+            fontSize = 34.sp, color = Color(0xFF8A8A8A),
         )
         ExitButton(onExit, Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp))
     }

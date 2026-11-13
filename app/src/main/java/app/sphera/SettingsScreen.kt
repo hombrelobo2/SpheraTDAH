@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import app.sphera.sanctuary.CalmPhrases
 import app.sphera.sanctuary.SanctuarySound
 import app.sphera.sanctuary.SensoryMode
 import app.sphera.social.Alerts
@@ -94,7 +95,7 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
         NotificationManagerCompat.getEnabledListenerPackages(ctx).contains(ctx.packageName)
     }
     val dndGranted = remember(refresh) { SensoryMode.canChangeDnd(ctx) }
-    val brightnessGranted = remember(refresh) { SensoryMode.canChangeBrightness(ctx) }
+    var phrasesOn by remember { mutableStateOf(CalmPhrases.enabled(ctx)) }
     var soundChoice by remember { mutableStateOf(SanctuarySound.choice(ctx)) }
     var customSound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
     var folderSound by remember { mutableStateOf(SanctuarySound.folder(ctx)) }
@@ -255,8 +256,15 @@ fun SettingsScreen(onBack: () -> Unit, onCredits: () -> Unit) {
                 PermissionRow(R.string.perm_dnd, R.string.perm_dnd_desc, dndGranted) {
                     ctx.startActivity(SensoryMode.dndSettings())
                 }
-                PermissionRow(R.string.perm_brightness, R.string.perm_brightness_desc, brightnessGranted) {
-                    ctx.startActivity(SensoryMode.brightnessSettings(ctx))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.phrases_title), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.phrases_desc), style = MaterialTheme.typography.bodySmall)
+                    }
+                    Switch(checked = phrasesOn, onCheckedChange = {
+                        phrasesOn = it
+                        CalmPhrases.setEnabled(ctx, it)
+                    })
                 }
 
                 HorizontalDivider()
