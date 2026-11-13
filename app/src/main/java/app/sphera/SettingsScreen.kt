@@ -17,7 +17,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -27,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,6 +47,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import app.sphera.social.DailySummary
 import app.sphera.social.Interactions
+import app.sphera.social.Messages
 
 private val HOURS = (0..23).map { "%02d:00".format(it) }
 private val LANGUAGES = listOf("" to R.string.lang_system, "es" to R.string.lang_es, "en" to R.string.lang_en)
@@ -59,6 +67,8 @@ fun SettingsScreen(onBack: () -> Unit) {
     }
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { refresh++ }
     val currentLang = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+    val messages = remember { mutableStateListOf<String>().apply { addAll(Messages.list(ctx)) } }
+    var newMessage by remember { mutableStateOf("") }
     var summaryOn by remember { mutableStateOf(DailySummary.isEnabled(ctx)) }
     var summaryHour by remember { mutableIntStateOf(DailySummary.hour(ctx)) }
     val notifPermLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -107,6 +117,35 @@ fun SettingsScreen(onBack: () -> Unit) {
                     summaryHour = it
                     DailySummary.configure(ctx, true, it)
                 }
+            }
+
+            HorizontalDivider()
+            Text(stringResource(R.string.messages_title), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.messages_desc), style = MaterialTheme.typography.bodySmall)
+            messages.forEachIndexed { i, m ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(m, Modifier.weight(1f))
+                    IconButton(onClick = {
+                        messages.removeAt(i)
+                        Messages.save(ctx, messages.toList())
+                    }) { Icon(Icons.Default.Close, stringResource(R.string.delete)) }
+                }
+            }
+            OutlinedTextField(
+                value = newMessage, onValueChange = { newMessage = it },
+                label = { Text(stringResource(R.string.messages_new)) }, modifier = Modifier.fillMaxWidth(),
+            )
+            Row {
+                Button(enabled = newMessage.isNotBlank(), onClick = {
+                    messages.add(newMessage.trim())
+                    Messages.save(ctx, messages.toList())
+                    newMessage = ""
+                }) { Text(stringResource(R.string.add)) }
+                TextButton(onClick = {
+                    Messages.reset(ctx)
+                    messages.clear()
+                    messages.addAll(Messages.list(ctx))
+                }) { Text(stringResource(R.string.messages_reset)) }
             }
 
             HorizontalDivider()

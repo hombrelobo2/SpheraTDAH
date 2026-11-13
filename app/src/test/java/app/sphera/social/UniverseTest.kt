@@ -37,6 +37,14 @@ class UniverseTest {
     }
 
     @Test
+    fun messagesUseAliasOrDropIt() {
+        assertEquals("¡Hola Mamá! ¿Qué tal?", Messages.fill("¡Hola {alias}! ¿Qué tal?", "Mamá"))
+        assertEquals("¡Hola! ¿Qué tal?", Messages.fill("¡Hola {alias}! ¿Qué tal?", null))
+        assertEquals("¿Quedamos?", Messages.fill("¿Quedamos, {alias}?", " "))
+        assertEquals("Sin hueco", Messages.fill("Sin hueco", "Ana"))
+    }
+
+    @Test
     fun distanceGrowsUntilTwiceTheFrequency() {
         val now = 1_000 * day
         assertEquals(0f, distance(contact(0, 7), now), 0.001f)

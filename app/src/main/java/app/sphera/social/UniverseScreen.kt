@@ -67,7 +67,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -293,9 +292,8 @@ private fun AddDialog(p: Picked, onDismiss: () -> Unit, onAdd: (Int) -> Unit) {
 private fun PlanetDialog(c: Contact, now: Long, onDismiss: () -> Unit) {
     val ctx = LocalContext.current
     val days = daysSince(c, now)
-    val firstName = c.name.trim().substringBefore(' ')
     val messages = listOf(stringResource(R.string.no_message)) +
-        stringArrayResource(R.array.icebreakers).map { it.format(firstName) }
+        remember(c.alias) { Messages.list(ctx).map { Messages.fill(it, c.alias) } }
     var message by remember { mutableIntStateOf(0) }
     val text = messages[message].takeIf { message > 0 }
     val channels = remember(c.phone, text) { Interactions.channels(ctx, c.phone, text) }

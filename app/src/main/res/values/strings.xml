@@ -67,12 +67,12 @@
     <string name="icebreaker">Mensaje para empezar</string>
     <string name="no_message">Sin mensaje</string>
     <string name="message_copied">Mensaje copiado: si no aparece en el chat, pégalo</string>
-    <!-- %1$s es el nombre de la persona. Se pueden añadir o cambiar frases libremente. -->
+    <!-- {alias} se sustituye por el alias del contacto; si no tiene, desaparece. Editables también desde Ajustes. -->
     <string-array name="icebreakers">
-        <item>¡Hola %1$s! Me he acordado de ti, ¿qué tal todo?</item>
-        <item>¡Hey %1$s! Hace mucho que no hablamos, ¿cómo estás?</item>
-        <item>%1$s, ¿te apetece que quedemos un día de estos?</item>
-        <item>¡Hola %1$s! Perdona que haya tardado en escribir, ¿qué tal te va?</item>
+        <item>¡Hola {alias}! Me he acordado de ti, ¿qué tal todo?</item>
+        <item>¡Hey {alias}! Hace mucho que no hablamos, ¿cómo estás?</item>
+        <item>¿Te apetece que quedemos un día de estos, {alias}?</item>
+        <item>¡Hola {alias}! Perdona que haya tardado en escribir, ¿qué tal te va?</item>
     </string-array>
     <string name="summary_title">Resumen diario</string>
     <string name="summary_desc">Una notificación al día con quién se está alejando de tu universo. Solo llega si hay alguien.</string>
@@ -82,4 +82,8 @@
         <item quantity="many">%s también se están alejando</item>
         <item quantity="other">%s también se están alejando</item>
     </plurals>
+    <string name="messages_title">Mensajes para empezar</string>
+    <string name="messages_desc">Escribe {alias} donde quieras que vaya el alias del contacto. Si no tiene alias, se quita.</string>
+    <string name="messages_new">Nuevo mensaje</string>
+    <string name="messages_reset">Restaurar los predefinidos</string>
 </resources>
