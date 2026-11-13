@@ -145,4 +145,5 @@
     <string name="widget_sanctuary">🌑 Sanctuary</string>
     <string name="widget_return">📍 Return point</string>
     <string name="widget_description">Shortcut to the Sanctuary and the Return point</string>
+    <string name="settings_general">General</string>
 </resources>

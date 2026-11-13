@@ -16,6 +16,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -45,6 +48,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -137,127 +142,142 @@ fun SettingsScreen(onBack: () -> Unit) {
     Scaffold(topBar = { BackBar(R.string.settings, onBack) }) { padding ->
         Column(
             Modifier.padding(padding).padding(16.dp).verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Text(stringResource(R.string.language), style = MaterialTheme.typography.titleMedium)
-            LANGUAGES.forEach { (tag, label) ->
-                Row(
-                    Modifier.fillMaxWidth().selectable(selected = currentLang == tag) {
-                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
-                    }.padding(vertical = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    RadioButton(selected = currentLang == tag, onClick = null)
-                    Text(stringResource(label), Modifier.padding(start = 12.dp))
-                }
-            }
-
-            HorizontalDivider()
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
-                    Text(stringResource(R.string.summary_title), style = MaterialTheme.typography.titleMedium)
-                    Text(stringResource(R.string.summary_desc), style = MaterialTheme.typography.bodySmall)
-                }
-                Switch(checked = summaryOn, onCheckedChange = { on ->
-                    withNotifications(on) {
-                        summaryOn = it
-                        DailySummary.configure(ctx, it, summaryHour)
+            // Una caja por cada parte de la app; los colores salen del tema, así se leen bien en claro y en oscuro.
+            Section(stringResource(R.string.settings_general), MaterialTheme.colorScheme.surfaceVariant) {
+                Text(stringResource(R.string.language), style = MaterialTheme.typography.titleMedium)
+                LANGUAGES.forEach { (tag, label) ->
+                    Row(
+                        Modifier.fillMaxWidth().selectable(selected = currentLang == tag) {
+                            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
+                        }.padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = currentLang == tag, onClick = null)
+                        Text(stringResource(label), Modifier.padding(start = 12.dp))
                     }
-                })
-            }
-            if (summaryOn) {
-                Text(stringResource(R.string.summary_hour), style = MaterialTheme.typography.bodyLarge)
-                Picker(HOURS, summaryHour) {
-                    summaryHour = it
-                    DailySummary.configure(ctx, true, it)
+                }
+                PermissionRow(R.string.perm_battery, R.string.perm_battery_desc, batteryFree) {
+                    ctx.startActivity(
+                        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + ctx.packageName)),
+                    )
                 }
             }
 
-            HorizontalDivider()
-            Text(stringResource(R.string.sanctuary_settings), style = MaterialTheme.typography.titleMedium)
-            PermissionRow(R.string.perm_dnd, R.string.perm_dnd_desc, dndGranted) {
-                ctx.startActivity(SensoryMode.dndSettings())
-            }
-            PermissionRow(R.string.perm_brightness, R.string.perm_brightness_desc, brightnessGranted) {
-                ctx.startActivity(SensoryMode.brightnessSettings(ctx))
-            }
-            Text(stringResource(R.string.sanctuary_sound), style = MaterialTheme.typography.bodyLarge)
-            val soundKeys = SanctuarySound.BUILT_IN.map { it.first } +
-                if (customSound != null) listOf(SanctuarySound.CUSTOM) else emptyList()
-            val soundLabels = SanctuarySound.BUILT_IN.map { stringResource(it.second) } +
-                (customSound?.let { listOf(stringResource(R.string.sound_custom, fileName(ctx, it))) } ?: emptyList())
-            Picker(soundLabels, soundKeys.indexOf(soundChoice).coerceAtLeast(0)) {
-                soundChoice = soundKeys[it]
-                SanctuarySound.choose(ctx, soundChoice)
-                if (preview != null) { stopPreview(); preview = SanctuarySound.start(ctx) }
-            }
-            Row {
-                Button(onClick = { soundPicker.launch(arrayOf("audio/*")) }) { Text(stringResource(R.string.sanctuary_sound_pick)) }
-                TextButton(onClick = { if (preview == null) preview = SanctuarySound.start(ctx) else stopPreview() }) {
-                    Text(stringResource(if (preview == null) R.string.sound_preview else R.string.sound_stop))
+            Section("🪐 " + stringResource(R.string.skill_social), MaterialTheme.colorScheme.primaryContainer) {
+                PermissionRow(R.string.perm_calls, R.string.perm_calls_desc, callsGranted) {
+                    permLauncher.launch(Interactions.PERMISSIONS)
                 }
-            }
+                PermissionRow(R.string.perm_notifications, R.string.perm_notifications_desc, notifGranted) {
+                    ctx.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+                }
 
-            HorizontalDivider()
-            Text(stringResource(R.string.alerts_title), style = MaterialTheme.typography.titleMedium)
-            Text(stringResource(R.string.alerts_desc), style = MaterialTheme.typography.bodySmall)
-            ALERTS.forEach { (key, label) ->
+                HorizontalDivider()
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(label), Modifier.weight(1f))
-                    Switch(checked = alerts[key] == true, onCheckedChange = { on ->
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.summary_title), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.summary_desc), style = MaterialTheme.typography.bodySmall)
+                    }
+                    Switch(checked = summaryOn, onCheckedChange = { on ->
                         withNotifications(on) {
-                            Alerts.set(ctx, key, it)
-                            alerts = alerts + (key to it)
+                            summaryOn = it
+                            DailySummary.configure(ctx, it, summaryHour)
                         }
                     })
                 }
-            }
+                if (summaryOn) {
+                    Text(stringResource(R.string.summary_hour), style = MaterialTheme.typography.bodyLarge)
+                    Picker(HOURS, summaryHour) {
+                        summaryHour = it
+                        DailySummary.configure(ctx, true, it)
+                    }
+                }
 
-            HorizontalDivider()
-            Text(stringResource(R.string.messages_title), style = MaterialTheme.typography.titleMedium)
-            Text(stringResource(R.string.messages_desc), style = MaterialTheme.typography.bodySmall)
-            messages.forEachIndexed { i, m ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(m, Modifier.weight(1f))
-                    IconButton(onClick = {
-                        messages.removeAt(i)
+                HorizontalDivider()
+                Text(stringResource(R.string.alerts_title), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.alerts_desc), style = MaterialTheme.typography.bodySmall)
+                ALERTS.forEach { (key, label) ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(label), Modifier.weight(1f))
+                        Switch(checked = alerts[key] == true, onCheckedChange = { on ->
+                            withNotifications(on) {
+                                Alerts.set(ctx, key, it)
+                                alerts = alerts + (key to it)
+                            }
+                        })
+                    }
+                }
+
+                HorizontalDivider()
+                Text(stringResource(R.string.messages_title), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.messages_desc), style = MaterialTheme.typography.bodySmall)
+                messages.forEachIndexed { i, m ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(m, Modifier.weight(1f))
+                        IconButton(onClick = {
+                            messages.removeAt(i)
+                            Messages.save(ctx, messages.toList())
+                        }) { Icon(Icons.Default.Close, stringResource(R.string.delete)) }
+                    }
+                }
+                OutlinedTextField(
+                    value = newMessage, onValueChange = { newMessage = it },
+                    label = { Text(stringResource(R.string.messages_new)) }, modifier = Modifier.fillMaxWidth(),
+                )
+                Row {
+                    Button(enabled = newMessage.isNotBlank(), onClick = {
+                        messages.add(newMessage.trim())
                         Messages.save(ctx, messages.toList())
-                    }) { Icon(Icons.Default.Close, stringResource(R.string.delete)) }
+                        newMessage = ""
+                    }) { Text(stringResource(R.string.add)) }
+                    TextButton(onClick = {
+                        Messages.reset(ctx)
+                        messages.clear()
+                        messages.addAll(Messages.list(ctx))
+                    }) { Text(stringResource(R.string.messages_reset)) }
                 }
             }
-            OutlinedTextField(
-                value = newMessage, onValueChange = { newMessage = it },
-                label = { Text(stringResource(R.string.messages_new)) }, modifier = Modifier.fillMaxWidth(),
-            )
-            Row {
-                Button(enabled = newMessage.isNotBlank(), onClick = {
-                    messages.add(newMessage.trim())
-                    Messages.save(ctx, messages.toList())
-                    newMessage = ""
-                }) { Text(stringResource(R.string.add)) }
-                TextButton(onClick = {
-                    Messages.reset(ctx)
-                    messages.clear()
-                    messages.addAll(Messages.list(ctx))
-                }) { Text(stringResource(R.string.messages_reset)) }
+
+            Section("🌑 " + stringResource(R.string.skill_sanctuary), MaterialTheme.colorScheme.tertiaryContainer) {
+                PermissionRow(R.string.perm_dnd, R.string.perm_dnd_desc, dndGranted) {
+                    ctx.startActivity(SensoryMode.dndSettings())
+                }
+                PermissionRow(R.string.perm_brightness, R.string.perm_brightness_desc, brightnessGranted) {
+                    ctx.startActivity(SensoryMode.brightnessSettings(ctx))
+                }
+
+                HorizontalDivider()
+                Text(stringResource(R.string.sanctuary_sound), style = MaterialTheme.typography.titleMedium)
+                val soundKeys = SanctuarySound.BUILT_IN.map { it.first } +
+                    if (customSound != null) listOf(SanctuarySound.CUSTOM) else emptyList()
+                val soundLabels = SanctuarySound.BUILT_IN.map { stringResource(it.second) } +
+                    (customSound?.let { listOf(stringResource(R.string.sound_custom, fileName(ctx, it))) } ?: emptyList())
+                Picker(soundLabels, soundKeys.indexOf(soundChoice).coerceAtLeast(0)) {
+                    soundChoice = soundKeys[it]
+                    SanctuarySound.choose(ctx, soundChoice)
+                    if (preview != null) { stopPreview(); preview = SanctuarySound.start(ctx) }
+                }
+                Row {
+                    Button(onClick = { soundPicker.launch(arrayOf("audio/*")) }) { Text(stringResource(R.string.sanctuary_sound_pick)) }
+                    TextButton(onClick = { if (preview == null) preview = SanctuarySound.start(ctx) else stopPreview() }) {
+                        Text(stringResource(if (preview == null) R.string.sound_preview else R.string.sound_stop))
+                    }
+                }
             }
 
-            HorizontalDivider()
-            Text(stringResource(R.string.permissions), style = MaterialTheme.typography.titleMedium)
-            PermissionRow(R.string.perm_calls, R.string.perm_calls_desc, callsGranted) {
-                permLauncher.launch(Interactions.PERMISSIONS)
-            }
-            PermissionRow(R.string.perm_notifications, R.string.perm_notifications_desc, notifGranted) {
-                ctx.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
-            }
-            PermissionRow(R.string.perm_battery, R.string.perm_battery_desc, batteryFree) {
-                ctx.startActivity(
-                    Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + ctx.packageName)),
-                )
-            }
-
-            HorizontalDivider()
             Text(stringResource(R.string.version, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+/** Caja de color con el título de una parte de la app. */
+@Composable
+private fun Section(title: String, color: Color, content: @Composable ColumnScope.() -> Unit) {
+    Card(colors = CardDefaults.cardColors(containerColor = color), modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            content()
         }
     }
 }

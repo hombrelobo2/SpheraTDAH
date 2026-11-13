@@ -157,4 +157,5 @@
     <string name="widget_sanctuary">🌑 Santuario</string>
     <string name="widget_return">📍 Punto de retorno</string>
     <string name="widget_description">Acceso directo al Santuario y al Punto de retorno</string>
+    <string name="settings_general">General</string>
 </resources>
