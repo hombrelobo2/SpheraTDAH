@@ -487,5 +487,8 @@
         <item>¿Te lo pide el cuerpo o la costumbre?</item>
         <item>¿Sabes qué vas a hacer al entrar?</item>
         <item>¿Qué necesitas de verdad ahora?</item>
+        <item>¿Cuánto tiempo estuviste aquí la última vez?</item>
+        <item>La última vez que entraste «un momento», ¿cuánto duró?</item>
+        <item>¿Recuerdas qué sacaste de la última visita?</item>
     </string-array>
 </resources>

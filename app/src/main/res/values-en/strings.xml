@@ -468,5 +468,8 @@
         <item>Is it your body asking, or habit?</item>
         <item>Do you know what you\'ll do once inside?</item>
         <item>What do you really need right now?</item>
+        <item>How long were you in here last time?</item>
+        <item>Last time you went in \"just for a second\", how long was it?</item>
+        <item>Do you remember what you got out of your last visit?</item>
     </string-array>
 </resources>
