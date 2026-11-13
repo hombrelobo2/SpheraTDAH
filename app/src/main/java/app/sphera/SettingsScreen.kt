@@ -3,7 +3,6 @@ package app.sphera
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
 import android.provider.OpenableColumns
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -30,6 +29,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.HorizontalDivider
@@ -97,6 +97,16 @@ fun SettingsScreen(onBack: () -> Unit) {
     val brightnessGranted = remember(refresh) { SensoryMode.canChangeBrightness(ctx) }
     var soundChoice by remember { mutableStateOf(SanctuarySound.choice(ctx)) }
     var customSound by remember { mutableStateOf(SanctuarySound.custom(ctx)) }
+    var folderSound by remember { mutableStateOf(SanctuarySound.folder(ctx)) }
+    var shuffle by remember { mutableStateOf(SanctuarySound.shuffle(ctx)) }
+    val folderPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { tree ->
+        if (tree != null) {
+            runCatching { ctx.contentResolver.takePersistableUriPermission(tree, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+            SanctuarySound.setFolder(ctx, tree)
+            folderSound = tree
+            soundChoice = SanctuarySound.FOLDER
+        }
+    }
     val soundPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
             // Permiso permanente para poder leer el archivo también después de reiniciar.
@@ -107,7 +117,7 @@ fun SettingsScreen(onBack: () -> Unit) {
         }
     }
     // Prueba del sonido elegido sin entrar al Santuario.
-    var preview by remember { mutableStateOf<MediaPlayer?>(null) }
+    var preview by remember { mutableStateOf<SanctuarySound.Playback?>(null) }
     fun stopPreview() {
         preview?.release()
         preview = null
@@ -251,19 +261,37 @@ fun SettingsScreen(onBack: () -> Unit) {
                 HorizontalDivider()
                 Text(stringResource(R.string.sanctuary_sound), style = MaterialTheme.typography.titleMedium)
                 val soundKeys = SanctuarySound.BUILT_IN.map { it.first } +
-                    if (customSound != null) listOf(SanctuarySound.CUSTOM) else emptyList()
+                    (if (customSound != null) listOf(SanctuarySound.CUSTOM) else emptyList()) +
+                    (if (folderSound != null) listOf(SanctuarySound.FOLDER) else emptyList())
                 val soundLabels = SanctuarySound.BUILT_IN.map { stringResource(it.second) } +
-                    (customSound?.let { listOf(stringResource(R.string.sound_custom, fileName(ctx, it))) } ?: emptyList())
+                    (customSound?.let { listOf(stringResource(R.string.sound_custom, fileName(ctx, it))) } ?: emptyList()) +
+                    (folderSound?.let {
+                        listOf(stringResource(R.string.sound_folder, fileName(ctx, SanctuarySound.folderDocument(it))))
+                    } ?: emptyList())
                 Picker(soundLabels, soundKeys.indexOf(soundChoice).coerceAtLeast(0)) {
                     soundChoice = soundKeys[it]
                     SanctuarySound.choose(ctx, soundChoice)
                     if (preview != null) { stopPreview(); preview = SanctuarySound.start(ctx) }
                 }
-                Row {
-                    Button(onClick = { soundPicker.launch(arrayOf("audio/*")) }) { Text(stringResource(R.string.sanctuary_sound_pick)) }
-                    TextButton(onClick = { if (preview == null) preview = SanctuarySound.start(ctx) else stopPreview() }) {
-                        Text(stringResource(if (preview == null) R.string.sound_preview else R.string.sound_stop))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(onClick = { soundPicker.launch(arrayOf("audio/*")) }, modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.sanctuary_sound_pick))
                     }
+                    OutlinedButton(onClick = { folderPicker.launch(null) }, modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.sound_pick_folder))
+                    }
+                }
+                if (soundChoice == SanctuarySound.FOLDER) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.sound_shuffle), Modifier.weight(1f))
+                        Switch(checked = shuffle, onCheckedChange = {
+                            shuffle = it
+                            SanctuarySound.setShuffle(ctx, it)
+                        })
+                    }
+                }
+                Button(onClick = { if (preview == null) preview = SanctuarySound.start(ctx) else stopPreview() }) {
+                    Text(stringResource(if (preview == null) R.string.sound_preview else R.string.sound_stop))
                 }
             }
 

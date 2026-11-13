@@ -258,4 +258,7 @@
         <item>Cuéntaselo a alguien de confianza: «estoy de bajón un rato, no es por ti».</item>
     </string-array>
     <string name="body_crash_note">Si te pasa sobre todo cuando se te pasa el efecto de la medicación, coméntalo con tu médico.</string>
+    <string name="sound_folder">Mi carpeta: %s</string>
+    <string name="sound_pick_folder">Elegir carpeta</string>
+    <string name="sound_shuffle">Orden aleatorio</string>
 </resources>

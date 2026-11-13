@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.provider.DocumentsContract
 import android.os.SystemClock
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
@@ -64,9 +65,13 @@ fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-/** Sonido del Santuario: uno de los ruidos de base incluidos (generados para Sphera) o un audio elegido del móvil. */
+/**
+ * Sonido del Santuario: uno de los ruidos incluidos (generados para Sphera), un audio del móvil
+ * o todas las canciones de una carpeta, en bucle y opcionalmente en orden aleatorio.
+ */
 object SanctuarySound {
     const val CUSTOM = "custom"
+    const val FOLDER = "folder"
 
     /** Ruidos incluidos: clave guardada, nombre y archivo. */
     val BUILT_IN = listOf(
@@ -76,39 +81,122 @@ object SanctuarySound {
         Triple("waves", R.string.sound_waves, R.raw.waves),
     )
 
+    /** Lo que está sonando; release() lo para y libera. */
+    fun interface Playback {
+        fun release()
+    }
+
     private fun prefs(ctx: Context) = ctx.getSharedPreferences("sanctuary_sound", Context.MODE_PRIVATE)
     fun custom(ctx: Context): Uri? = prefs(ctx).getString("uri", null)?.let(Uri::parse)
+    fun folder(ctx: Context): Uri? = prefs(ctx).getString("folder", null)?.let(Uri::parse)
+    fun shuffle(ctx: Context) = prefs(ctx).getBoolean("shuffle", false)
+    fun setShuffle(ctx: Context, on: Boolean) = prefs(ctx).edit().putBoolean("shuffle", on).apply()
 
-    /** Sonido elegido: una clave de [BUILT_IN] o [CUSTOM]. */
+    /** Sonido elegido: una clave de [BUILT_IN], [CUSTOM] o [FOLDER]. */
     fun choice(ctx: Context): String =
         prefs(ctx).getString("choice", null) ?: if (custom(ctx) != null) CUSTOM else BUILT_IN.first().first
 
     fun choose(ctx: Context, key: String) = prefs(ctx).edit().putString("choice", key).apply()
 
     fun setCustom(ctx: Context, uri: Uri) = prefs(ctx).edit().putString("uri", uri.toString()).putString("choice", CUSTOM).apply()
+    fun setFolder(ctx: Context, tree: Uri) = prefs(ctx).edit().putString("folder", tree.toString()).putString("choice", FOLDER).apply()
+
+    /** Documento de la propia carpeta (para mostrar su nombre). */
+    fun folderDocument(tree: Uri): Uri = DocumentsContract.buildDocumentUriUsingTree(tree, DocumentsContract.getTreeDocumentId(tree))
+
+    /** Canciones de la carpeta (sin subcarpetas), por nombre. Se leen cada vez: lo que añadas aparece solo. */
+    private fun tracks(ctx: Context, tree: Uri): List<Uri> = try {
+        val children = DocumentsContract.buildChildDocumentsUriUsingTree(tree, DocumentsContract.getTreeDocumentId(tree))
+        ctx.contentResolver.query(
+            children,
+            arrayOf(
+                DocumentsContract.Document.COLUMN_DOCUMENT_ID, DocumentsContract.Document.COLUMN_MIME_TYPE,
+                DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+            ),
+            null, null, null,
+        )?.use { c ->
+            buildList {
+                while (c.moveToNext()) {
+                    if (c.getString(1)?.startsWith("audio/") == true) add(c.getString(2).orEmpty() to c.getString(0))
+                }
+            }.sortedBy { it.first.lowercase() }.map { DocumentsContract.buildDocumentUriUsingTree(tree, it.second) }
+        }.orEmpty()
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    private fun loop(player: MediaPlayer?): Playback? = player?.run {
+        isLooping = true
+        start()
+        Playback { release() }
+    }
 
     private fun builtIn(ctx: Context, key: String) =
-        MediaPlayer.create(ctx, (BUILT_IN.firstOrNull { it.first == key } ?: BUILT_IN.first()).third)
+        loop(MediaPlayer.create(ctx, (BUILT_IN.firstOrNull { it.first == key } ?: BUILT_IN.first()).third))
 
-    fun start(ctx: Context): MediaPlayer? = try {
-        val choice = choice(ctx)
+    private fun mediaPlayer(ctx: Context, uri: Uri) = MediaPlayer().apply {
+        setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).build())
+        setDataSource(ctx, uri)
+        prepare()
+    }
+
+    fun start(ctx: Context): Playback? = try {
         val uri = custom(ctx)
-        val player = if (choice == CUSTOM && uri != null) {
-            MediaPlayer().apply {
-                setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).build())
-                setDataSource(ctx, uri)
-                prepare()
-            }
-        } else {
-            builtIn(ctx, choice)
-        }
-        player?.apply {
-            isLooping = true
-            start()
+        val tree = folder(ctx)
+        when (val choice = choice(ctx)) {
+            CUSTOM -> uri?.let { loop(mediaPlayer(ctx, it)) } ?: builtIn(ctx, "brown")
+            FOLDER -> tree?.let { t -> tracks(ctx, t).takeIf { it.isNotEmpty() }?.let { FolderPlayback(ctx, it, shuffle(ctx)) } }
+                ?: builtIn(ctx, "brown")
+            else -> builtIn(ctx, choice)
         }
     } catch (e: Exception) {
-        // Si el archivo elegido ya no existe o no se puede leer, suena el ruido marrón.
-        builtIn(ctx, "brown")?.apply { isLooping = true; start() }
+        // Si lo elegido ya no existe o no se puede leer, suena el ruido marrón.
+        builtIn(ctx, "brown")
+    }
+
+    /** Reproduce las canciones una tras otra y vuelve a empezar. Las que fallan se saltan sin cortar. */
+    private class FolderPlayback(private val ctx: Context, tracks: List<Uri>, private val shuffle: Boolean) : Playback {
+        private var order = if (shuffle) tracks.shuffled() else tracks
+        private var index = -1
+        private var current: MediaPlayer? = null
+        private var fallback: Playback? = null
+        private var failures = 0
+        private var released = false
+
+        init {
+            next()
+        }
+
+        private fun next() {
+            if (released) return
+            current?.release()
+            current = null
+            if (failures >= order.size) { // ninguna se puede leer
+                fallback = builtIn(ctx, "brown")
+                return
+            }
+            index++
+            if (index >= order.size) {
+                index = 0
+                if (shuffle) order = order.shuffled()
+            }
+            try {
+                current = mediaPlayer(ctx, order[index]).apply {
+                    setOnCompletionListener { failures = 0; next() }
+                    setOnErrorListener { _, _, _ -> failures++; next(); true }
+                    start()
+                }
+            } catch (e: Exception) {
+                failures++
+                next()
+            }
+        }
+
+        override fun release() {
+            released = true
+            current?.release()
+            fallback?.release()
+        }
     }
 }
 

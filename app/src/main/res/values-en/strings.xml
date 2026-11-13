@@ -238,4 +238,7 @@
         <item>Tell someone you trust: \"I am in a dip for a bit, it is not about you\".</item>
     </string-array>
     <string name="body_crash_note">If it happens mostly when your medication wears off, talk to your doctor about it.</string>
+    <string name="sound_folder">My folder: %s</string>
+    <string name="sound_pick_folder">Choose folder</string>
+    <string name="sound_shuffle">Shuffle</string>
 </resources>
