@@ -14,11 +14,14 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import app.sphera.rabbit.RabbitCaptureScreen
-import app.sphera.rabbit.RabbitExploreScreen
+import app.sphera.rabbit.RabbitDetailScreen
+import app.sphera.rabbit.RabbitListScreen
 import app.sphera.returnpoint.ReturnCardScreen
 import app.sphera.returnpoint.ReturnFormScreen
 import app.sphera.returnpoint.SpheraDb
@@ -42,6 +45,7 @@ object Routes {
     const val RETURN_FORM = "return_form"
     const val RABBIT = "rabbit"
     const val RABBIT_EXPLORE = "rabbit_explore"
+    const val RABBIT_DETAIL = "rabbit/{id}"
 
     // Enlaces que usa el widget (y que cualquiera puede abrir con sphera://…).
     const val LINK_SANCTUARY = "sphera://sanctuary"
@@ -121,7 +125,10 @@ private fun App(target: String?, fromLink: Boolean, contactId: Long?) {
         composable(Routes.RABBIT) {
             RabbitCaptureScreen(onSaved = { if (fromLink) closeApp() else back() }, onExplore = { nav.navigate(Routes.RABBIT_EXPLORE) })
         }
-        composable(Routes.RABBIT_EXPLORE) { RabbitExploreScreen() }
+        composable(Routes.RABBIT_EXPLORE) { RabbitListScreen(onOpen = { nav.navigate("rabbit/$it") }) }
+        composable(Routes.RABBIT_DETAIL, arguments = listOf(navArgument("id") { type = NavType.LongType })) { entry ->
+            RabbitDetailScreen(entry.arguments?.getLong("id") ?: -1, onBack = { back() })
+        }
 
         composable(Routes.RETURN_CARD) { ReturnCardScreen(onDone = { goHome() }) }
         // Desde el widget se apunta y se vuelve a lo que se estaba haciendo: la app se cierra al guardar.

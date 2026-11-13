@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 /** Una curiosidad aparcada. Nunca se marca como terminada: solo está ahí para cuando apetezca. */
 @Entity(tableName = "rabbit_hole")
@@ -27,9 +28,12 @@ interface RabbitHoleDao {
     @Query("DELETE FROM rabbit_hole WHERE id = :id")
     suspend fun delete(id: Long)
 
-    /** Una al azar, distinta de la que se está viendo (si hay más de una). */
-    @Query("SELECT * FROM rabbit_hole ORDER BY (id = :exclude), RANDOM() LIMIT 1")
-    suspend fun random(exclude: Long = -1): RabbitHole?
+    /** Todas, la más reciente primero. */
+    @Query("SELECT * FROM rabbit_hole ORDER BY createdAt DESC")
+    fun observeAll(): Flow<List<RabbitHole>>
+
+    @Query("SELECT * FROM rabbit_hole WHERE id = :id")
+    suspend fun get(id: Long): RabbitHole?
 
     @Query("SELECT COUNT(*) FROM rabbit_hole")
     suspend fun count(): Int

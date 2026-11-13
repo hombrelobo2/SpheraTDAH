@@ -5,7 +5,13 @@ import android.speech.RecognizerIntent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -36,7 +43,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -73,7 +82,7 @@ private fun DictateButton(modifier: Modifier, onText: (String) -> Unit) {
         result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.let(onText)
     }
     OutlinedButton(onClick = { launcher.launch(intent) }, modifier = modifier) {
-        Text("🎤", fontSize = 30.sp, lineHeight = 36.sp)
+        Text("🎤", fontSize = 24.sp, lineHeight = 30.sp)
     }
 }
 
@@ -133,20 +142,51 @@ fun RabbitCaptureScreen(onSaved: () -> Unit, onExplore: () -> Unit) {
     }
 }
 
-/** Una sola curiosidad al azar, con notas debajo. Nada se tacha ni se completa. */
+/** La Madriguera: todas las curiosidades, una por línea. Las largas se desplazan solas de lado a lado. */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RabbitExploreScreen() {
+fun RabbitListScreen(onOpen: (Long) -> Unit) {
+    val dao = SpheraDb.get(LocalContext.current).rabbitHoles()
+    val holes by remember { dao.observeAll() }.collectAsState(initial = null)
+    Column(
+        Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Text(stringResource(R.string.rabbit_explore), color = Color.White, fontSize = 28.sp, lineHeight = 35.sp, fontWeight = FontWeight.Bold)
+        val list = holes ?: return@Column
+        if (list.isEmpty()) {
+            Text(stringResource(R.string.rabbit_empty), color = GREY, fontSize = 20.sp, lineHeight = 26.sp)
+        }
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            items(list, key = { it.id }) { hole ->
+                Row(
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xFF161616))
+                        .clickable { onOpen(hole.id) }.padding(horizontal = 18.dp, vertical = 16.dp),
+                ) {
+                    Text(
+                        hole.question.replace('\n', ' '),
+                        Modifier.weight(1f).basicMarquee(iterations = Int.MAX_VALUE),
+                        color = Color.White, fontSize = 22.sp, lineHeight = 28.sp, maxLines = 1,
+                    )
+                    if (hole.notes.isNotBlank()) Text("  📝", fontSize = 18.sp)
+                }
+            }
+        }
+    }
+}
+
+/** Ficha de una curiosidad: la pregunta completa y notas que se guardan solas. Nunca se marca como terminada. */
+@Composable
+fun RabbitDetailScreen(id: Long, onBack: () -> Unit) {
     val dao = SpheraDb.get(LocalContext.current).rabbitHoles()
     val scope = rememberCoroutineScope()
     var hole by remember { mutableStateOf<RabbitHole?>(null) }
     var notes by remember { mutableStateOf("") }
     var askDelete by remember { mutableStateOf(false) }
-
-    fun show(next: RabbitHole?) {
-        hole = next
-        notes = next?.notes.orEmpty()
+    LaunchedEffect(id) {
+        hole = dao.get(id)
+        notes = hole?.notes.orEmpty()
     }
-    LaunchedEffect(Unit) { show(dao.random()) }
     // Las notas se guardan solas, medio segundo después de dejar de escribir.
     LaunchedEffect(notes) {
         val current = hole ?: return@LaunchedEffect
@@ -159,35 +199,26 @@ fun RabbitExploreScreen() {
 
     Column(
         Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().imePadding().padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            Text(
-                hole?.question ?: stringResource(R.string.rabbit_empty),
-                color = Color.White, fontSize = 26.sp, lineHeight = 33.sp, fontWeight = FontWeight.Bold,
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Text(hole?.question.orEmpty(), color = Color.White, fontSize = 26.sp, lineHeight = 33.sp, fontWeight = FontWeight.Bold)
+            OutlinedTextField(
+                value = notes, onValueChange = { notes = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.rabbit_notes), fontSize = 18.sp) },
+                textStyle = TextStyle(fontSize = 20.sp, lineHeight = 26.sp, color = Color.White),
+                minLines = 4,
+                colors = darkFieldColors(),
             )
-            if (hole != null) {
-                OutlinedTextField(
-                    value = notes, onValueChange = { notes = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(stringResource(R.string.rabbit_notes), fontSize = 18.sp) },
-                    textStyle = TextStyle(fontSize = 20.sp, lineHeight = 26.sp, color = Color.White),
-                    minLines = 4,
-                    colors = darkFieldColors(),
-                )
-                DictateButton(Modifier.fillMaxWidth().height(72.dp)) { notes = append(notes, it) }
-            }
+            DictateButton(Modifier.height(56.dp)) { notes = append(notes, it) }
         }
-        if (hole != null) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                // Borrar existe para erratas o lo que ya no interesa; es discreto y pide confirmación.
-                TextButton(onClick = { askDelete = true }, modifier = Modifier.height(96.dp)) {
-                    Text(stringResource(R.string.delete), color = GREY, fontSize = 18.sp)
-                }
-                Button(
-                    onClick = { scope.launch { show(dao.random(exclude = hole?.id ?: -1)) } },
-                    modifier = Modifier.weight(1f).height(96.dp),
-                ) { Text(stringResource(R.string.rabbit_next), fontSize = 26.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold) }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            TextButton(onClick = onBack) { Text(stringResource(R.string.back), color = GREY, fontSize = 18.sp) }
+            Spacer(Modifier.weight(1f))
+            // Borrar existe para erratas o lo que ya no interesa; pide confirmación.
+            TextButton(onClick = { askDelete = true }) {
+                Text(stringResource(R.string.delete), color = Color(0xFFE57373), fontSize = 18.sp)
             }
         }
     }
@@ -200,13 +231,11 @@ fun RabbitExploreScreen() {
             dismissButton = {
                 TextButton(onClick = {
                     askDelete = false
-                    hole?.id?.let { id ->
-                        scope.launch {
-                            dao.delete(id)
-                            show(dao.random())
-                        }
+                    scope.launch {
+                        dao.delete(id)
+                        onBack()
                     }
-                }) { Text(stringResource(R.string.delete)) }
+                }) { Text(stringResource(R.string.delete), color = Color(0xFFE57373)) }
             },
         )
     }
