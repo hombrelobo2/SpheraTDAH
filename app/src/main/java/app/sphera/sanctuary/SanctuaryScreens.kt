@@ -98,7 +98,7 @@ fun SanctuaryScreen(onExit: () -> Unit) {
         }
     }
 
-    // Salida: tres toques seguidos en cualquier sitio, o el botón "Salir" (visible pero muy tenue).
+    // Salida: tres toques seguidos en cualquier sitio, o el botón "Salir".
     val taps = remember { ArrayDeque<Long>() }
     Box(
         Modifier.fillMaxSize().background(Color.Black).pointerInput(Unit) {
@@ -121,8 +121,9 @@ fun SanctuaryScreen(onExit: () -> Unit) {
         OutlinedButton(
             onClick = onExit,
             modifier = Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(32.dp).fillMaxWidth().height(72.dp),
-            border = BorderStroke(1.dp, Color(0xFF2A2A2A)),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF4A4A4A)),
+            // Bien visible aunque discreto: mismo gris que el texto central, con borde marcado.
+            border = BorderStroke(2.dp, Color(0xFF6A6A6A)),
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFF141414), contentColor = Color(0xFFB0B0B0)),
         ) { Text(stringResource(R.string.sanctuary_exit), fontSize = 22.sp, lineHeight = 28.sp) }
     }
 }
